@@ -50,7 +50,7 @@ RUN cd "${OPENCAST_SRC}" \
  && curl -sSL "${OPENCAST_URL}" | tar -xvj --strip 1 -C . \
  && mvn --batch-mode clean install -Dmaven.test.skip=true \
  && tar -xvzf "build/opencast-dist-${OPENCAST_DISTRIBUTION}-${OPENCAST_VERSION}.tar.gz" --strip 1 -C "${OPENCAST_HOME}" \
- && rm -rf "${OPENCAST_SRC}" /tmp/*
+ && (rm -rf "${OPENCAST_SRC}/*" /tmp/* ; true)
 
 EXPOSE 8080
 VOLUME "${OPENCAST_STORAGE}"
