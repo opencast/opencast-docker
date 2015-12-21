@@ -50,6 +50,8 @@ RUN cd "${OPENCAST_SRC}" \
  && rm -rf "${OPENCAST_SRC}" /tmp/* \
  && chown -R "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_STORAGE}"
 
+COPY etc/org.ops4j.pax.logging.cfg /opencast/etc/org.ops4j.pax.logging.cfg
+
 USER "${OPENCAST_USER}"
 WORKDIR "${OPENCAST_HOME}"
 
