@@ -51,6 +51,7 @@ RUN cd "${OPENCAST_SRC}" \
  && chown -R "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_STORAGE}"
 
 COPY etc/org.ops4j.pax.logging.cfg /opencast/etc/org.ops4j.pax.logging.cfg
+COPY etc/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg /opencast/etc/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg
 
 USER "${OPENCAST_USER}"
 WORKDIR "${OPENCAST_HOME}"
