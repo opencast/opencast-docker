@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-Opencast::ActiveMQ::CheckAndSetDefault() {
+Opencast::ActiveMQ::Check() {
   # Check for ActiveMQ container
   #
   # $ACTIVEMQ_BROKER_URL is prefered over $ACTIVEMQ_PORT_61616_TCP and holds

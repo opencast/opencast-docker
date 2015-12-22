@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-Opencast::JDBC::CheckAndSetDefault() {
+Opencast::JDBC::Check() {
   Opencast::Helper::CheckForVariables \
     "ORG_OPENCASTPROJECT_DB_DDL_GENERATION" \
     "ORG_OPENCASTPROJECT_DB_JDBC_DRIVER" \

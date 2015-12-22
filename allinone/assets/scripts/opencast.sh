@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-Opencast::Opencast::CheckAndSetDefault() {
-  ORG_OPENCASTPROJECT_ADMIN_EMAIL="${ORG_OPENCASTPROJECT_ADMIN_EMAIL:-admin@localhost}"
+ORG_OPENCASTPROJECT_ADMIN_EMAIL="${ORG_OPENCASTPROJECT_ADMIN_EMAIL:-admin@localhost}"
 
+Opencast::Opencast::Check() {
   Opencast::Helper::CheckForVariables \
     "ORG_OPENCASTPROJECT_SERVER_URL" \
     "ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER" \

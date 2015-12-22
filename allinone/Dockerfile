@@ -62,4 +62,4 @@ VOLUME "${OPENCAST_STORAGE}"
 
 COPY assets/docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["bin/start-opencast", "server"]
+CMD ["app:start"]

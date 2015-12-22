@@ -7,11 +7,12 @@ source "${OPENCAST_SCRIPTS}/activemq.sh"
 source "${OPENCAST_SCRIPTS}/db.sh"
 source "${OPENCAST_SCRIPTS}/hsql.sh"
 source "${OPENCAST_SCRIPTS}/jdbc.sh"
+source "${OPENCAST_SCRIPTS}/mysql.sh"
 
-Opencast::Main::CheckAndSetDefault() {
-  Opencast::Opencast::CheckAndSetDefault
-  Opencast::ActiveMQ::CheckAndSetDefault
-  Opencast::DB::CheckAndSetDefault
+Opencast::Main::Check() {
+  Opencast::Opencast::Check
+  Opencast::ActiveMQ::Check
+  Opencast::DB::Check
 }
 
 Opencast::Main::Configure() {
@@ -24,9 +25,20 @@ Opencast::Main::Configure() {
 # Create DB
 
 case ${1} in
-  *)
-    Opencast::Main::CheckAndSetDefault
+  app:start)
+    Opencast::Main::Check
     Opencast::Main::Configure
+    exec "bin/start-opencast" "server"
+    ;;
+  app:dll)
+    Opencast::DB::PrintDDL
+    ;;
+  app:help)
+    echo "Usage:"
+    echo "  app:start  Starts Opencast"
+    echo "  app:dll    Prints SQL commands to set up the database"
+    ;;
+  *)
     exec "$@"
     ;;
 esac

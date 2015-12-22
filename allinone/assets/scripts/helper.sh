@@ -35,3 +35,12 @@ Opencast::Helper::ReplaceInfile() {
     sed -ri "s|[{]{2}${var}[}]{2}|${!var}|g" "${file}"
   done
 }
+
+# Deletes lines containing {{$2...}} in file $1
+Opencast::Helper::DeleteInfile() {
+  local file="$1"
+  shift
+  for var in "$@"; do
+    sed -ri "/[{]{2}${var}[}]{2}/d" "${file}"
+  done
+}
