@@ -1,10 +1,9 @@
 #!/bin/bash
 set -e
 
-ORG_OPENCASTPROJECT_DB_DDL_GENERATION="${ORG_OPENCASTPROJECT_DB_DDL_GENERATION}:-true"
-
 Opencast::HSQL::Check() {
-  true
+  echo "Run Opencast::HSQL::Check"
+  ORG_OPENCASTPROJECT_DB_DDL_GENERATION="true"
 }
 
 Opencast::HSQL::Configure() {
