@@ -30,13 +30,18 @@ case ${1} in
     Opencast::Main::Configure
     exec "bin/start-opencast" "server"
     ;;
-  app:dll)
+  app:print:activemq.xml)
+    Opencast::ActiveMQ::PrintActivemq.xml
+    ;;
+  app:print:dll)
     Opencast::DB::PrintDDL
     ;;
   app:help)
     echo "Usage:"
-    echo "  app:start  Starts Opencast"
-    echo "  app:dll    Prints SQL commands to set up the database"
+    echo "  app:help                Prints the usage information"
+    echo "  app:print:dll           Prints SQL commands to set up the database"
+    echo "  app:print:activemq.xml  Prints the configuration for ActiveMQ"
+    echo "  app:start               Starts Opencast"
     ;;
   *)
     exec "$@"

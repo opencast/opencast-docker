@@ -26,3 +26,8 @@ Opencast::ActiveMQ::Configure() {
     "ACTIVEMQ_BROKER_USERNAME" \
     "ACTIVEMQ_BROKER_PASSWORD"
 }
+
+Opencast::ActiveMQ::PrintActivemq.xml() {
+  # TODO: read env variables and add config for jaasAuthenticationPlugin
+  cat /opencast/docs/scripts/activemq/activemq.xml
+}
