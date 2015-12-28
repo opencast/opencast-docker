@@ -25,6 +25,10 @@ Opencast::Main::Configure() {
 # Create DB
 
 case ${1} in
+  app:init)
+    Opencast::Main::Check
+    Opencast::Main::Configure
+    ;;
   app:start)
     Opencast::Main::Check
     Opencast::Main::Configure
@@ -41,7 +45,9 @@ case ${1} in
     echo "  app:help                Prints the usage information"
     echo "  app:print:dll           Prints SQL commands to set up the database"
     echo "  app:print:activemq.xml  Prints the configuration for ActiveMQ"
+    echo "  app:init                Checks and configures Opencast but does not run it"
     echo "  app:start               Starts Opencast"
+    echo "  [cmd] [args...]         Runs [cmd] with given arguments"
     ;;
   *)
     exec "$@"
