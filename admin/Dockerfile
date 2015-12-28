@@ -10,7 +10,8 @@ ENV OPENCAST_VERSION="2.1.0-beta4" \
     OPENCAST_GROUP="opencast" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800"
-ENV OPENCAST_URL="https://bitbucket.org/opencast-community/matterhorn/get/${OPENCAST_VERSION}.tar.bz2"
+ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
+    OPENCAST_URL="https://bitbucket.org/opencast-community/matterhorn/get/${OPENCAST_VERSION}.tar.bz2"
 
 # Dependencies
 #   - build-essentials cURL
@@ -38,7 +39,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # Opencast
-RUN mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_STORAGE}" \
+RUN mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_STORAGE}" "${OPENCAST_SCRIPTS}" \
  && groupadd -r "${OPENCAST_GROUP}" -g "${OPENCAST_GID}" \
  && useradd -r -g "${OPENCAST_GROUP}" -d "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
  && chown "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_STORAGE}"
@@ -49,7 +50,8 @@ RUN cd "${OPENCAST_SRC}" \
  && tar -xvzf "build/opencast-dist-${OPENCAST_DISTRIBUTION}-${OPENCAST_VERSION}.tar.gz" --strip 1 -C "${OPENCAST_HOME}" \
  && rm -rf "${OPENCAST_SRC}" /tmp/*
 
-COPY etc/* /opencast/etc/
+COPY assets/scripts/* "${OPENCAST_SCRIPTS}/"
+COPY assets/etc/* /opencast/etc/
 RUN chown -R "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_STORAGE}"
 
 USER "${OPENCAST_USER}"
@@ -58,6 +60,6 @@ WORKDIR "${OPENCAST_HOME}"
 EXPOSE 8080
 VOLUME "${OPENCAST_STORAGE}"
 
-COPY docker-entrypoint.sh /entrypoint.sh
+COPY assets/docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["bin/start-opencast", "server"]
+CMD ["app:start"]
