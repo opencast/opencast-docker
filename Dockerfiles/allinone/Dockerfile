@@ -11,10 +11,11 @@ ENV OPENCAST_VERSION="2.1.0" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
+    OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
     OPENCAST_URL="https://bitbucket.org/opencast-community/matterhorn/get/${OPENCAST_VERSION}.tar.bz2"
 
 # Dependencies
-#   - cURL
+#   - cURL and bzip2
 #   - FFmpeg
 #   - MediaInfo
 #   - Sound eXchange (SoX)
@@ -49,14 +50,15 @@ RUN cd "${OPENCAST_SRC}" \
  && rm -rf "${OPENCAST_SRC}" /tmp/*
 
 COPY assets/scripts/* "${OPENCAST_SCRIPTS}/"
-COPY assets/etc/* /opencast/etc/
+COPY assets/etc/* "${OPENCAST_CONFIG}/"
 RUN chown -R "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_STORAGE}"
 
 USER "${OPENCAST_USER}"
 WORKDIR "${OPENCAST_HOME}"
 
 EXPOSE 8080
-VOLUME "${OPENCAST_STORAGE}"
+VOLUME [ "${OPENCAST_STORAGE}" ]
+VOLUME [ "${OPENCAST_CONFIG}" ]
 
 COPY assets/docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
