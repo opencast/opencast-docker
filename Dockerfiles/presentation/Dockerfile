@@ -14,8 +14,7 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_URL="https://bitbucket.org/opencast-community/matterhorn/get/${OPENCAST_VERSION}.tar.bz2"
 
 # Dependencies
-#   - build-essentials cURL
-#   - Node.js and npm
+#   - cURL
 #   - FFmpeg
 #   - MediaInfo
 #   - Sound eXchange (SoX)
@@ -29,8 +28,7 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
 #   - TODO: which languages to include?
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-      build-essential curl \
-      nodejs npm \
+      curl bzip2 \
       ffmpeg \
       mediainfo \
       sox libsox-fmt-all \
