@@ -119,28 +119,38 @@ For an installation with multiple nodes you can also set:
 ## ActiveMQ
 
 * `ACTIVEMQ_BROKER_URL` **Required**  
+  URL to ActiveMQ instances using the format specified in the [Opencast documentation](https://docs.opencast.org/latest/admin/configuration/message-broker/), e.g. `failover://tcp://example.opencast.org:61616`
 * `ACTIVEMQ_BROKER_USERNAME` **Required**  
+  ActiveMQ username.
 * `ACTIVEMQ_BROKER_PASSWORD` **Required**  
+  Password of the ActiveMQ user.
 
 ## Database
 
-* `ORG_OPENCASTPROJECT_DB_VENDOR` **Required**  
-* `ORG_OPENCASTPROJECT_DB_DDL_GENERATION` **Required**  
+* `ORG_OPENCASTPROJECT_DB_VENDOR` Optional  
+  The type of database to use. Currently you set this to either `HSQL` or `MySQL`. The default is `HSQL`.
+* `ORG_OPENCASTPROJECT_DB_DDL_GENERATION` Optional  
+  Specifies whether to Opencast should create the database tables or not. Defaults to `true` in case of `HSQL` and `false` otherwise.
 
-### H2
+### HSQL
+
+There are no additional environment variables you can set for HSQL.
 
 ### MySQL
 
-* `ORG_OPENCASTPROJECT_DB_JDBC_DRIVER` **Required**  
 * `ORG_OPENCASTPROJECT_DB_JDBC_URL` **Required**  
+  [JDBC](http://www.oracle.com/technetwork/java/javase/jdbc/index.html) connection string.
 * `ORG_OPENCASTPROJECT_DB_JDBC_USER` **Required**  
+  Database username.
 * `ORG_OPENCASTPROJECT_DB_JDBC_PASS` **Required**  
-* `ORG_OPENCASTPROJECT_DB_DDL_GENERATION` **Required**  
+  Password of the database user.
 
 # Storage
 
-TODO
+The storage directory is located at `/data/opencast`. Use [Docker Volumes](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems) to mount this directory on your host.
 
 # References
 
-TODO
+* [Project site](https://zivgitlab.uni-muenster.de/learnweb/docker-opencast)
+* [Opencast documentation](https://docs.opencast.org/latest/admin/)
+* [Images on Docker Hub](https://hub.docker.com/r/mtneug/opencast/)
