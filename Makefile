@@ -1,10 +1,10 @@
 all: build
 
 build:
-	docker build -t mtneug/opencast:allinone allinone
-	docker build -t mtneug/opencast:admin admin
-	docker build -t mtneug/opencast:presentation presentation
-	docker build -t mtneug/opencast:worker worker
+	docker build -t mtneug/opencast:allinone Dockerfiles/allinone
+	docker build -t mtneug/opencast:admin Dockerfiles/admin
+	docker build -t mtneug/opencast:presentation Dockerfiles/presentation
+	docker build -t mtneug/opencast:worker Dockerfiles/worker
 .PHONY: build
 
 test check: build

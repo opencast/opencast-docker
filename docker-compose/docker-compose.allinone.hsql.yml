@@ -1,0 +1,38 @@
+activemq:
+  image: webcenter/activemq:latest
+  environment:
+    - ACTIVEMQ_MIN_MEMORY=128
+    - ACTIVEMQ_MAX_MEMORY=1024
+    - ACTIVEMQ_ENABLED_SCHEDULER=true
+
+    - ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT=true
+
+    - ACTIVEMQ_ADMIN_LOGIN=admin
+    - ACTIVEMQ_ADMIN_PASSWORD=password
+
+    - ACTIVEMQ_WRITE_LOGIN=producer_login
+    - ACTIVEMQ_WRITE_PASSWORD=producer_password
+    - ACTIVEMQ_READ_LOGIN=consumer_login
+    - ACTIVEMQ_READ_PASSWORD=consumer_password
+    - ACTIVEMQ_JMX_LOGIN=jmx_login
+    - ACTIVEMQ_JMX_PASSWORD=jmx_password
+  volumes:
+    - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
+
+opencast:
+  image: mtneug/opencast:allinone
+  environment:
+    - ORG_OPENCASTPROJECT_SERVER_URL=http://dev:8080
+
+    - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
+    - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
+
+    - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
+    - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
+
+    - ACTIVEMQ_BROKER_USERNAME=admin
+    - ACTIVEMQ_BROKER_PASSWORD=password
+  links:
+    - activemq:activemq
+  ports:
+    - "8080:8080"
