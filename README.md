@@ -130,7 +130,7 @@ For an installation with multiple nodes you can also set:
 * `ORG_OPENCASTPROJECT_DB_VENDOR` Optional  
   The type of database to use. Currently you set this to either `HSQL` or `MySQL`. The default is `HSQL`.
 * `ORG_OPENCASTPROJECT_DB_DDL_GENERATION` Optional  
-  Specifies whether to Opencast should create the database tables or not. Defaults to `true` in case of `HSQL` and `false` otherwise.
+  Specifies whether to Opencast should create the database tables or not. It defaults to `false`. In case of `HSQL` it is always set to `true`.
 
 ### HSQL
 

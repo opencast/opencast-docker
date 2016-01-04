@@ -2,7 +2,6 @@
 set -e
 
 ORG_OPENCASTPROJECT_DB_VENDOR="${ORG_OPENCASTPROJECT_DB_VENDOR:-HSQL}"
-ORG_OPENCASTPROJECT_DB_DDL_GENERATION="${ORG_OPENCASTPROJECT_DB_DDL_GENERATION:-false}"
 
 Opencast::DB::Check() {
   case "$ORG_OPENCASTPROJECT_DB_VENDOR" in
@@ -10,6 +9,7 @@ Opencast::DB::Check() {
       Opencast::HSQL::Check
       ;;
     MySQL)
+      Opencast::MySQL::Check
       Opencast::JDBC::Check
       ;;
     *)
@@ -25,6 +25,7 @@ Opencast::DB::Configure() {
       Opencast::HSQL::Configure
       ;;
     MySQL)
+      Opencast::MySQL::Configure
       Opencast::JDBC::Configure
       ;;
     *)
