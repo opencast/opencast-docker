@@ -1,4 +1,4 @@
-all: build
+all: build test
 
 build:
 	docker build -t mtneug/opencast:allinone Dockerfiles/allinone
@@ -8,7 +8,7 @@ build:
 .PHONY: build
 
 test check: build
-	docker run -it --rm mtneug/opencast:allinone mvn --batch-mode test -Dall -Dsurefire.rerunFailingTestsCount=2
+	bats test
 .PHONY: test check
 
 clean:
