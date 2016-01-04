@@ -4,9 +4,16 @@
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Distributions](#distributions)
-    - [`allinone`](#-allinone-)
-    - [`admin`, `worker` and `presentation`](#-admin-worker-and-presentation-)
+    - [`allinone`](#allinone)
+    - [`admin`, `worker` and `presentation`](#admin-worker-and-presentation)
+- [Usage](#usage)
 - [Configuration](#configuration)
+    - [Opencast](#opencast)
+    - [ActiveMQ](#activemq)
+    - [Database](#database)
+        - [HSQL](#hsql)
+        - [MySQL](#mysql)
+- [Storage](#storage)
 - [References](#references)
 
 # Introduction
