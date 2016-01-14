@@ -1,0 +1,20 @@
+sudo: required
+dist: trusty
+language: java
+
+services:
+  - docker
+
+env:
+  - OPENCAST_DISTRIBUTION=allinone
+  - OPENCAST_DISTRIBUTION=admin
+  - OPENCAST_DISTRIBUTION=presentation
+  - OPENCAST_DISTRIBUTION=worker
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -qq docker
+  - git clone https://github.com/sstephenson/bats.git /tmp/bats
+  - sudo /tmp/bats/install.sh /usr/local
+install: make "build-${OPENCAST_DISTRIBUTION}"
+script: make test

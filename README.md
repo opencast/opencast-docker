@@ -1,4 +1,4 @@
-# learnweb/opencast
+# learnweb/opencast [![Build Status](https://travis-ci.org/learnweb/docker-opencast.svg?branch=master)](https://travis-ci.org/learnweb/docker-opencast)
 
 - [Introduction](#introduction)
 - [Installation](#installation)
