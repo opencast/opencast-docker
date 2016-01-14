@@ -20,7 +20,7 @@ activemq:
     - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
 opencast:
-  image: mtneug/opencast:allinone
+  image: learnweb/opencast:allinone
   environment:
     - ORG_OPENCASTPROJECT_SERVER_URL=http://dev:8080
 

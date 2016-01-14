@@ -1,4 +1,4 @@
-# mtneug/opencast
+# learnweb/opencast
 
 - [Introduction](#introduction)
 - [Installation](#installation)
@@ -22,16 +22,16 @@ This repository holds `Dockerfiles` for creating [Opencast](http://www.opencast.
 
 # Installation
 
-All container images are available on [Docker Hub](https://hub.docker.com/r/mtneug/opencast/). To install the image simply pull the distribution you want:
+All container images are available on [Docker Hub](https://hub.docker.com/r/learnweb/opencast/). To install the image simply pull the distribution you want:
 
 ```sh
-$ docker pull "mtneug/opencast:<distribution>"
+$ docker pull "learnweb/opencast:<distribution>"
 ```
 
 To install a specific version, use the following command:
 
 ```sh
-$ docker pull "mtneug/opencast:<distribution>-<version>"
+$ docker pull "learnweb/opencast:<distribution>-<version>"
 ```
 
 If you want to build the images yourself, there is a `Makefile` with the necessary `docker build` commands for all distributions. Running `make` in the root directory will create these images.
@@ -48,7 +48,7 @@ This will run Opencast using the `allinone` distribution configured to use the b
 
 # Distributions
 
-Opencast comes in different distributions. For each of the official distribution there is a specific Docker image tag. `latest` is the same as `allinone`. In addition each version is tagged and concatenated with the distribution. For example the full image name containing the `admin` distribution at version `2.1.0` is `mtneug/opencast:admin-2.1.0`. Living the version out will install the latest one.
+Opencast comes in different distributions. For each of the official distribution there is a specific Docker image tag. `latest` is the same as `allinone`. In addition each version is tagged and concatenated with the distribution. For example the full image name containing the `admin` distribution at version `2.1.0` is `learnweb/opencast:admin-2.1.0`. Living the version out will install the latest one.
 
 ## `allinone`
 
@@ -63,7 +63,7 @@ These images contain the Opencast modules of the corresponding Opencast distribu
 The images come with multiple commands. You can see a full list with description by running:
 
 ```sh
-$ docker run --rm mtneug/opencast:<distribution> app:help
+$ docker run --rm learnweb/opencast:<distribution> app:help
 Usage:
   app:help                Prints the usage information
   app:print:dll           Prints SQL commands to set up the database
@@ -78,7 +78,7 @@ Usage:
 It's recommended to configure Opencast by using [Docker Volumes](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems):
 
 ```sh
-$ docker run -v "/path/to/opencast-etc:/opencast/etc" mtneug/opencast:<distribution>
+$ docker run -v "/path/to/opencast-etc:/opencast/etc" learnweb/opencast:<distribution>
 ```
 
 The most important settings however can be configured by [environment variables](https://docs.docker.com/engine/reference/run/#env-environment-variables). You can use this functionally to generate new configuration files. For this start a new container with specific variables and execute the `app:init` command. This will
@@ -94,7 +94,7 @@ $ docker run --name opencast_generate_config \
   -e "ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast" \
   -e "ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account" \
   -e "ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME" \
-  mtneug/opencast:<distribution> "app:init"
+  learnweb/opencast:<distribution> "app:init"
 $ docker cp opencast_generate_config:/opencast/etc opencast-config
 $ docker rm opencast_generate_config
 ```
@@ -105,22 +105,22 @@ Make sure to use the correct Opencast distribution as there are slide difference
 
 * `ORG_OPENCASTPROJECT_SERVER_URL` **Required**  
   The HTTP-URL where Opencast is accessible.
-* `ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER`  **Required**  
+* `ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER` **Required**  
   Username of the admin user.
-* `ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS`  **Required**  
+* `ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS` **Required**  
   Password of the admin user.
-* `ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER`  **Required**  
+* `ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER` **Required**  
   Username for the communication between Opencast nodes and capture agents.
-* `ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS`  **Required**  
+* `ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS` **Required**  
   Password for the communication between Opencast nodes and capture agents.
 
 For an installation with multiple nodes you can also set:
 
-* `ORG_OPENCASTPROJECT_FILE_REPO_URL`  Optional  
+* `ORG_OPENCASTPROJECT_FILE_REPO_URL` Optional  
   HTTP-URL of the file repository. Defaults to `${org.opencastproject.server.url}` in the `allinone` distribution and `${org.opencastproject.admin.ui.url}` for every other one.
-* `PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL`  **Required**  
+* `PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL` **Required**  
   HTTP-URL of the admin node.
-* `PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL`  **Required**  
+* `PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL` **Required**  
   HTTP-URL of the engage node.
 
 ## ActiveMQ
@@ -158,6 +158,6 @@ The storage directory is located at `/data/opencast`. Use [Docker Volumes](https
 
 # References
 
-* [Project site](https://zivgitlab.uni-muenster.de/learnweb/docker-opencast)
+* [Project site](https://github.com/learnweb/docker-opencast)
 * [Opencast documentation](https://docs.opencast.org/latest/admin/)
-* [Images on Docker Hub](https://hub.docker.com/r/mtneug/opencast/)
+* [Images on Docker Hub](https://hub.docker.com/r/learnweb/opencast/)
