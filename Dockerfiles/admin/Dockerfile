@@ -44,9 +44,9 @@ RUN mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_STORAGE}" "${OPENC
  && chown "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_STORAGE}"
 
 RUN cd "${OPENCAST_SRC}" \
- && curl -sSL "${OPENCAST_URL}" | tar -xvj --strip 1 -C . \
+ && curl -sSL "${OPENCAST_URL}" | tar -xj --strip 1 -C . \
  && mvn --batch-mode clean install -DskipTests=true -Dcheckstyle.skip=true \
- && tar -xvzf "build/opencast-dist-${OPENCAST_DISTRIBUTION}-${OPENCAST_VERSION}.tar.gz" --strip 1 -C "${OPENCAST_HOME}" \
+ && tar -xzf "build/opencast-dist-${OPENCAST_DISTRIBUTION}-${OPENCAST_VERSION}.tar.gz" --strip 1 -C "${OPENCAST_HOME}" \
  && rm -rf "${OPENCAST_SRC}" /tmp/*
 
 COPY assets/scripts/* "${OPENCAST_SCRIPTS}/"

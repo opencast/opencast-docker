@@ -12,8 +12,9 @@ env:
   - OPENCAST_DISTRIBUTION=worker
 
 before_install:
-  - sudo apt-get update
-  - sudo apt-get install -qq docker
+  - sudo apt-get -qq update
+  - sudo apt-get -qq install docker
+  - docker info
   - git clone https://github.com/sstephenson/bats.git /tmp/bats
   - sudo /tmp/bats/install.sh /usr/local
 install: make "build-${OPENCAST_DISTRIBUTION}"
