@@ -1,3 +1,15 @@
+db:
+  image: mysql:latest
+  environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=opencast
+    - MYSQL_USER=opencast
+    - MYSQL_PASSWORD=opencast
+  ports:
+    - "3306:3306"
+  volumes:
+    - ./assets/opencast-ddl.sql:/docker-entrypoint-initdb.d/opencast-ddl.sql:ro
+
 activemq:
   image: webcenter/activemq:latest
   environment:
@@ -24,9 +36,14 @@ opencast:
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
     - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
     - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
+    - ORG_OPENCASTPROJECT_DB_VENDOR=MySQL
+    - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://db/opencast
+    - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
+    - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
     - ACTIVEMQ_BROKER_USERNAME=admin
     - ACTIVEMQ_BROKER_PASSWORD=password
   links:
     - activemq:activemq
+    - db:db
   ports:
     - "8080:8080"

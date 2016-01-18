@@ -46,6 +46,8 @@ $ docker-compose -p opencast-allinone -f docker-compose/docker-compose.allinone.
 
 This will run Opencast using the `allinone` distribution configured to use the bundled [H2 (HSQL) Database Engine](http://www.h2database.com/html/main.html). Before you start the system, you probably should change `ORG_OPENCASTPROJECT_SERVER_URL` to a proper hostname in `docker-compose/docker-compose.allinone.hsql.yml`.
 
+In `./docker-compose` there are also compose files for more production-like setups. `docker-compose.allinone.mysql.yml` uses a MySQL database instead of H2, while `docker-compose.multiserver.mysql.yml` demonstrates how to connect the different distributions. Replace the compose file in the command above if you want to use them instead.
+
 # Distributions
 
 Opencast comes in different distributions. For each of the official distribution there is a specific Docker image tag. `latest` is the same as `allinone`. In addition each version is tagged and concatenated with the distribution. For example the full image name containing the `admin` distribution at version `2.1.0` is `learnweb/opencast:admin-2.1.0`. Living the version out will install the latest one.
