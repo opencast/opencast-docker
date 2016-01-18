@@ -10,15 +10,33 @@ source "${OPENCAST_SCRIPTS}/jdbc.sh"
 source "${OPENCAST_SCRIPTS}/mysql.sh"
 
 Opencast::Main::Check() {
+  echo "Run Opencast::Main::Check"
+
   Opencast::Opencast::Check
   Opencast::ActiveMQ::Check
   Opencast::DB::Check
 }
 
 Opencast::Main::Configure() {
+  echo "Run Opencast::Main::Configure"
+
   Opencast::Opencast::Configure
   Opencast::ActiveMQ::Configure
   Opencast::DB::Configure
+}
+
+Opencast::Main::Init() {
+  echo "Run Opencast::Main::Init"
+
+  if Opencast::Helper::CustomConfig; then
+    echo "Found custom config in ${OPENCAST_CUSTOM_CONFIG}"
+    echo "Run Opencast::Helper::CopyCustomConfig"
+    Opencast::Helper::CopyCustomConfig
+  else
+    echo "No custom config found"
+    Opencast::Main::Check
+  fi
+  Opencast::Main::Configure
 }
 
 # Test connection
@@ -26,12 +44,10 @@ Opencast::Main::Configure() {
 
 case ${1} in
   app:init)
-    Opencast::Main::Check
-    Opencast::Main::Configure
+    Opencast::Main::Init
     ;;
   app:start)
-    Opencast::Main::Check
-    Opencast::Main::Configure
+    Opencast::Main::Init
     exec "bin/start-opencast" "server"
     ;;
   app:print:activemq.xml)

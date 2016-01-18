@@ -2,6 +2,8 @@
 set -e
 
 Opencast::ActiveMQ::Check() {
+  echo "Run Opencast::ActiveMQ::Check"
+
   # Check for ActiveMQ container
   #
   # $ACTIVEMQ_BROKER_URL is prefered over $ACTIVEMQ_PORT_61616_TCP and holds
@@ -21,6 +23,8 @@ Opencast::ActiveMQ::Check() {
 }
 
 Opencast::ActiveMQ::Configure() {
+  echo "Run Opencast::ActiveMQ::Configure"
+
   Opencast::Helper::ReplaceInfile "etc/custom.properties" \
     "ACTIVEMQ_BROKER_URL" \
     "ACTIVEMQ_BROKER_USERNAME" \

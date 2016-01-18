@@ -17,6 +17,15 @@ Opencast::Helper::Dist::worker() {
   test "${OPENCAST_DISTRIBUTION}" = "worker"
 }
 
+Opencast::Helper::CustomConfig() {
+  test -d "${OPENCAST_CUSTOM_CONFIG}"
+}
+
+Opencast::Helper::CopyCustomConfig() {
+  rm -rf "${OPENCAST_CONFIG}"
+  cp -r "${OPENCAST_CUSTOM_CONFIG}" "${OPENCAST_CONFIG}"
+}
+
 Opencast::Helper::CheckForVariables() {
   for var in "$@"; do
     if test -z "${!var}"; then

@@ -3,10 +3,13 @@ set -e
 
 Opencast::HSQL::Check() {
   echo "Run Opencast::HSQL::Check"
+
   ORG_OPENCASTPROJECT_DB_DDL_GENERATION="true"
 }
 
 Opencast::HSQL::Configure() {
+  echo "Run Opencast::HSQL::Configure"
+
   Opencast::Helper::DeleteInfile "etc/custom.properties" \
     "ORG_OPENCASTPROJECT_DB_VENDOR" \
     "ORG_OPENCASTPROJECT_DB_JDBC_DRIVER" \

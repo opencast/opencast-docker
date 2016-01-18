@@ -78,7 +78,7 @@ Usage:
 It's recommended to configure Opencast by using [Docker Volumes](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems):
 
 ```sh
-$ docker run -v "/path/to/opencast-etc:/opencast/etc" learnweb/opencast:<distribution>
+$ docker run -v "/path/to/opencast-etc:/etc/opencast" learnweb/opencast:<distribution>
 ```
 
 The most important settings however can be configured by [environment variables](https://docs.docker.com/engine/reference/run/#env-environment-variables). You can use this functionally to generate new configuration files. For this start a new container with specific variables and execute the `app:init` command. This will

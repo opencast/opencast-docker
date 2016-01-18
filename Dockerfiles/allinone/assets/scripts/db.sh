@@ -4,6 +4,8 @@ set -e
 ORG_OPENCASTPROJECT_DB_VENDOR="${ORG_OPENCASTPROJECT_DB_VENDOR:-HSQL}"
 
 Opencast::DB::Check() {
+  echo "Run Opencast::DB::Check"
+
   case "$ORG_OPENCASTPROJECT_DB_VENDOR" in
     HSQL)
       Opencast::HSQL::Check
@@ -20,6 +22,8 @@ Opencast::DB::Check() {
 }
 
 Opencast::DB::Configure() {
+  echo "Run Opencast::DB::Configure"
+
   case "$ORG_OPENCASTPROJECT_DB_VENDOR" in
     HSQL)
       Opencast::HSQL::Configure

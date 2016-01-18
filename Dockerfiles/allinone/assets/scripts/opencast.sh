@@ -10,6 +10,7 @@ else
 fi
 
 Opencast::Opencast::Check() {
+  echo "Run Opencast::Opencast::Check"
   Opencast::Helper::CheckForVariables \
     "ORG_OPENCASTPROJECT_SERVER_URL" \
     "ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER" \
@@ -26,6 +27,7 @@ Opencast::Opencast::Check() {
 }
 
 Opencast::Opencast::Configure() {
+  echo "Run Opencast::Opencast::Configure"
   Opencast::Helper::ReplaceInfile "etc/custom.properties" \
     "ORG_OPENCASTPROJECT_ADMIN_EMAIL" \
     "ORG_OPENCASTPROJECT_SERVER_URL" \

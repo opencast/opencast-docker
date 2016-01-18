@@ -6,6 +6,7 @@ ENV OPENCAST_VERSION="2.1.0" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_STORAGE="/data/opencast" \
+    OPENCAST_CUSTOM_CONFIG="/etc/opencast" \
     OPENCAST_USER="opencast" \
     OPENCAST_GROUP="opencast" \
     OPENCAST_UID="800" \

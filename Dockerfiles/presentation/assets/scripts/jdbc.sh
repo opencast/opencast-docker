@@ -2,6 +2,8 @@
 set -e
 
 Opencast::JDBC::Check() {
+  echo "Run Opencast::JDBC::Check"
+
   ORG_OPENCASTPROJECT_DB_DDL_GENERATION="${ORG_OPENCASTPROJECT_DB_DDL_GENERATION:-false}"
 
   Opencast::Helper::CheckForVariables \
@@ -13,6 +15,8 @@ Opencast::JDBC::Check() {
 }
 
 Opencast::JDBC::Configure() {
+  echo "Run Opencast::JDBC::Configure"
+
   Opencast::Helper::ReplaceInfile "etc/custom.properties" \
     "ORG_OPENCASTPROJECT_DB_VENDOR" \
     "ORG_OPENCASTPROJECT_DB_DDL_GENERATION" \
