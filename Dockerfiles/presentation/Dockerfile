@@ -58,7 +58,6 @@ WORKDIR "${OPENCAST_HOME}"
 
 EXPOSE 8080
 VOLUME [ "${OPENCAST_STORAGE}" ]
-VOLUME [ "${OPENCAST_CONFIG}" ]
 
 COPY assets/docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
