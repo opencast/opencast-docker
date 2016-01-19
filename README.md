@@ -50,7 +50,7 @@ In `./docker-compose` there are also compose files for more production-like setu
 
 # Distributions
 
-Opencast comes in different distributions. For each of the official distribution there is a specific Docker image tag. `latest` is the same as `allinone`. In addition each version is tagged and concatenated with the distribution. For example the full image name containing the `admin` distribution at version `2.1.0` is `learnweb/opencast:admin-2.1.0`. Living the version out will install the latest one.
+Opencast comes in different distributions. For each of the official distribution there is a specific Docker image tag. `latest` is the same as `allinone`. In addition each version is tagged and concatenated with the distribution. For example the full image name containing the `admin` distribution at version `2.1.1-rc1` is `learnweb/opencast:admin-2.1.1-rc1`. Living the version out will install the latest one.
 
 ## `allinone`
 
