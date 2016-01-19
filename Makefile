@@ -1,27 +1,24 @@
 all: build test
 
 build: build-allinone build-admin build-presentation build-worker
-.PHONY: build
-
 build-allinone:
 	docker build -t learnweb/opencast:allinone Dockerfiles/allinone
-.PHONY: build-allinone
-
 build-admin:
 	docker build -t learnweb/opencast:admin Dockerfiles/admin
-.PHONY: build-admin
-
 build-presentation:
 	docker build -t learnweb/opencast:presentation Dockerfiles/presentation
-.PHONY: build-presentation
-
 build-worker:
 	docker build -t learnweb/opencast:worker Dockerfiles/worker
-.PHONY: build-worker
+.PHONY: build build-allinone build-admin build-presentation build-worker
 
-test check: build
+test: test-common test-allinone test-admin test-presentation test-worker
+test-common:
 	bats test
-.PHONY: test check
+test-allinone: build-allinone
+test-admin: build-admin
+test-presentation: build-presentation
+test-worker: build-worker
+.PHONY: test test-common test-allinone test-admin test-presentation test-worker
 
 clean:
 	-docker rmi learnweb/opencast:allinone

@@ -18,4 +18,4 @@ before_install:
   - git clone https://github.com/sstephenson/bats.git /tmp/bats
   - sudo /tmp/bats/install.sh /usr/local
 install: make "build-${OPENCAST_DISTRIBUTION}"
-script: make test
+script: make test-common "test-${OPENCAST_DISTRIBUTION}"
