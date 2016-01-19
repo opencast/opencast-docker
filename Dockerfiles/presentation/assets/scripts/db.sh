@@ -40,6 +40,8 @@ Opencast::DB::Configure() {
 }
 
 Opencast::DB::PrintDDL() {
+  echo "-- Created with Opencast version ${OPENCAST_VERSION}"
+  echo
   case "$ORG_OPENCASTPROJECT_DB_VENDOR" in
     HSQL)
       Opencast::HSQL::PrintDDL
