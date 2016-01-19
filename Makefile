@@ -19,7 +19,6 @@ build-worker:
 	docker build -t learnweb/opencast:worker Dockerfiles/worker
 .PHONY: build-worker
 
-
 test check: build
 	bats test
 .PHONY: test check

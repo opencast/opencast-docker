@@ -1,0 +1,22 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  pre:
+    - sudo curl -fsSL https://raw.githubusercontent.com/michaelcontento/circleci-matrix/master/src/circleci-matrix.sh -o /usr/local/bin/circleci-matrix
+    - sudo chmod +x /usr/local/bin/circleci-matrix
+
+  override:
+    - docker info
+    - git clone https://github.com/sstephenson/bats.git /tmp/bats
+    - sudo /tmp/bats/install.sh /usr/local
+
+  post:
+    - circleci-matrix --config .circleci-matrix-build.yml:
+        # 4 * 15min if not parallel
+        timeout: 3600
+
+test:
+  override:
+    - circleci-matrix --config .circleci-matrix-test.yml
