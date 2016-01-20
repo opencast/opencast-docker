@@ -22,7 +22,7 @@ dependencies:
           - OPENCAST_DISTRIBUTION=worker
 
         command:
-          - make "build-${OPENCAST_DISTRIBUTION}"
+          - make "build-\${OPENCAST_DISTRIBUTION}"
         EOF
     - circleci-matrix:
         # 4 * 15min if not parallel
@@ -39,6 +39,6 @@ test:
         - OPENCAST_DISTRIBUTION=worker
 
       command:
-        - make test-common "test-${OPENCAST_DISTRIBUTION}"
+        - make test-common "test-\${OPENCAST_DISTRIBUTION}"
       EOF
     - circleci-matrix
