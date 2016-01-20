@@ -44,9 +44,9 @@ A quick local test system can be started using [`docker-compose`](https://github
 $ docker-compose -p opencast-allinone -f docker-compose/docker-compose.allinone.hsql.yml up
 ```
 
-This will run Opencast using the `allinone` distribution configured to use the bundled [H2 (HSQL) Database Engine](http://www.h2database.com/html/main.html). Before you start the system, you probably should change `ORG_OPENCASTPROJECT_SERVER_URL` to a proper hostname in `docker-compose/docker-compose.allinone.hsql.yml`.
+This will run Opencast using the `allinone` distribution configured to use the bundled [H2 (HSQL) Database Engine](http://www.h2database.com/html/main.html). Before you start the system, you probably should change `ORG_OPENCASTPROJECT_SERVER_URL` to a proper hostname or IP address in `docker-compose/docker-compose.allinone.hsql.yml`.
 
-In `./docker-compose` there are also compose files for more production-like setups. `docker-compose.allinone.mysql.yml` uses a MySQL database instead of H2, while `docker-compose.multiserver.mysql.yml` demonstrates how to connect the different distributions. Replace the compose file in the command above if you want to use them instead.
+In `./docker-compose` there are also compose files for more production-like setups. `docker-compose.allinone.mariadb.yml` uses a MySQL database instead of H2, while `docker-compose.multiserver.mariadb.yml` demonstrates how to connect the different distributions. Replace the compose file in the command above if you want to use them instead. Note that you also have to set correct hostnames or IP addresses for `PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL` and `PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL`
 
 # Distributions
 

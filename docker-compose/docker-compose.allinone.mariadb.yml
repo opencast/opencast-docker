@@ -1,12 +1,10 @@
-db:
-  image: mysql:latest
+mariadb:
+  image: mariadb:latest
   environment:
     - MYSQL_ROOT_PASSWORD=root
     - MYSQL_DATABASE=opencast
     - MYSQL_USER=opencast
     - MYSQL_PASSWORD=opencast
-  ports:
-    - "3306:3306"
   volumes:
     - ./assets/opencast-ddl.sql:/docker-entrypoint-initdb.d/opencast-ddl.sql:ro
 
@@ -31,7 +29,7 @@ activemq:
 opencast:
   image: learnweb/opencast:allinone
   environment:
-    - ORG_OPENCASTPROJECT_SERVER_URL=http://dev:8080
+    - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast:8080
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
     - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
@@ -44,6 +42,6 @@ opencast:
     - ACTIVEMQ_BROKER_PASSWORD=password
   links:
     - activemq:activemq
-    - db:db
+    - mariadb:db
   ports:
     - "8080:8080"
