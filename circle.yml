@@ -13,10 +13,32 @@ dependencies:
     - sudo /tmp/bats/install.sh /usr/local
 
   post:
-    - circleci-matrix --config .circleci-matrix-build.yml:
+    - |+
+        cat > .circleci-matrix.yml <<EOF
+        env:
+          - OPENCAST_DISTRIBUTION=allinone
+          - OPENCAST_DISTRIBUTION=admin
+          - OPENCAST_DISTRIBUTION=presentation
+          - OPENCAST_DISTRIBUTION=worker
+
+        command:
+          - make "build-${OPENCAST_DISTRIBUTION}"
+        EOF
+    - circleci-matrix:
         # 4 * 15min if not parallel
         timeout: 3600
 
 test:
   override:
-    - circleci-matrix --config .circleci-matrix-test.yml
+    - |+
+      cat > .circleci-matrix.yml <<EOF
+      env:
+        - OPENCAST_DISTRIBUTION=allinone
+        - OPENCAST_DISTRIBUTION=admin
+        - OPENCAST_DISTRIBUTION=presentation
+        - OPENCAST_DISTRIBUTION=worker
+
+      command:
+        - make test-common "test-${OPENCAST_DISTRIBUTION}"
+      EOF
+    - circleci-matrix
