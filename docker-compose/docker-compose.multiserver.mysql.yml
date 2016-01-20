@@ -1,15 +1,12 @@
-db:
-  image: mysql:latest
+mariadb:
+  image: mariadb:latest
   environment:
     - MYSQL_ROOT_PASSWORD=root
     - MYSQL_DATABASE=opencast
     - MYSQL_USER=opencast
     - MYSQL_PASSWORD=opencast
-  ports:
-    - "3306:3306"
   volumes:
-    - ./assets/opencast-ddl.sql:/docker-entrypoint-initdb.d/:ro
-
+    - ./assets/opencast-ddl.sql:/docker-entrypoint-initdb.d/opencast-ddl.sql
 activemq:
   image: webcenter/activemq:latest
   environment:
@@ -31,7 +28,7 @@ activemq:
 opencast_admin:
   image: learnweb/opencast:admin
   environment:
-    - ORG_OPENCASTPROJECT_SERVER_URL=http://dev:8080
+    - ORG_OPENCASTPROJECT_SERVER_URL=http://192.168.178.33:8080
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
     - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
@@ -40,20 +37,21 @@ opencast_admin:
     - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://db/opencast
     - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
     - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
-    - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://dev:8080
-    - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://dev:8081
+    - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://192.168.178.33:8080
+    - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://192.168.178.33:8081
     - ACTIVEMQ_BROKER_USERNAME=admin
     - ACTIVEMQ_BROKER_PASSWORD=password
+    - ACTIVEMQ_BROKER_URL=tcp://activemq:61616
   links:
     - activemq:activemq
-    - db:db
+    - mariadb:db
   ports:
     - "8080:8080"
 
 opencast_presentation:
   image: learnweb/opencast:presentation
   environment:
-    - ORG_OPENCASTPROJECT_SERVER_URL=http://dev:8081
+    - ORG_OPENCASTPROJECT_SERVER_URL=http://192.168.178.33:8081
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
     - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
@@ -62,20 +60,21 @@ opencast_presentation:
     - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://db/opencast
     - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
     - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
-    - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://dev:8080
-    - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://dev:8081
+    - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://192.168.178.33:8080
+    - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://192.168.178.33:8081
     - ACTIVEMQ_BROKER_USERNAME=admin
     - ACTIVEMQ_BROKER_PASSWORD=password
+    - ACTIVEMQ_BROKER_URL=tcp://activemq:61616
   links:
     - activemq:activemq
-    - db:db
+    - mariadb:db
   ports:
     - "8081:8080"
 
 opencast_worker:
   image: learnweb/opencast:worker
   environment:
-    - ORG_OPENCASTPROJECT_SERVER_URL=http://dev:8082
+    - ORG_OPENCASTPROJECT_SERVER_URL=http://192.168.178.33:8082
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
     - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
@@ -84,12 +83,13 @@ opencast_worker:
     - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://db/opencast
     - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
     - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
-    - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://dev:8080
-    - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://dev:8081
+    - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://192.168.178.33:8080
+    - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://192.168.178.33:8081
     - ACTIVEMQ_BROKER_USERNAME=admin
     - ACTIVEMQ_BROKER_PASSWORD=password
+    - ACTIVEMQ_BROKER_URL=tcp://activemq:61616
   links:
     - activemq:activemq
-    - db:db
+    - mariadb:db
   ports:
     - "8082:8080"
