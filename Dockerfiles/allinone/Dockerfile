@@ -62,11 +62,12 @@ RUN cd "${OPENCAST_SRC}" \
  && curl -sSL "${OPENCAST_URL}" | tar -xj --strip 1 -C . \
  && mvn --quiet --batch-mode clean install -DskipTests=true -Dcheckstyle.skip=true \
  && tar -xzf "build/opencast-dist-${OPENCAST_DISTRIBUTION}-${OPENCAST_VERSION}.tar.gz" --strip 1 -C "${OPENCAST_HOME}" \
+ && chown -R "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_HOME}" \
  && rm -rf "${OPENCAST_SRC}" /tmp/*
 
 COPY assets/scripts/* "${OPENCAST_SCRIPTS}/"
 COPY assets/etc/* "${OPENCAST_CONFIG}/"
-RUN chown -R "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_STORAGE}"
+RUN chown -R "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_CONFIG}"
 
 USER "${OPENCAST_USER}"
 WORKDIR "${OPENCAST_HOME}"
