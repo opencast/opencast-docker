@@ -15,7 +15,7 @@
 FROM maven:3-jdk-8
 MAINTAINER WWU eLectures team <dev.learnweb@uni-muenster.de>
 
-ENV OPENCAST_VERSION="2.1.1-rc1" \
+ENV OPENCAST_VERSION="2.1.1" \
     OPENCAST_DISTRIBUTION="worker" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
