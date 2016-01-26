@@ -17,6 +17,9 @@ machine:
     - docker
 
 dependencies:
+  cache_directories:
+    - ~/docker
+
   pre:
     - sudo curl -fsSL https://raw.githubusercontent.com/michaelcontento/circleci-matrix/master/src/circleci-matrix.sh -o /usr/local/bin/circleci-matrix
     - sudo chmod +x /usr/local/bin/circleci-matrix
@@ -36,7 +39,12 @@ dependencies:
           - OPENCAST_DISTRIBUTION=worker
 
         command:
+          - if [[ -e "~/docker/\${OPENCAST_DISTRIBUTION}.tar" ]]; then
+              docker load --input "~/docker/\${OPENCAST_DISTRIBUTION}.tar";
+            fi
           - make "build-\${OPENCAST_DISTRIBUTION}"
+          - mkdir -p ~/docker
+          - docker save "learnweb/\${OPENCAST_DISTRIBUTION}" --output "~/docker/\${OPENCAST_DISTRIBUTION}.tar"
         EOF
     - circleci-matrix:
         # 4 * 15min if not parallel
