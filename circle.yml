@@ -39,12 +39,11 @@ dependencies:
           - OPENCAST_DISTRIBUTION=worker
 
         command:
-          - if [[ -e "~/docker/\${OPENCAST_DISTRIBUTION}.tar" ]]; then
-              docker load --input "~/docker/\${OPENCAST_DISTRIBUTION}.tar";
+          - if [[ -e "${HOME}/docker/\${OPENCAST_DISTRIBUTION}.tar" ]]; then
+              docker load --input "${HOME}/docker/\${OPENCAST_DISTRIBUTION}.tar";
             fi
           - make "build-\${OPENCAST_DISTRIBUTION}"
-          - mkdir -p ~/docker
-          - docker save "learnweb/\${OPENCAST_DISTRIBUTION}" --output "~/docker/\${OPENCAST_DISTRIBUTION}.tar"
+          - mkdir -p "${HOME}/docker"; docker save "learnweb/opencast:\${OPENCAST_DISTRIBUTION}" > "${HOME}/docker/\${OPENCAST_DISTRIBUTION}.tar"
         EOF
     - circleci-matrix:
         # 4 * 15min if not parallel
