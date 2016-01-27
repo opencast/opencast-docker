@@ -218,21 +218,6 @@
             <bean xmlns="http://www.springframework.org/schema/beans" class="org.apache.activemq.hooks.SpringContextHook" />
         </shutdownHooks>
 
-        <plugins>
-            <jaasAuthenticationPlugin configuration="activemq" />
-            <authorizationPlugin>
-                <map>
-                    <authorizationMap>
-                        <authorizationEntries>
-                            <authorizationEntry queue=">" read="admins" write="admins" admin="admins" />
-                            <authorizationEntry topic=">" read="admins" write="admins" admin="admins" />
-                            <authorizationEntry topic="ActiveMQ.Advisory.>" read="admins" write="admins" admin="admins"/>
-                        </authorizationEntries>
-                    </authorizationMap>
-                </map>
-            </authorizationPlugin>
-        </plugins>
-
     </broker>
 
     <!--
