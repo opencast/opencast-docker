@@ -27,7 +27,7 @@ activemq:
 opencast:
   image: learnweb/opencast:allinone
   environment:
-    - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast:8080
+    - ORG_OPENCASTPROJECT_SERVER_URL=http://localhost:8080
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
     - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
