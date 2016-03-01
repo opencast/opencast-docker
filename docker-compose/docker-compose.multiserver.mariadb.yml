@@ -37,7 +37,7 @@ activemq:
 opencast_admin:
   image: learnweb/opencast:admin
   environment:
-    - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast:8080
+    - ORG_OPENCASTPROJECT_SERVER_URL=http://localhost:8080
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
     - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
@@ -46,8 +46,8 @@ opencast_admin:
     - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://db/opencast
     - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
     - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
-    - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://opencast:8080
-    - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://opencast:8081
+    - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://localhost:8080
+    - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://localhost:8081
     - ACTIVEMQ_BROKER_USERNAME=admin
     - ACTIVEMQ_BROKER_PASSWORD=password
     - ACTIVEMQ_BROKER_URL=tcp://activemq:61616
@@ -62,7 +62,7 @@ opencast_admin:
 opencast_presentation:
   image: learnweb/opencast:presentation
   environment:
-    - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast:8081
+    - ORG_OPENCASTPROJECT_SERVER_URL=http://localhost:8081
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
     - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
@@ -71,8 +71,8 @@ opencast_presentation:
     - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://db/opencast
     - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
     - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
-    - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://opencast:8080
-    - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://opencast:8081
+    - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://localhost:8080
+    - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://localhost:8081
     - ACTIVEMQ_BROKER_USERNAME=admin
     - ACTIVEMQ_BROKER_PASSWORD=password
     - ACTIVEMQ_BROKER_URL=tcp://activemq:61616
@@ -87,7 +87,7 @@ opencast_presentation:
 opencast_worker:
   image: learnweb/opencast:worker
   environment:
-    - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast:8082
+    - ORG_OPENCASTPROJECT_SERVER_URL=http://localhost:8082
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
     - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
     - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
@@ -96,8 +96,8 @@ opencast_worker:
     - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://db/opencast
     - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
     - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
-    - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://opencast:8080
-    - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://opencast:8081
+    - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://localhost:8080
+    - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://localhost:8081
     - ACTIVEMQ_BROKER_USERNAME=admin
     - ACTIVEMQ_BROKER_PASSWORD=password
     - ACTIVEMQ_BROKER_URL=tcp://activemq:61616
