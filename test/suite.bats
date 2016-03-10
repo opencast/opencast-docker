@@ -16,6 +16,17 @@
 
 load test_helper
 
+@test "all entrypoints should be the same" {
+  run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-entrypoint.sh" "${DOCKERFILES_ADMIN}/assets/docker-entrypoint.sh"
+  [ "${status}" -eq 0 ]
+
+  run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-entrypoint.sh" "${DOCKERFILES_PRESENTATION}/assets/docker-entrypoint.sh"
+  [ "${status}" -eq 0 ]
+
+  run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-entrypoint.sh" "${DOCKERFILES_WORKER}/assets/docker-entrypoint.sh"
+  [ "${status}" -eq 0 ]
+}
+
 @test "all scripts should be the same" {
   run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_ADMIN}/assets/scripts"
   [ "${status}" -eq 0 ]
