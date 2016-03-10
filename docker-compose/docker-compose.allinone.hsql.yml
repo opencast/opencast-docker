@@ -12,29 +12,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-activemq:
-  image: webcenter/activemq:latest
-  environment:
-    - ACTIVEMQ_MIN_MEMORY=128
-    - ACTIVEMQ_MAX_MEMORY=1024
-    - ACTIVEMQ_ENABLED_SCHEDULER=true
-    - ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT=true
-    - ACTIVEMQ_OWNER_LOGIN=admin
-    - ACTIVEMQ_OWNER_PASSWORD=password
-  volumes:
-    - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
+version: "2"
+services:
+  activemq:
+    image: webcenter/activemq:latest
+    environment:
+      - ACTIVEMQ_MIN_MEMORY=128
+      - ACTIVEMQ_MAX_MEMORY=1024
+      - ACTIVEMQ_ENABLED_SCHEDULER=true
+      - ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT=true
+      - ACTIVEMQ_OWNER_LOGIN=admin
+      - ACTIVEMQ_OWNER_PASSWORD=password
+    volumes:
+      - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
-opencast:
-  image: learnweb/opencast:allinone
-  environment:
-    - ORG_OPENCASTPROJECT_SERVER_URL=http://localhost:8080
-    - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
-    - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
-    - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
-    - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
-    - ACTIVEMQ_BROKER_USERNAME=admin
-    - ACTIVEMQ_BROKER_PASSWORD=password
-  links:
-    - activemq:activemq
-  ports:
-    - "8080:8080"
+  opencast:
+    image: learnweb/opencast:allinone
+    environment:
+      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast:8080
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
+      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
+      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
+      - ACTIVEMQ_BROKER_URL=failover://tcp://activemq:61616
+      - ACTIVEMQ_BROKER_USERNAME=admin
+      - ACTIVEMQ_BROKER_PASSWORD=password
+    ports:
+      - "8080:8080"

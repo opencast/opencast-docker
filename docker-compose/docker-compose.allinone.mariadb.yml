@@ -12,44 +12,44 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-mariadb:
-  image: mariadb:latest
-  environment:
-    - MYSQL_ROOT_PASSWORD=root
-    - MYSQL_DATABASE=opencast
-    - MYSQL_USER=opencast
-    - MYSQL_PASSWORD=opencast
-  volumes:
-    - ./assets/opencast-ddl.sql:/docker-entrypoint-initdb.d/opencast-ddl.sql:ro
+version: "2"
+services:
+  mariadb:
+    image: mariadb:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=opencast
+      - MYSQL_USER=opencast
+      - MYSQL_PASSWORD=opencast
+    volumes:
+      - ./assets/opencast-ddl.sql:/docker-entrypoint-initdb.d/opencast-ddl.sql:ro
 
-activemq:
-  image: webcenter/activemq:latest
-  environment:
-    - ACTIVEMQ_MIN_MEMORY=128
-    - ACTIVEMQ_MAX_MEMORY=1024
-    - ACTIVEMQ_ENABLED_SCHEDULER=true
-    - ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT=true
-    - ACTIVEMQ_OWNER_LOGIN=admin
-    - ACTIVEMQ_OWNER_PASSWORD=password
-  volumes:
-    - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
+  activemq:
+    image: webcenter/activemq:latest
+    environment:
+      - ACTIVEMQ_MIN_MEMORY=128
+      - ACTIVEMQ_MAX_MEMORY=1024
+      - ACTIVEMQ_ENABLED_SCHEDULER=true
+      - ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT=true
+      - ACTIVEMQ_OWNER_LOGIN=admin
+      - ACTIVEMQ_OWNER_PASSWORD=password
+    volumes:
+      - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
-opencast:
-  image: learnweb/opencast:allinone
-  environment:
-    - ORG_OPENCASTPROJECT_SERVER_URL=http://localhost:8080
-    - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
-    - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
-    - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
-    - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
-    - ORG_OPENCASTPROJECT_DB_VENDOR=MySQL
-    - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://db/opencast
-    - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
-    - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
-    - ACTIVEMQ_BROKER_USERNAME=admin
-    - ACTIVEMQ_BROKER_PASSWORD=password
-  links:
-    - activemq:activemq
-    - mariadb:db
-  ports:
-    - "8080:8080"
+  opencast:
+    image: learnweb/opencast:allinone
+    environment:
+      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast:8080
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
+      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
+      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
+      - ORG_OPENCASTPROJECT_DB_VENDOR=MySQL
+      - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
+      - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
+      - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
+      - ACTIVEMQ_BROKER_URL=failover://tcp://activemq:61616
+      - ACTIVEMQ_BROKER_USERNAME=admin
+      - ACTIVEMQ_BROKER_PASSWORD=password
+    ports:
+      - "8080:8080"
