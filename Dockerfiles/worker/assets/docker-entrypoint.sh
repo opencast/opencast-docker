@@ -50,12 +50,14 @@ Opencast::Main::Init() {
   else
     echo "No custom config found"
     Opencast::Main::Check
+    Opencast::Main::Configure
   fi
-  Opencast::Main::Configure
 }
 
-# Test connection
-# Create DB
+Opencast::Main::Start() {
+  echo "Run Opencast::Main::Start"
+  exec "bin/start-opencast" "server"
+}
 
 case ${1} in
   app:init)
@@ -63,7 +65,7 @@ case ${1} in
     ;;
   app:start)
     Opencast::Main::Init
-    exec "bin/start-opencast" "server"
+    Opencast::Main::Start
     ;;
   app:print:activemq.xml)
     Opencast::ActiveMQ::PrintActivemq.xml
