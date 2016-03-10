@@ -40,3 +40,20 @@ Opencast::JDBC::Configure() {
     "ORG_OPENCASTPROJECT_DB_JDBC_USER" \
     "ORG_OPENCASTPROJECT_DB_JDBC_PASS"
 }
+
+Opencast::JDBC::TryToConnect() {
+  echo "Run Opencast::JDBC::TryToConnect"
+
+  driver=$(awk -F "=" '/org\.opencastproject\.db\.jdbc\.driver/ {print $2}' etc/custom.properties | tr -d ' ')
+  url=$(awk -F "=" '/org\.opencastproject\.db\.jdbc\.url/ {print $2}' etc/custom.properties | tr -d ' ')
+  user=$(awk -F "=" '/org\.opencastproject\.db\.jdbc\.user/ {print $2}' etc/custom.properties | tr -d ' ')
+  password=$(awk -F "=" '/org\.opencastproject\.db\.jdbc\.pass/ {print $2}' etc/custom.properties | tr -d ' ')
+
+  java -cp "${OPENCAST_SCRIPTS}:${OPENCAST_HOME}/system/org/opencastproject/matterhorn-db/${OPENCAST_VERSION}/matterhorn-db-${OPENCAST_VERSION}.jar" \
+    TryToConnectToDb \
+    "${driver}" \
+    "${url}" \
+    "${user}" \
+    "${password}" \
+    "${NUMER_OF_TIMES_TRYING_TO_CONNECT_TO_DB}"
+}

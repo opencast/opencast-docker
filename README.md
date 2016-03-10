@@ -143,6 +143,11 @@ For an installation with multiple nodes you can also set:
 * `ORG_OPENCASTPROJECT_DB_DDL_GENERATION` Optional  
   Specifies whether to Opencast should create the database tables or not. It defaults to `false`. In case of `HSQL` it is always set to `true`.
 
+* `NUMER_OF_TIMES_TRYING_TO_CONNECT_TO_DB` Optional  
+  Specifies how often it is tried to connect to the specified database before
+  giving up. Between each try 5 seconds will be waited. This has only an effect
+  if the database is not HSQL. The default is 25.
+
 ### HSQL
 
 There are no additional environment variables you can set for HSQL.

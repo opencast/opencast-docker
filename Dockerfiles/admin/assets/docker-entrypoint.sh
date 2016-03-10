@@ -65,6 +65,7 @@ case ${1} in
     ;;
   app:start)
     Opencast::Main::Init
+    Opencast::DB::TryToConnect
     Opencast::Main::Start
     ;;
   app:print:activemq.xml)

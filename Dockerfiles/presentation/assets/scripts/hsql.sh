@@ -36,6 +36,10 @@ Opencast::HSQL::Configure() {
     "ORG_OPENCASTPROJECT_DB_DDL_GENERATION"
 }
 
+Opencast::HSQL::TryToConnect() {
+  echo "Run Opencast::HSQL::TryToConnect"
+}
+
 Opencast::HSQL::PrintDDL() {
   echo "-- Database for HSQL is created automatically"
 }
