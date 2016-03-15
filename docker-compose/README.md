@@ -49,16 +49,16 @@ The different opencast nodes need a way to talk to each other, so that the
 relaying of the different workflow operations works correctly.
 
 The first (and usual) approach to that would be to use the hostnames of the
-containers for those URLs (i.e. `PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL`). If you
+containers for those URLs (e.g. `PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL`). If you
 do so, the links to the engage UI that will be generated from the admin UI will
 use those URLs, too. The engage UI as well will try to link the media with one
-of those provided URLs. If you know try to open those in a browser on your host,
+of those provided URLs. If you now try to open those in a browser on your host,
 it will fail to resolve the hostname. This is because the hostnames are only
-known to the containers themselves, internally, but not for your host, which is
+known to the containers themselves, internally, but not to your host, which is
 external to this environment.
 
 The implemented solution is to agree on a hostname or IP address which is
-available and resolvable both internally and externally. The complete
+reachable and resolvable both internally and externally. The complete
 communication between the nodes will then be routed via this point (hence the
 `EXPORT` on ports `8081` and `8082`). `docker-compose` does not provide a
 (known) way of doing this automatically, so the user needs to find such a
