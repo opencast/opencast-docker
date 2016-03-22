@@ -52,7 +52,7 @@ In `./docker-compose` there are also compose files for more production-like setu
 
 # Distributions
 
-Opencast comes in different distributions. For each of the official distribution there is a specific Docker image tag. `latest` is the same as `allinone`. In addition each version is tagged and concatenated with the distribution. For example the full image name containing the `admin` distribution at version `2.1.1` is `learnweb/opencast:admin-2.1.1`. Leaving the version out will install the latest one.
+Opencast comes in different distributions. For each of the official distributions there is a specific Docker image tag. `latest` is the same as `allinone`. In addition each version is tagged and concatenated with the distribution. For example the full image name containing the `admin` distribution at version `2.1.1` is `learnweb/opencast:admin-2.1.1`. Leaving the version out will install the latest one.
 
 ## `allinone`
 
@@ -103,7 +103,7 @@ $ docker cp opencast_generate_config:/opencast/etc opencast-config
 $ docker rm opencast_generate_config
 ```
 
-Make sure to use the correct Opencast distribution as there are slide differences.
+Make sure to use the correct Opencast distribution as there are small differences.
 
 ## Opencast
 
@@ -139,18 +139,17 @@ For an installation with multiple nodes you can also set:
 ## Database
 
 * `ORG_OPENCASTPROJECT_DB_VENDOR` Optional  
-  The type of database to use. Currently you set this to either `HSQL` or `MySQL`. The default is `HSQL`.
+  The type of database to use. Currently you can set this to either `HSQL` or `MySQL`. The default is `HSQL`.
 * `ORG_OPENCASTPROJECT_DB_DDL_GENERATION` Optional  
-  Specifies whether to Opencast should create the database tables or not. It defaults to `false`. In case of `HSQL` it is always set to `true`.
+  Specifies whether Opencast should create the database tables or not. It defaults to `false`. In case of `HSQL` it is always set to `true`.
 
 * `NUMER_OF_TIMES_TRYING_TO_CONNECT_TO_DB` Optional  
-  Specifies how often it is tried to connect to the specified database before
-  giving up. Between each try 5 seconds will be waited. This has only an effect
-  if the database is not HSQL. The default is 25.
+  Specifies how often Opencast is going to try to connect to the specified database before
+  giving up. The waiting time between tries is 5 seconds. The default number of tries is 25. This configuration only applies if the database is not HSQL.
 
 ### HSQL
 
-There are no additional environment variables you can set for HSQL.
+There are no additional environment variables you can set if you are using the HSQL database.
 
 ### MySQL
 
