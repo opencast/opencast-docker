@@ -11,8 +11,8 @@ Usage:
 $ docker-compose -f docker-compose.allinone.hsql.yml up
 ```
 
-This setup starts a simple allinone opencast distribution with a Apache ActiveMQ
-Server and the internal HSQL Database.
+This setup starts a simple allinone Opencast distribution with an Apache
+ActiveMQ Server and the internal HSQL Database.
 
 ## AllInOne, MariaDB
 
@@ -21,20 +21,20 @@ Usage:
 $ docker-compose -f docker-compose.allinone.mariadb.yml up
 ```
 
-This setup starts a simple allinone opencast distribution with a Apache ActiveMQ
-server and a external MariaDB server.
+This setup starts a simple allinone Opencast distribution with an Apache
+ActiveMQ server and an external MariaDB server.
 
 ## Multiserver, MariaDB
 
-This setup is a little bit more complicated. Because the opencast nodes
-need to talk to each other, but also provide a externally known address for the
+This setup is a little bit more complicated. Because the Opencast nodes
+need to talk to each other, but also provide an externally known address for the
 engage interface, we first have to supply a valid hostname or IP address for the
 host on which those containers are running. A simple `localhost` or `127.0.0.1`
 will _not_ work.
 
 Usage:
 ```sh
-# set a environment variable with a valid IP address, e.g. 10.25.40.2
+# set an environment variable with a valid IP address, e.g. 10.25.40.2
 $ export HOSTIP=10.25.40.2
 # start the system with docker-compose, which will now know this IP address.
 $ docker-compose -f docker-compose.multiserver.mariadb.yml
@@ -45,7 +45,7 @@ $ docker-compose -f docker-compose.multiserver.mariadb.yml
 If you have the time and want to know what exactly happens in this example, let
 me explain:
 
-The different opencast nodes need a way to talk to each other, so that the
+The different Opencast nodes need a way to talk to each other, so that the
 relaying of the different workflow operations works correctly.
 
 The first (and usual) approach to that would be to use the hostnames of the
@@ -62,6 +62,6 @@ reachable and resolvable both internally and externally. The complete
 communication between the nodes will then be routed via this point (hence the
 `EXPORT` on ports `8081` and `8082`). `docker-compose` does not provide a
 (known) way of doing this automatically, so the user needs to find such a
-suitable hostname or IP address themselves and export it to a environment
+suitable hostname or IP address themselves and export it to an environment
 variable. This environment variable is then used in the docker-compose file to
 build valid URLs that fulfill the special requirements.
