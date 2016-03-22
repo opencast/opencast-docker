@@ -17,6 +17,7 @@
 set -e
 
 ORG_OPENCASTPROJECT_ADMIN_EMAIL="${ORG_OPENCASTPROJECT_ADMIN_EMAIL:-admin@localhost}"
+ORG_OPENCASTPROJECT_DOWNLOAD_URL="${ORG_OPENCASTPROJECT_DOWNLOAD_URL:-\$\{org.opencastproject.server.url\}}"
 
 if Opencast::Helper::Dist::allinone; then
   ORG_OPENCASTPROJECT_FILE_REPO_URL='${org.opencastproject.server.url}'
@@ -50,7 +51,8 @@ Opencast::Opencast::Configure() {
     "ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS" \
     "ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER" \
     "ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS" \
-    "ORG_OPENCASTPROJECT_FILE_REPO_URL"
+    "ORG_OPENCASTPROJECT_FILE_REPO_URL" \
+    "ORG_OPENCASTPROJECT_DOWNLOAD_URL"
 
   if ! Opencast::Helper::Dist::allinone; then
     Opencast::Helper::ReplaceInfile "etc/org.opencastproject.organization-mh_default_org.cfg" \
