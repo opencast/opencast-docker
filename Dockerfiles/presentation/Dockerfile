@@ -19,7 +19,7 @@ ENV OPENCAST_VERSION="2.1.1" \
     OPENCAST_DISTRIBUTION="presentation" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
-    OPENCAST_STORAGE="/data/opencast" \
+    OPENCAST_DATA="/data" \
     OPENCAST_CUSTOM_CONFIG="/etc/opencast" \
     OPENCAST_USER="opencast" \
     OPENCAST_GROUP="opencast" \
@@ -53,10 +53,10 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # Opencast
-RUN mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_STORAGE}" "${OPENCAST_SCRIPTS}" \
+RUN mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" "${OPENCAST_SCRIPTS}" \
  && groupadd -r "${OPENCAST_GROUP}" -g "${OPENCAST_GID}" \
  && useradd -r -g "${OPENCAST_GROUP}" -d "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
- && chown "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_STORAGE}"
+ && chown "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_DATA}"
 
 RUN cd "${OPENCAST_SRC}" \
  && curl -sSL "${OPENCAST_URL}" | tar -xj --strip 1 -C . \
@@ -67,6 +67,7 @@ RUN cd "${OPENCAST_SRC}" \
 
 COPY assets/scripts/* "${OPENCAST_SCRIPTS}/"
 COPY assets/etc/* "${OPENCAST_CONFIG}/"
+COPY assets/etc/index/adminui/settings.yml "${OPENCAST_CONFIG}/index/adminui/"
 RUN javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
  && chown -R "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_CONFIG}"
 
@@ -74,7 +75,7 @@ USER "${OPENCAST_USER}"
 WORKDIR "${OPENCAST_HOME}"
 
 EXPOSE 8080
-VOLUME [ "${OPENCAST_STORAGE}" ]
+VOLUME [ "${OPENCAST_DATA}" ]
 
 COPY assets/docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]

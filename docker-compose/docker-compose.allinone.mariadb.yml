@@ -13,6 +13,8 @@
 # limitations under the License.
 
 version: "2"
+volumes:
+  data: {}
 services:
   mariadb:
     image: mariadb:latest
@@ -53,3 +55,5 @@ services:
       - ACTIVEMQ_BROKER_PASSWORD=password
     ports:
       - "8080:8080"
+    volumes:
+      - data:/data

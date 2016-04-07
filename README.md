@@ -15,7 +15,7 @@
     - [Database](#database)
         - [HSQL](#hsql)
         - [MySQL](#mysql)
-- [Storage](#storage)
+- [Data](#data)
 - [References](#references)
 
 # Introduction
@@ -160,9 +160,9 @@ There are no additional environment variables you can set if you are using the H
 * `ORG_OPENCASTPROJECT_DB_JDBC_PASS` **Required**  
   Password of the database user.
 
-# Storage
+# Data
 
-The storage directory is located at `/data/opencast`. Use [Docker Volumes](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems) to mount this directory on your host.
+The data directory is located at `/data`. Use [Docker Volumes](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems) to mount this directory on your host.
 
 # References
 
