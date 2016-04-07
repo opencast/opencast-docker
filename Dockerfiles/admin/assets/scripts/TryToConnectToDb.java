@@ -68,7 +68,7 @@ public class TryToConnectToDb {
       if (failed && i < numberOfTries) {
         Thread.sleep(SLEEP_TIME);
       } else if (!failed) {
-        System.out.println("SUCCEED");
+        System.out.println("SUCCEEDED");
       }
     }
 
