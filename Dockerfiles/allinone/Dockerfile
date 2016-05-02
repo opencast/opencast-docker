@@ -63,7 +63,7 @@ RUN cd "${OPENCAST_SRC}" \
  && mvn --quiet --batch-mode clean install -DskipTests=true -Dcheckstyle.skip=true \
  && tar -xzf "build/opencast-dist-${OPENCAST_DISTRIBUTION}-${OPENCAST_VERSION}.tar.gz" --strip 1 -C "${OPENCAST_HOME}" \
  && chown -R "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_HOME}" \
- && rm -rf "${OPENCAST_SRC}" /tmp/*
+ && rm -rf "${OPENCAST_SRC}" /tmp/* ~/.npm ~/.node-gyp
 
 COPY assets/scripts/* "${OPENCAST_SCRIPTS}/"
 COPY assets/etc/* "${OPENCAST_CONFIG}/"
