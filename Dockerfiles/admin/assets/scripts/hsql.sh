@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Copyright 2016 The WWU eLectures Team All rights reserved.
 #
@@ -16,30 +16,30 @@
 
 set -e
 
-Opencast::HSQL::Check() {
-  echo "Run Opencast::HSQL::Check"
+opencast_hsql_check() {
+  echo "Run opencast_hsql_check"
 
-  ORG_OPENCASTPROJECT_DB_DDL_GENERATION="true"
+  export ORG_OPENCASTPROJECT_DB_DDL_GENERATION="true"
 }
 
-Opencast::HSQL::Configure() {
-  echo "Run Opencast::HSQL::Configure"
+opencast_hsql_configure() {
+  echo "Run opencast_hsql_configure"
 
-  Opencast::Helper::DeleteInfile "etc/custom.properties" \
+  opencast_helper_deleteinfile "etc/custom.properties" \
     "ORG_OPENCASTPROJECT_DB_VENDOR" \
     "ORG_OPENCASTPROJECT_DB_JDBC_DRIVER" \
     "ORG_OPENCASTPROJECT_DB_JDBC_URL" \
     "ORG_OPENCASTPROJECT_DB_JDBC_USER" \
     "ORG_OPENCASTPROJECT_DB_JDBC_PASS"
 
-  Opencast::Helper::ReplaceInfile "etc/custom.properties" \
+  opencast_helper_replaceinfile "etc/custom.properties" \
     "ORG_OPENCASTPROJECT_DB_DDL_GENERATION"
 }
 
-Opencast::HSQL::TryToConnect() {
-  echo "Run Opencast::HSQL::TryToConnect"
+opencast_hsql_trytoconnect() {
+  echo "Run opencast_hsql_trytoconnect"
 }
 
-Opencast::HSQL::PrintDDL() {
+opencast_hsql_printddl() {
   echo "-- Database for HSQL is created automatically"
 }
