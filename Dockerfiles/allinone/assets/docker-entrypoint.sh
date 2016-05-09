@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Copyright 2016 The WWU eLectures Team All rights reserved.
 #
@@ -16,63 +16,71 @@
 
 set -e
 
-source "${OPENCAST_SCRIPTS}/helper.sh"
-source "${OPENCAST_SCRIPTS}/opencast.sh"
-source "${OPENCAST_SCRIPTS}/activemq.sh"
-source "${OPENCAST_SCRIPTS}/db.sh"
-source "${OPENCAST_SCRIPTS}/hsql.sh"
-source "${OPENCAST_SCRIPTS}/jdbc.sh"
-source "${OPENCAST_SCRIPTS}/mysql.sh"
+# shellcheck source=./scripts/helper.sh
+. "${OPENCAST_SCRIPTS}/helper.sh"
+# shellcheck source=./scripts/opencast.sh
+. "${OPENCAST_SCRIPTS}/opencast.sh"
+# shellcheck source=./scripts/activemq.sh
+. "${OPENCAST_SCRIPTS}/activemq.sh"
+# shellcheck source=./scripts/db.sh
+. "${OPENCAST_SCRIPTS}/db.sh"
+# shellcheck source=./scripts/hsql.sh
+. "${OPENCAST_SCRIPTS}/hsql.sh"
+# shellcheck source=./scripts/jdbc.sh
+. "${OPENCAST_SCRIPTS}/jdbc.sh"
+# shellcheck source=./scripts/mysql.sh
+. "${OPENCAST_SCRIPTS}/mysql.sh"
 
-Opencast::Main::Check() {
-  echo "Run Opencast::Main::Check"
 
-  Opencast::Opencast::Check
-  Opencast::ActiveMQ::Check
-  Opencast::DB::Check
+opencast_main_check() {
+  echo "Run opencast_main_check"
+
+  opencast_opencast_check
+  opencast_activemq_check
+  opencast_db_check
 }
 
-Opencast::Main::Configure() {
-  echo "Run Opencast::Main::Configure"
+opencast_main_configure() {
+  echo "Run opencast_main_configure"
 
-  Opencast::Opencast::Configure
-  Opencast::ActiveMQ::Configure
-  Opencast::DB::Configure
+  opencast_opencast_configure
+  opencast_activemq_configure
+  opencast_db_configure
 }
 
-Opencast::Main::Init() {
-  echo "Run Opencast::Main::Init"
+opencast_main_init() {
+  echo "Run opencast_main_init"
 
-  if Opencast::Helper::CustomConfig; then
+  if opencast_helper_customconfig; then
     echo "Found custom config in ${OPENCAST_CUSTOM_CONFIG}"
-    echo "Run Opencast::Helper::CopyCustomConfig"
-    Opencast::Helper::CopyCustomConfig
+    echo "Run opencast_helper_copycustomconfig"
+    opencast_helper_copycustomconfig
   else
     echo "No custom config found"
-    Opencast::Main::Check
-    Opencast::Main::Configure
+    opencast_main_check
+    opencast_main_configure
   fi
 }
 
-Opencast::Main::Start() {
-  echo "Run Opencast::Main::Start"
+opencast_main_start() {
+  echo "Run opencast_main_start"
   exec "bin/start-opencast" "server"
 }
 
 case ${1} in
   app:init)
-    Opencast::Main::Init
+    opencast_main_init
     ;;
   app:start)
-    Opencast::Main::Init
-    Opencast::DB::TryToConnect
-    Opencast::Main::Start
+    opencast_main_init
+    opencast_db_trytoconnect
+    opencast_main_start
     ;;
   app:print:activemq.xml)
-    Opencast::ActiveMQ::PrintActivemq.xml
+    opencast_activemq_printactivemqxml
     ;;
   app:print:dll)
-    Opencast::DB::PrintDDL
+    opencast_db_print_ddl
     ;;
   app:help)
     echo "Usage:"
