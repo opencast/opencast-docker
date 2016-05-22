@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM maven:3-jdk-8
-MAINTAINER WWU eLectures team <dev.learnweb@uni-muenster.de>
+FROM java:8-jdk-alpine
+MAINTAINER WWU eLectures team <electures.dev@uni-muenster.de>
 
 ENV OPENCAST_VERSION="2.1.2" \
     OPENCAST_DISTRIBUTION="allinone" \
@@ -24,46 +24,67 @@ ENV OPENCAST_VERSION="2.1.2" \
     OPENCAST_USER="opencast" \
     OPENCAST_GROUP="opencast" \
     OPENCAST_UID="800" \
-    OPENCAST_GID="800"
+    OPENCAST_GID="800" \
+    \
+    TESSERACT_URL="https://github.com/tesseract-ocr/tessdata/archive/master.tar.gz" \
+    TESSERACT_LANG="-name 'eng*' -o -name 'deu*'" \
+    \
+    HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries" \
+    HUNSPELL_LANG="\
+59141b649996af61271b7e832d8772d02c1fa9d074be1308ad444a8ccb42c987 de_DE_comb.zip\n\
+01f0ff4200b475248fa62540c374eb3854725cebfeb416e137f2352f80e15fdb en_GB.zip\
+    "
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
-    OPENCAST_URL="https://bitbucket.org/opencast-community/matterhorn/get/${OPENCAST_VERSION}.tar.bz2"
+    OPENCAST_URL="https://bitbucket.org/opencast-community/matterhorn/get/${OPENCAST_VERSION}.tar.gz"
 
-# Dependencies
-#   - cURL and bzip2
-#   - FFmpeg
-#   - MediaInfo
-#   - Sound eXchange (SoX)
-#   - Tesseract Open Source OCR Engine
-#   -   - english
-#   -   - german
-#   - TODO: which languages to include?
-#   - Hunspell
-#   -   - english
-#   -   - german
-#   - TODO: which languages to include?
-RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-      curl bzip2 \
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+ && apk add --no-cache --virtual .build-deps \
+      tar gzip \
+      git \
+      make gcc g++ binutils-gold \
+      maven \
+      python \
+      nodejs \
+  \
+  # Install dependencies
+  #   - FFmpeg
+  #   - Sound eXchange (SoX)
+  #   - Tesseract Open Source OCR Engine
+  #   - Hunspell
+ && apk add --no-cache --virtual .run-deps \
       ffmpeg \
-      mediainfo \
-      sox libsox-fmt-all \
-      tesseract-ocr tesseract-ocr-eng tesseract-ocr-deu \
-      hunspell hunspell-en-us hunspell-de-de \
- && rm -rf /var/lib/apt/lists/*
-
-# Opencast
-RUN mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" "${OPENCAST_SCRIPTS}" \
- && groupadd -r "${OPENCAST_GROUP}" -g "${OPENCAST_GID}" \
- && useradd -r -g "${OPENCAST_GROUP}" -d "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
- && chown "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_DATA}"
-
-RUN cd "${OPENCAST_SRC}" \
- && curl -sSL "${OPENCAST_URL}" | tar -xj --strip 1 -C . \
- && mvn --quiet --batch-mode clean install -DskipTests=true -Dcheckstyle.skip=true \
- && tar -xzf "build/opencast-dist-${OPENCAST_DISTRIBUTION}-${OPENCAST_VERSION}.tar.gz" --strip 1 -C "${OPENCAST_HOME}" \
- && chown -R "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_HOME}" \
- && rm -rf "${OPENCAST_SRC}" /tmp/* ~/.npm ~/.node-gyp
+      sox \
+      tesseract-ocr \
+      hunspell \
+ && mkdir -p /tmp/tessdata /tmp/hunspell \
+ && wget -q -O - "${TESSERACT_URL}" | tar -xz --strip 1 -C /tmp/tessdata \
+ && find /tmp/tessdata -type f $TESSERACT_LANG -exec cp {} /usr/share/tessdata + \
+ && echo -e ${HUNSPELL_LANG} > /tmp/hunspell/SHASUMS256.txt \
+  \
+  # TODO: download hunspell dictionaries
+  \
+  # Compile frontend assets manually as the bundeled node does not run on Alpine
+ && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" "${OPENCAST_SCRIPTS}" \
+ && wget -q -O - "${OPENCAST_URL}" | tar -xz --strip 1 -C "${OPENCAST_SRC}" \
+ && cd "${OPENCAST_SRC}/modules/matterhorn-admin-ui-ng" \
+ && sed -i 's/"grunt-sass":.*/"grunt-sass": "^1.2.0",/g' package.json \
+ && npm install -g npm@2 \
+ && npm install -g grunt \
+ && npm install \
+ && grunt build --no-color --skipTests=true \
+  \
+  # Compile and install Opencast
+ && cd "${OPENCAST_SRC}" \
+ && mvn --quiet --batch-mode install -P '!frontend' -DskipTests=true -Dcheckstyle.skip=true \
+ && tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}" \
+ && addgroup -S -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
+ && adduser -S -D -H -G "${OPENCAST_GROUP}" -h "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
+ && chown -R "${OPENCAST_USER}":"${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" \
+  \
+  # Cleanup
+ && apk del .build-deps \
+ && rm -rf "${OPENCAST_SRC}" /tmp/* ~/.m2 ~/.npm ~/.node-gyp /usr/lib/node_modules
 
 COPY assets/scripts/* "${OPENCAST_SCRIPTS}/"
 COPY assets/etc/* "${OPENCAST_CONFIG}/"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Copyright 2016 The WWU eLectures Team All rights reserved.
 #
@@ -16,15 +16,15 @@
 
 set -e
 
-Opencast::MySQL::Check() {
-  echo "Run Opencast::MySQL::Check"
-  ORG_OPENCASTPROJECT_DB_JDBC_DRIVER="com.mysql.jdbc.Driver"
+opencast_mysql_check() {
+  echo "Run opencast_mysql_check"
+  export ORG_OPENCASTPROJECT_DB_JDBC_DRIVER="com.mysql.jdbc.Driver"
 }
 
-Opencast::MySQL::Configure() {
-  echo "Run Opencast::MySQL::Configure"
+opencast_mysql_configure() {
+  echo "Run opencast_mysql_configure"
 }
 
-Opencast::MySQL::PrintDDL() {
+opencast_mysql_printddl() {
   cat /opencast/docs/scripts/ddl/mysql5.sql
 }

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Copyright 2016 The WWU eLectures Team All rights reserved.
 #
@@ -16,34 +16,36 @@
 
 set -e
 
-Opencast::Helper::Dist::admin() {
+opencast_helper_dist_admin() {
   test "${OPENCAST_DISTRIBUTION}" = "admin"
 }
 
-Opencast::Helper::Dist::allinone() {
+opencast_helper_dist_allinone() {
   test "${OPENCAST_DISTRIBUTION}" = "allinone"
 }
 
-Opencast::Helper::Dist::presentation() {
+opencast_helper_dist_presentation() {
   test "${OPENCAST_DISTRIBUTION}" = "presentation"
 }
 
-Opencast::Helper::Dist::worker() {
+opencast_helper_dist_worker() {
   test "${OPENCAST_DISTRIBUTION}" = "worker"
 }
 
-Opencast::Helper::CustomConfig() {
+opencast_helper_customconfig() {
   test -d "${OPENCAST_CUSTOM_CONFIG}"
 }
 
-Opencast::Helper::CopyCustomConfig() {
+opencast_helper_copycustomconfig() {
   rm -rf "${OPENCAST_CONFIG}"
   cp -r "${OPENCAST_CUSTOM_CONFIG}" "${OPENCAST_CONFIG}"
 }
 
-Opencast::Helper::CheckForVariables() {
+opencast_helper_checkforvariables() {
   for var in "$@"; do
-    if test -z "${!var}"; then
+    eval exp_var="\$${var}"
+    # shellcheck disable=SC2154
+    if test -z "${exp_var}"; then
       echo >&2 "error: missing Opencast ${var} environment variables"
       echo >&2 "  Did you forget to -e ${var}=value ?"
       exit 1
@@ -52,17 +54,18 @@ Opencast::Helper::CheckForVariables() {
 }
 
 # Replaces {{$2...}} with $!2... in file $1
-Opencast::Helper::ReplaceInfile() {
-  local file="$1"
+opencast_helper_replaceinfile() {
+  file="$1"
   shift
   for var in "$@"; do
-    sed -ri "s|[{]{2}${var}[}]{2}|${!var}|g" "${file}"
+    eval exp_var="\$${var}"
+    sed -ri "s|[{]{2}${var}[}]{2}|${exp_var}|g" "${file}"
   done
 }
 
 # Deletes lines containing {{$2...}} in file $1
-Opencast::Helper::DeleteInfile() {
-  local file="$1"
+opencast_helper_deleteinfile() {
+  file="$1"
   shift
   for var in "$@"; do
     sed -ri "/[{]{2}${var}[}]{2}/d" "${file}"
