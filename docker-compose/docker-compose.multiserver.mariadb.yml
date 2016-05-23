@@ -39,7 +39,7 @@ services:
       - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
   opencastadmin:
-    image: learnweb/opencast:admin
+    image: learnweb/opencast:admin-2.1.1
     environment:
       - ORG_OPENCASTPROJECT_SERVER_URL=http://${HOSTIP}:8080
       - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
@@ -61,7 +61,7 @@ services:
       - data:/data
 
   opencastpresentation:
-    image: learnweb/opencast:presentation
+    image: learnweb/opencast:presentation-2.1.1
     environment:
       - ORG_OPENCASTPROJECT_SERVER_URL=http://${HOSTIP}:8081
       - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
@@ -83,7 +83,7 @@ services:
       - data:/data
 
   opencastworker:
-    image: learnweb/opencast:worker
+    image: learnweb/opencast:worker-2.1.1
     environment:
       - ORG_OPENCASTPROJECT_SERVER_URL=http://${HOSTIP}:8082
       - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
