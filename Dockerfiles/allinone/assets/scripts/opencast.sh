@@ -17,7 +17,7 @@
 set -e
 
 ORG_OPENCASTPROJECT_ADMIN_EMAIL="${ORG_OPENCASTPROJECT_ADMIN_EMAIL:-admin@localhost}"
-ORG_OPENCASTPROJECT_DOWNLOAD_URL="${ORG_OPENCASTPROJECT_DOWNLOAD_URL:-\$\{org.opencastproject.server.url\}}"
+ORG_OPENCASTPROJECT_DOWNLOAD_URL="${ORG_OPENCASTPROJECT_DOWNLOAD_URL:-\$\{org.opencastproject.server.url\}/static}"
 
 if Opencast::Helper::Dist::allinone; then
   ORG_OPENCASTPROJECT_FILE_REPO_URL='${org.opencastproject.server.url}'
