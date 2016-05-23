@@ -12,17 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+VERSION=$(shell cat VERSION)
+
 all: build test
 
 build: build-allinone build-admin build-presentation build-worker
 build-allinone:
-	docker build -t learnweb/opencast:allinone Dockerfiles/allinone
+	docker build -t learnweb/opencast:allinone -t learnweb/opencast:allinone-${VERSION} Dockerfiles/allinone
 build-admin:
-	docker build -t learnweb/opencast:admin Dockerfiles/admin
+	docker build -t learnweb/opencast:admin -t learnweb/opencast:admin-${VERSION} Dockerfiles/admin
 build-presentation:
-	docker build -t learnweb/opencast:presentation Dockerfiles/presentation
+	docker build -t learnweb/opencast:presentation -t learnweb/opencast:presentation-${VERSION} Dockerfiles/presentation
 build-worker:
-	docker build -t learnweb/opencast:worker Dockerfiles/worker
+	docker build -t learnweb/opencast:worker -t learnweb/opencast:worker-${VERSION} Dockerfiles/worker
 .PHONY: build build-allinone build-admin build-presentation build-worker
 
 test: test-common test-allinone test-admin test-presentation test-worker
