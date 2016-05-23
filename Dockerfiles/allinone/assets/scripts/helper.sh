@@ -56,7 +56,7 @@ Opencast::Helper::ReplaceInfile() {
   local file="$1"
   shift
   for var in "$@"; do
-    sed -ri "s|[{]{2}${var}[}]{2}|${!var}|g" "${file}"
+    sed -ri "s/[{]{2}${var}[}]{2}/$( echo ${!var} | sed -e 's/[\/&]/\\&/g' )/g" "${file}"
   done
 }
 
