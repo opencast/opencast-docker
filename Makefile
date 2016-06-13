@@ -42,3 +42,7 @@ clean:
 	-docker rmi learnweb/opencast:presentation
 	-docker rmi learnweb/opencast:worker
 .PHONY: clean
+
+lint:
+	cd Dockerfiles/admin/assets; shellcheck --shell=sh --external-sources *.sh ./**/*.sh
+.PHONY: lint

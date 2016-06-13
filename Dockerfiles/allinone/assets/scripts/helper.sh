@@ -59,7 +59,7 @@ opencast_helper_replaceinfile() {
   shift
   for var in "$@"; do
     eval exp_var="\$${var}"
-    sed -ri "s/[{]{2}${var}[}]{2}/$( echo ${exp_var} | sed -e 's/[\/&]/\\&/g' )/g" "${file}"
+    sed -ri "s/[{]{2}${var}[}]{2}/$( echo "${exp_var}" | sed -e 's/[\/&]/\\&/g' )/g" "${file}"
   done
 }
 

@@ -26,10 +26,17 @@ env:
   - OPENCAST_DISTRIBUTION=worker
 
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get -qq install docker
   - docker info
+
+  - echo "deb http://archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
+  - sudo apt-get -qq update
+  - sudo apt-get -qq install shellcheck
+  - shellcheck --version
+
   - git clone https://github.com/sstephenson/bats.git /tmp/bats
   - sudo /tmp/bats/install.sh /usr/local
+  - bats --version
 install: make "build-${OPENCAST_DISTRIBUTION}"
-script: make test-common "test-${OPENCAST_DISTRIBUTION}"
+script:
+  - make lint
+  - make test-common "test-${OPENCAST_DISTRIBUTION}"
