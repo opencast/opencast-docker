@@ -27,6 +27,22 @@ load test_helper
   [ "${status}" -eq 0 ]
 }
 
+@test "all Dockerfiles should be the same" {
+  allinone=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_ALLINONE}/Dockerfile")
+  admin=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_ADMIN}/Dockerfile")
+  presentation=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_PRESENTATION}/Dockerfile")
+  worker=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_WORKER}/Dockerfile")
+
+  run test "${allinone}" = "${admin}"
+  [ "${status}" -eq 0 ]
+
+  run test "${allinone}" = "${presentation}"
+  [ "${status}" -eq 0 ]
+
+  run test "${allinone}" = "${worker}"
+  [ "${status}" -eq 0 ]
+}
+
 @test "all scripts should be the same" {
   run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_ADMIN}/assets/scripts"
   [ "${status}" -eq 0 ]
