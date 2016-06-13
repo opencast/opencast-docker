@@ -110,7 +110,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
  && make install \
   \
   # Install languag files for tesseract and hunspell
- && mkdir -p /tmp/tesseract /tmp/hunspell /usr/share/hunspell /usr/share/tesseract \
+ && mkdir -p /tmp/tesseract /tmp/hunspell /usr/share/hunspell /usr/share/tessdata \
  && echo -e ${TESSERACT_LANG} > /tmp/tesseract-sha256sum.txt \
  && echo -e ${HUNSPELL_LANG} > /tmp/hunspell-sha256sum.txt \
   \
@@ -120,7 +120,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
  && for file in $(awk '{print $2}' /tmp/tesseract-sha256sum.txt); do \
       wget -O "${file}" "${TESSERACT_BASE_URL}/${file}"; \
       grep "${file}" /tmp/tesseract-sha256sum.txt | sha256sum -c -; \
-      cp "${file}" /usr/share/tesseract; \
+      cp "${file}" /usr/share/tessdata; \
     done \
  && cd /tmp/hunspell \
  && for file in $(awk '{print $2}' /tmp/hunspell-sha256sum.txt); do \
