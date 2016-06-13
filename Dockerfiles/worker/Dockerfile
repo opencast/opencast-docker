@@ -73,6 +73,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
   #   - Tesseract Open Source OCR Engine
   #   - Hunspell
  && apk add --no-cache --virtual .run-deps \
+      openssl \
       ffmpeg \
       sox \
       hunspell \
