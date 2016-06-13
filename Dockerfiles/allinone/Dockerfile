@@ -136,8 +136,8 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
  && wget -O - "${OPENCAST_URL}" | tar -xz --strip 1 -C "${OPENCAST_SRC}" \
  && cd "${OPENCAST_SRC}/modules/matterhorn-admin-ui-ng" \
  && sed -i 's/"grunt-sass":.*/"grunt-sass": "^1.2.0",/g' package.json \
- && npm install -g npm@2 \
- && npm install -g grunt \
+ && npm install -g npm \
+ && npm install -g grunt-cli \
  && npm install \
  && grunt build --no-color --skipTests=true \
   \
