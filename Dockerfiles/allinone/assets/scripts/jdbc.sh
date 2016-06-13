@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Copyright 2016 The WWU eLectures Team All rights reserved.
 #
@@ -16,12 +16,12 @@
 
 set -e
 
-Opencast::JDBC::Check() {
-  echo "Run Opencast::JDBC::Check"
+opencast_jdbc_check() {
+  echo "Run opencast_jdbc_check"
 
   ORG_OPENCASTPROJECT_DB_DDL_GENERATION="${ORG_OPENCASTPROJECT_DB_DDL_GENERATION:-false}"
 
-  Opencast::Helper::CheckForVariables \
+  opencast_helper_checkforvariables \
     "ORG_OPENCASTPROJECT_DB_DDL_GENERATION" \
     "ORG_OPENCASTPROJECT_DB_JDBC_DRIVER" \
     "ORG_OPENCASTPROJECT_DB_JDBC_URL" \
@@ -29,10 +29,10 @@ Opencast::JDBC::Check() {
     "ORG_OPENCASTPROJECT_DB_JDBC_PASS"
 }
 
-Opencast::JDBC::Configure() {
-  echo "Run Opencast::JDBC::Configure"
+opencast_jdbc_configure() {
+  echo "Run opencast_jdbc_configure"
 
-  Opencast::Helper::ReplaceInfile "etc/custom.properties" \
+  opencast_helper_replaceinfile "etc/custom.properties" \
     "ORG_OPENCASTPROJECT_DB_VENDOR" \
     "ORG_OPENCASTPROJECT_DB_DDL_GENERATION" \
     "ORG_OPENCASTPROJECT_DB_JDBC_DRIVER" \
@@ -41,8 +41,8 @@ Opencast::JDBC::Configure() {
     "ORG_OPENCASTPROJECT_DB_JDBC_PASS"
 }
 
-Opencast::JDBC::TryToConnect() {
-  echo "Run Opencast::JDBC::TryToConnect"
+opencast_jdbc_trytoconnect() {
+  echo "Run opencast_jdbc_trytoconnect"
 
   driver=$(awk -F "=" '/org\.opencastproject\.db\.jdbc\.driver/ {print $2}' etc/custom.properties | tr -d ' ')
   url=$(awk -F "=" '/org\.opencastproject\.db\.jdbc\.url/ {print $2}' etc/custom.properties | tr -d ' ')
