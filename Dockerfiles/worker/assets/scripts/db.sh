@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Copyright 2016 The WWU eLectures Team All rights reserved.
 #
@@ -19,16 +19,16 @@ set -e
 ORG_OPENCASTPROJECT_DB_VENDOR="${ORG_OPENCASTPROJECT_DB_VENDOR:-HSQL}"
 NUMER_OF_TIMES_TRYING_TO_CONNECT_TO_DB="${NUMER_OF_TIMES_TRYING_TO_CONNECT_TO_DB:-25}"
 
-Opencast::DB::Check() {
-  echo "Run Opencast::DB::Check"
+opencast_db_check() {
+  echo "Run opencast_db_check"
 
   case "$ORG_OPENCASTPROJECT_DB_VENDOR" in
     HSQL)
-      Opencast::HSQL::Check
+      opencast_hsql_check
       ;;
     MySQL)
-      Opencast::MySQL::Check
-      Opencast::JDBC::Check
+      opencast_mysql_check
+      opencast_jdbc_check
       ;;
     *)
       echo >&2 "error: ${ORG_OPENCASTPROJECT_DB_VENDOR} is currently not supported as database vendor"
@@ -37,16 +37,16 @@ Opencast::DB::Check() {
   esac
 }
 
-Opencast::DB::Configure() {
-  echo "Run Opencast::DB::Configure"
+opencast_db_configure() {
+  echo "Run opencast_db_configure"
 
   case "$ORG_OPENCASTPROJECT_DB_VENDOR" in
     HSQL)
-      Opencast::HSQL::Configure
+      opencast_hsql_configure
       ;;
     MySQL)
-      Opencast::MySQL::Configure
-      Opencast::JDBC::Configure
+      opencast_mysql_configure
+      opencast_jdbc_configure
       ;;
     *)
       echo >&2 "error: ${ORG_OPENCASTPROJECT_DB_VENDOR} is currently not supported as database vendor"
@@ -55,15 +55,15 @@ Opencast::DB::Configure() {
   esac
 }
 
-Opencast::DB::TryToConnect() {
-  echo "Run Opencast::DB::TryToConnect"
+opencast_db_trytoconnect() {
+  echo "Run opencast_db_trytoconnect"
 
   case "$ORG_OPENCASTPROJECT_DB_VENDOR" in
     HSQL)
-      Opencast::HSQL::TryToConnect
+      opencast_hsql_trytoconnect
       ;;
     MySQL)
-      Opencast::JDBC::TryToConnect
+      opencast_jdbc_trytoconnect
       ;;
     *)
       echo >&2 "error: ${ORG_OPENCASTPROJECT_DB_VENDOR} is currently not supported as database vendor"
@@ -72,15 +72,15 @@ Opencast::DB::TryToConnect() {
   esac
 }
 
-Opencast::DB::PrintDDL() {
+opencast_db_printddl() {
   echo "-- Created with Opencast version ${OPENCAST_VERSION}"
   echo
   case "$ORG_OPENCASTPROJECT_DB_VENDOR" in
     HSQL)
-      Opencast::HSQL::PrintDDL
+      opencast_hsql_printddl
       ;;
     MySQL)
-      Opencast::MySQL::PrintDDL
+      opencast_mysql_printddl
       ;;
     *)
       echo >&2 "error: ${ORG_OPENCASTPROJECT_DB_VENDOR} is currently not supported as database vendor"

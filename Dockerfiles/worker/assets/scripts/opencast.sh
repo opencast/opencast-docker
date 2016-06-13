@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Copyright 2016 The WWU eLectures Team All rights reserved.
 #
@@ -19,15 +19,17 @@ set -e
 ORG_OPENCASTPROJECT_ADMIN_EMAIL="${ORG_OPENCASTPROJECT_ADMIN_EMAIL:-admin@localhost}"
 ORG_OPENCASTPROJECT_DOWNLOAD_URL="${ORG_OPENCASTPROJECT_DOWNLOAD_URL:-\$\{org.opencastproject.server.url\}/static}"
 
-if Opencast::Helper::Dist::allinone; then
-  ORG_OPENCASTPROJECT_FILE_REPO_URL='${org.opencastproject.server.url}'
+if opencast_helper_dist_allinone; then
+  # shellcheck disable=SC2016
+  export ORG_OPENCASTPROJECT_FILE_REPO_URL='${org.opencastproject.server.url}'
 else
-  ORG_OPENCASTPROJECT_FILE_REPO_URL='${org.opencastproject.admin.ui.url}'
+  # shellcheck disable=SC2016
+  export ORG_OPENCASTPROJECT_FILE_REPO_URL='${org.opencastproject.admin.ui.url}'
 fi
 
-Opencast::Opencast::Check() {
-  echo "Run Opencast::Opencast::Check"
-  Opencast::Helper::CheckForVariables \
+opencast_opencast_check() {
+  echo "Run opencast_opencast_check"
+  opencast_helper_checkforvariables \
     "ORG_OPENCASTPROJECT_SERVER_URL" \
     "ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER" \
     "ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS" \
@@ -35,16 +37,16 @@ Opencast::Opencast::Check() {
     "ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS" \
     "ORG_OPENCASTPROJECT_FILE_REPO_URL"
 
-  if ! Opencast::Helper::Dist::allinone; then
-    Opencast::Helper::CheckForVariables \
+  if ! opencast_helper_dist_allinone; then
+    opencast_helper_checkforvariables \
       "PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL" \
       "PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL"
   fi
 }
 
-Opencast::Opencast::Configure() {
-  echo "Run Opencast::Opencast::Configure"
-  Opencast::Helper::ReplaceInfile "etc/custom.properties" \
+opencast_opencast_configure() {
+  echo "Run opencast_opencast_configure"
+  opencast_helper_replaceinfile "etc/custom.properties" \
     "ORG_OPENCASTPROJECT_ADMIN_EMAIL" \
     "ORG_OPENCASTPROJECT_SERVER_URL" \
     "ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER" \
@@ -54,8 +56,8 @@ Opencast::Opencast::Configure() {
     "ORG_OPENCASTPROJECT_FILE_REPO_URL" \
     "ORG_OPENCASTPROJECT_DOWNLOAD_URL"
 
-  if ! Opencast::Helper::Dist::allinone; then
-    Opencast::Helper::ReplaceInfile "etc/org.opencastproject.organization-mh_default_org.cfg" \
+  if ! opencast_helper_dist_allinone; then
+    opencast_helper_replaceinfile "etc/org.opencastproject.organization-mh_default_org.cfg" \
       "PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL" \
       "PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL"
   fi

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Copyright 2016 The WWU eLectures Team All rights reserved.
 #
@@ -16,25 +16,25 @@
 
 set -e
 
-Opencast::ActiveMQ::Check() {
-  echo "Run Opencast::ActiveMQ::Check"
+opencast_activemq_check() {
+  echo "Run opencast_activemq_check"
 
-  Opencast::Helper::CheckForVariables \
+  opencast_helper_checkforvariables \
     "ACTIVEMQ_BROKER_URL" \
     "ACTIVEMQ_BROKER_USERNAME" \
     "ACTIVEMQ_BROKER_PASSWORD"
 }
 
-Opencast::ActiveMQ::Configure() {
-  echo "Run Opencast::ActiveMQ::Configure"
+opencast_activemq_configure() {
+  echo "Run opencast_activemq_configure"
 
-  Opencast::Helper::ReplaceInfile "etc/custom.properties" \
+  opencast_helper_replaceinfile "etc/custom.properties" \
     "ACTIVEMQ_BROKER_URL" \
     "ACTIVEMQ_BROKER_USERNAME" \
     "ACTIVEMQ_BROKER_PASSWORD"
 }
 
-Opencast::ActiveMQ::PrintActivemq.xml() {
+opencast_activemq_printactivemqxml() {
   # TODO: read env variables and add config for jaasAuthenticationPlugin
   cat /opencast/docs/scripts/activemq/activemq.xml
 }
