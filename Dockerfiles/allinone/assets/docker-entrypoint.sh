@@ -80,7 +80,7 @@ case ${1} in
     opencast_activemq_printactivemqxml
     ;;
   app:print:dll)
-    opencast_db_print_ddl
+    opencast_db_printddl
     ;;
   app:help)
     echo "Usage:"
