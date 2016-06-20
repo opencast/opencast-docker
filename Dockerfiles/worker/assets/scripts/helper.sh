@@ -39,6 +39,7 @@ opencast_helper_customconfig() {
 opencast_helper_copycustomconfig() {
   rm -rf "${OPENCAST_CONFIG}"
   cp -r "${OPENCAST_CUSTOM_CONFIG}" "${OPENCAST_CONFIG}"
+  chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_CONFIG}"
 }
 
 opencast_helper_checkforvariables() {

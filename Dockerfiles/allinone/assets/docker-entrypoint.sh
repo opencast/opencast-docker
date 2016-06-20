@@ -64,7 +64,7 @@ opencast_main_init() {
 
 opencast_main_start() {
   echo "Run opencast_main_start"
-  exec "bin/start-opencast" "server"
+  su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast server
 }
 
 case ${1} in
