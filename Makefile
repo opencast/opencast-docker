@@ -14,7 +14,7 @@
 
 VERSION=$(shell cat VERSION)
 
-all: build test
+all: lint build test
 
 build: build-allinone build-admin build-presentation build-worker
 build-allinone:
@@ -44,5 +44,5 @@ clean:
 .PHONY: clean
 
 lint:
-	cd Dockerfiles/admin/assets; shellcheck --shell=sh --external-sources *.sh ./**/*.sh
+	cd Dockerfiles/admin/assets && shellcheck --shell=sh --external-sources *.sh ./**/*.sh
 .PHONY: lint
