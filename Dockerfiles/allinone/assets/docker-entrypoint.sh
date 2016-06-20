@@ -18,6 +18,8 @@ set -e
 
 # shellcheck source=./scripts/helper.sh
 . "${OPENCAST_SCRIPTS}/helper.sh"
+# shellcheck source=./scripts/tz.sh
+. "${OPENCAST_SCRIPTS}/tz.sh"
 # shellcheck source=./scripts/opencast.sh
 . "${OPENCAST_SCRIPTS}/opencast.sh"
 # shellcheck source=./scripts/activemq.sh
@@ -50,6 +52,8 @@ opencast_main_configure() {
 
 opencast_main_init() {
   echo "Run opencast_main_init"
+
+  opencast_tz_set
 
   if opencast_helper_customconfig; then
     echo "Found custom config in ${OPENCAST_CUSTOM_CONFIG}"
