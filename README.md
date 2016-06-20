@@ -15,16 +15,18 @@
     - [Database](#database)
         - [HSQL](#hsql)
         - [MySQL](#mysql)
+    - [Miscellaneous](#miscellaneous)
 - [Data](#data)
+- [Languages](#languages)
 - [References](#references)
 
 # Introduction
 
-This repository holds `Dockerfiles` for creating [Opencast](http://www.opencast.org/) Docker container images.
+This repository holds `Dockerfiles` for creating [Opencast](http://www.opencast.org/) Docker images.
 
 # Installation
 
-All container images are available on [Docker Hub](https://hub.docker.com/r/learnweb/opencast/). To install the image simply pull the distribution you want:
+All images are available on [Docker Hub](https://hub.docker.com/r/learnweb/opencast/). To install the image simply pull the distribution you want:
 
 ```sh
 $ docker pull "learnweb/opencast:<distribution>"
@@ -53,7 +55,7 @@ In the `./docker-compose` directory there are also compose files for more produc
 
 # Distributions
 
-Opencast comes in different distributions. For each of the official distributions there is a specific Docker image tag. `latest` is the same as `allinone`. In addition each version is tagged and concatenated with the distribution. For example the full image name containing the `admin` distribution at version `2.1.2` is `learnweb/opencast:admin-2.1.2`. Leaving the version out will install the latest one.
+Opencast comes in different distributions. For each of the official distributions there is a specific Docker image tag. `latest` is the same as `allinone`. In addition each version is tagged and concatenated with the distribution. For example the full image name containing the `admin` distribution at version `2.2.0` is `learnweb/opencast:admin-2.2.0`. Leaving the version out will install the latest one.
 
 ## `allinone`
 
@@ -86,8 +88,7 @@ It's recommended to configure Opencast by using [Docker Volumes](https://docs.do
 $ docker run -v "/path/to/opencast-etc:/etc/opencast" learnweb/opencast:<distribution>
 ```
 
-The most important settings however can be configured by [environment variables](https://docs.docker.com/engine/reference/run/#env-environment-variables). You can use this functionally to generate new configuration files. For this start a new container with specific variables and execute the `app:init` command. This will
-ensure you haven't missed anything, write the configuration files and exit. Then you can copy the files to a target folder:
+The most important settings however can be configured by [environment variables](https://docs.docker.com/engine/reference/run/#env-environment-variables). You can use this functionally to generate new configuration files. For this start a new container with specific variables and execute the `app:init` command. This will ensure you haven't missed anything, write the configuration files and exit. Then you can copy the files to a target directory:
 
 ```sh
 $ docker run --name opencast_generate_config \
@@ -145,10 +146,8 @@ For an installation with multiple nodes you can also set:
   The type of database to use. Currently you can set this to either `HSQL` or `MySQL`. The default is `HSQL`.
 * `ORG_OPENCASTPROJECT_DB_DDL_GENERATION` Optional  
   Specifies whether Opencast should create the database tables or not. It defaults to `false`. In case of `HSQL` it is always set to `true`.
-
 * `NUMER_OF_TIMES_TRYING_TO_CONNECT_TO_DB` Optional  
-  Specifies how often Opencast is going to try to connect to the specified database before
-  giving up. The waiting time between tries is 5 seconds. The default number of tries is 25. This configuration only applies if the database is not HSQL.
+  Specifies how often Opencast is going to try to connect to the specified database before giving up. The waiting time between tries is 5 seconds. The default number of tries is 25. This configuration only applies if the database is not HSQL.
 
 ### HSQL
 
@@ -163,9 +162,18 @@ There are no additional environment variables you can set if you are using the H
 * `ORG_OPENCASTPROJECT_DB_JDBC_PASS` **Required**  
   Password of the database user.
 
+## Miscellaneous
+
+* `TIMEZONE` Optional  
+  Set the timezone within the container. Valid timezones are represented by files in `/usr/share/zoneinfo/`, for example `Europe/Berlin`. The default is `UTC`.
+
 # Data
 
 The data directory is located at `/data`. Use [Docker Volumes](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems) to mount this directory on your host.
+
+# Languages
+
+Opencast makes use of [Tesseract](https://github.com/tesseract-ocr/tesseract) to recognize text in videos (ORC) and [Hunspell](https://hunspell.github.io/) to identify spelling mistakes. For this both need additional files namely [traningsdata](https://github.com/tesseract-ocr/tessdata) and [dictionaries](http://download.services.openoffice.org/contrib/dictionaries) respectively. These images come with files for the English and German language. If you need other or more languages you can use Docker Volumes to mount them in the appropriate directories `/usr/share/tessdata` and `/usr/share/hunspell`.
 
 # References
 
