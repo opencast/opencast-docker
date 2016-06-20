@@ -38,5 +38,9 @@ before_install:
   - bats --version
 install: make "build-${OPENCAST_DISTRIBUTION}"
 script:
-  - make lint
+  # TODO: replace with make lint once shellcheck is available in a newer version
+  - >
+      cd Dockerfiles/admin/assets
+      && shellcheck --shell=sh --exclude=SC1072,SC1073 *.sh ./**/*.sh
+      && cd -
   - make test-common "test-${OPENCAST_DISTRIBUTION}"
