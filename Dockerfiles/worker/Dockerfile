@@ -35,6 +35,7 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk add --no-cache --virtual .build-deps \
       tar gzip \
+      git \
       make gcc g++ binutils-gold \
       maven \
       python \
