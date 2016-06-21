@@ -17,7 +17,7 @@ volumes:
   data: {}
 services:
   mariadb:
-    image: mariadb:10.1
+    image: mariadb:10.0
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=opencast
