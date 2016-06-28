@@ -7,7 +7,7 @@
 - [Quick Start](#quick-start)
 - [Distributions](#distributions)
     - [`allinone`](#allinone)
-    - [`admin`, `worker` and `presentation`](#admin-worker-and-presentation)
+    - [## `admin`, `worker`, `adminworker`, `ingest` and `presentation`](#admin-worker-adminworker-ingest-and-presentation)
 - [Usage](#usage)
 - [Configuration](#configuration)
     - [Opencast](#opencast)
@@ -61,7 +61,7 @@ Opencast comes in different distributions. For each of the official distribution
 
 This image contains all Opencast modules necessary to run a full Opencast installation. It's useful for small and local test setups. If you however want to run Opencast in a distributed fashion, you probably should use a combination of `admin`, `worker` and `presentation` containers.
 
-## `admin`, `worker` and `presentation`
+## `admin`, `worker`, `adminworker`, `ingest` and `presentation`
 
 These images contain the Opencast modules of the corresponding Opencast distributions.
 
@@ -126,9 +126,9 @@ For an installation with multiple nodes you can also set:
 
 * `ORG_OPENCASTPROJECT_FILE_REPO_URL` Optional  
   HTTP-URL of the file repository. Defaults to `${org.opencastproject.server.url}` in the `allinone` distribution and `${org.opencastproject.admin.ui.url}` for every other one.
-* `PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL` **Required**  
+* `PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL` **Required for all but `allinone`**  
   HTTP-URL of the admin node.
-* `PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL` **Required**  
+* `PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL` **Required for all but `allinone`**  
   HTTP-URL of the engage node.
 
 ## ActiveMQ
