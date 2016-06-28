@@ -16,7 +16,7 @@ VERSION=$(shell cat VERSION)
 
 all: lint build test
 
-build: build-allinone build-admin build-presentation build-worker
+build: build-allinone build-admin build-adminworker build-ingest build-presentation build-worker
 build-allinone:
 	docker build \
 		-t learnweb/opencast:allinone \
@@ -47,9 +47,9 @@ build-worker:
 		-t learnweb/opencast:worker \
 		-t learnweb/opencast:worker-${VERSION} \
 		Dockerfiles/worker
-.PHONY: build build-allinone build-admin build-presentation build-worker
+.PHONY: build build-allinone build-admin build-adminworker build-ingest build-presentation build-worker
 
-test: test-common test-allinone test-admin test-presentation test-worker
+test: test-common test-allinone test-admin test-adminworker test-ingest test-presentation test-worker
 test-common:
 	bats test
 test-allinone: build-allinone
@@ -58,7 +58,7 @@ test-adminworker: build-admin
 test-ingest: build-allinone
 test-presentation: build-presentation
 test-worker: build-worker
-.PHONY: test test-common test-allinone test-admin test-presentation test-worker
+.PHONY: test test-common test-allinone test-admin test-adminworker test-ingest test-presentation test-worker
 
 clean:
 	-docker rmi learnweb/opencast:allinone
@@ -67,6 +67,12 @@ clean:
 	-docker rmi learnweb/opencast:ingest
 	-docker rmi learnweb/opencast:presentation
 	-docker rmi learnweb/opencast:worker
+	-docker rmi learnweb/opencast:allinone-${VERSION}
+	-docker rmi learnweb/opencast:admin-${VERSION}
+	-docker rmi learnweb/opencast:adminworker-${VERSION}
+	-docker rmi learnweb/opencast:ingest-${VERSION}
+	-docker rmi learnweb/opencast:presentation-${VERSION}
+	-docker rmi learnweb/opencast:worker-${VERSION}
 .PHONY: clean
 
 lint:
