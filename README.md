@@ -7,7 +7,7 @@
 - [Quick Start](#quick-start)
 - [Distributions](#distributions)
     - [`allinone`](#allinone)
-    - [## `admin`, `worker`, `adminworker`, `ingest` and `presentation`](#admin-worker-adminworker-ingest-and-presentation)
+    - [`admin`, `worker`, `adminworker`, `ingest` and `presentation`](#admin-worker-adminworker-ingest-and-presentation)
 - [Usage](#usage)
 - [Configuration](#configuration)
     - [Opencast](#opencast)
