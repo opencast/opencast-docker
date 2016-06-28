@@ -26,6 +26,7 @@ env:
   - OPENCAST_DISTRIBUTION=ingest
   - OPENCAST_DISTRIBUTION=presentation
   - OPENCAST_DISTRIBUTION=worker
+  - OPENCAST_DISTRIBUTION=build
 
 before_install:
   - docker info

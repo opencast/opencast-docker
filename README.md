@@ -5,9 +5,10 @@
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
-- [Distributions](#distributions)
+- [Images](#images)
     - [`allinone`](#allinone)
     - [`admin`, `worker`, `adminworker`, `ingest` and `presentation`](#admin-worker-adminworker-ingest-and-presentation)
+    - [`build`](#build)
 - [Usage](#usage)
 - [Configuration](#configuration)
     - [Opencast](#opencast)
@@ -53,7 +54,7 @@ This will run Opencast using the `allinone` distribution configured to use the b
 
 In the `./docker-compose` directory there are also compose files for more production-like setups. `docker-compose.allinone.mariadb.yml` uses a MySQL database instead of H2, while `docker-compose.multiserver.mariadb.yml` demonstrates how to connect the different distributions. Replace the compose file in the command above if you want to use them instead. You can find more information about the compose files [here](docker-compose/README.md).
 
-# Distributions
+# Images
 
 Opencast comes in different distributions. For each of the official distributions there is a specific Docker image tag. `latest` is the same as `allinone`. In addition each version is tagged and concatenated with the distribution. For example the full image name containing the `admin` distribution at version `2.2.0` is `learnweb/opencast:admin-2.2.0`. Leaving the version out will install the latest one.
 
@@ -64,6 +65,10 @@ This image contains all Opencast modules necessary to run a full Opencast instal
 ## `admin`, `worker`, `adminworker`, `ingest` and `presentation`
 
 These images contain the Opencast modules of the corresponding Opencast distributions.
+
+## `build`
+
+This images helps you set up a development environment for Opencast. For more information see [here](Dockerfiles/build/README.md).
 
 # Usage
 

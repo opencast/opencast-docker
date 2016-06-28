@@ -73,3 +73,23 @@ load test_helper
   run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_WORKER}/assets/scripts"
   [ "${status}" -eq 0 ]
 }
+
+@test "build image should have the same distribution assets" {
+  run diff -qr "${DOCKERFILES_BUILD}/assets/build/distributions/allinone" "${DOCKERFILES_ALLINONE}/assets"
+  [ "${status}" -eq 0 ]
+
+  run diff -qr "${DOCKERFILES_BUILD}/assets/build/distributions/admin" "${DOCKERFILES_ADMIN}/assets"
+  [ "${status}" -eq 0 ]
+
+  run diff -qr "${DOCKERFILES_BUILD}/assets/build/distributions/adminworker" "${DOCKERFILES_ADMINWORKER}/assets"
+  [ "${status}" -eq 0 ]
+
+  run diff -qr "${DOCKERFILES_BUILD}/assets/build/distributions/ingest" "${DOCKERFILES_INGEST}/assets"
+  [ "${status}" -eq 0 ]
+
+  run diff -qr "${DOCKERFILES_BUILD}/assets/build/distributions/presentation" "${DOCKERFILES_PRESENTATION}/assets"
+  [ "${status}" -eq 0 ]
+
+  run diff -qr "${DOCKERFILES_BUILD}/assets/build/distributions/worker" "${DOCKERFILES_WORKER}/assets"
+  [ "${status}" -eq 0 ]
+}
