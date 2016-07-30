@@ -15,7 +15,7 @@
 FROM java:8-jdk-alpine
 MAINTAINER WWU eLectures team <electures.dev@uni-muenster.de>
 
-ENV OPENCAST_VERSION="2.2.0" \
+ENV OPENCAST_VERSION="2.2.1" \
     OPENCAST_DISTRIBUTION="adminworker" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \

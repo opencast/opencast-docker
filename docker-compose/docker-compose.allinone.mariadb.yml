@@ -39,7 +39,7 @@ services:
       - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
   opencast:
-    image: learnweb/opencast:allinone-2.2.0
+    image: learnweb/opencast:allinone-2.2.1
     environment:
       - ORG_OPENCASTPROJECT_SERVER_URL=http://${HOSTIP}:8080
       - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin

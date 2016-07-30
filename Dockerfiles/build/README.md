@@ -14,4 +14,4 @@ $ docker-compose -p opencast-build -f docker-compose/docker-compose.build.yml ex
 
 ## Getting the Code
 
-Starting with `2.2.0` there will be a `build` image for every release of Opencast. It will know how to build this specific version within the container. While you can use `git` to check out diffrent versions of Opencast, we recommend that with it you then also change the version of the `build` container. To get
+Starting with `2.2.1` there will be a `build` image for every release of Opencast. It will know how to build this specific version within the container. While you can use `git` to check out different versions of Opencast, we recommend that with it you then also change the version of the `build` container. To get
