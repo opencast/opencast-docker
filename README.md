@@ -1,6 +1,6 @@
 # [learnweb/opencast](https://hub.docker.com/r/learnweb/opencast/)
 
-[![Build Status](https://travis-ci.org/learnweb/docker-opencast.svg?branch=master)](https://travis-ci.org/learnweb/docker-opencast) [![](https://images.microbadger.com/badges/version/learnweb/opencast.svg)](https://hub.docker.com/r/learnweb/opencast/) [![](https://images.microbadger.com/badges/image/learnweb/opencast.svg)](http://microbadger.com/images/learnweb/opencast)
+[![Build Status](https://travis-ci.org/learnweb/docker-opencast.svg?branch=master)](https://travis-ci.org/learnweb/docker-opencast) [![](https://images.microbadger.com/badges/version/learnweb/opencast.svg)](https://hub.docker.com/r/learnweb/opencast/) [![](https://images.microbadger.com/badges/image/learnweb/opencast.svg)](https://microbadger.com/images/learnweb/opencast)
 
 - [Introduction](#introduction)
 - [Installation](#installation)
