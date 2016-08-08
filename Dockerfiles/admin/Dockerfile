@@ -39,9 +39,6 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
       make gcc g++ binutils-gold \
       maven \
       python \
-      \
-      # TODO: for tesseract; remove once package is updated
-      automake autoconf libtool \
   \
   # Install dependencies
   #   - FFmpeg
@@ -59,41 +56,11 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
       ffmpeg \
       sox \
       hunspell \
-      \
-      # TODO: for tesseract; remove once package is updated
-      libjpeg-turbo-dev tiff-dev libpng-dev zlib-dev giflib-dev libwebp-dev \
+      tesseract-ocr \
   \
   # TODO: Remove @old repo when http://stackoverflow.com/questions/37450473/cssmin-is-giving-me-path-must-be-a-string-received-undefined is fixed
   && apk add --no-cache --repository "@old http://dl-cdn.alpinelinux.org/alpine/v3.3/main" \
       nodejs@old \
-  # TODO: compile tesseract; remove once package is updated
- && LEPTONICA_VERSION=1.73 \
- && TESSERACT_VERSION=3.04.01 \
- && mkdir -p /tmp/compile/leptonica /tmp/compile/tesseract \
- && cd /tmp/compile \
- && wget -q -O - "http://www.leptonica.com/source/leptonica-${LEPTONICA_VERSION}.tar.gz" | tar -xz --strip 1 -C leptonica \
- && wget -q -O - "https://github.com/tesseract-ocr/tesseract/archive/${TESSERACT_VERSION}.tar.gz" | tar -xz --strip 1 -C tesseract \
- && cd leptonica \
- && ./configure \
-      --prefix=/usr \
-      --sysconfdir=/etc \
-      --mandir=/usr/share/man \
-      --infodir=/usr/share/info \
-      --localstatedir=/var \
- && make \
- && make install \
- && cd ../tesseract/ \
- && ./autogen.sh \
- && ./configure \
-      --prefix=/usr \
-      --sysconfdir=/etc \
-      --mandir=/usr/share/man \
-      --infodir=/usr/share/info \
-      --localstatedir=/var \
-      --disable-static \
-      --disable-graphics \
- && make \
- && make install \
   \
   # Install languag files for tesseract and hunspell
  && mkdir -p /tmp/tesseract /tmp/hunspell /usr/share/tessdata /usr/share/hunspell \
