@@ -57,7 +57,6 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
       sox \
       hunspell \
       tesseract-ocr \
-      \
   \
   # TODO: Remove @old repo when http://stackoverflow.com/questions/37450473/cssmin-is-giving-me-path-must-be-a-string-received-undefined is fixed
   && apk add --no-cache --repository "@old http://dl-cdn.alpinelinux.org/alpine/v3.3/main" \
