@@ -1,3 +1,5 @@
+#!/bin/sh
+#
 # Copyright 2016 The WWU eLectures Team All rights reserved.
 #
 # Licensed under the Educational Community License, Version 2.0
@@ -12,12 +14,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+set -e
 
-DOCKERFILES="${BASEDIR}/Dockerfiles"
-DOCKERFILES_ADMIN="${DOCKERFILES}/admin"
-DOCKERFILES_ADMINWORKER="${DOCKERFILES}/adminworker"
-DOCKERFILES_ALLINONE="${DOCKERFILES}/allinone"
-DOCKERFILES_INGEST="${DOCKERFILES}/ingest"
-DOCKERFILES_PRESENTATION="${DOCKERFILES}/presentation"
-DOCKERFILES_WORKER="${DOCKERFILES}/worker"
+opencast_mysql_check() {
+  echo "Run opencast_mysql_check"
+  export ORG_OPENCASTPROJECT_DB_JDBC_DRIVER="com.mysql.jdbc.Driver"
+}
+
+opencast_mysql_configure() {
+  echo "Run opencast_mysql_configure"
+}
+
+opencast_mysql_printddl() {
+  cat /opencast/docs/scripts/ddl/mysql5.sql
+}
