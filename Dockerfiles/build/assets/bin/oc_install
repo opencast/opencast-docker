@@ -1,0 +1,56 @@
+#!/bin/sh
+#
+# Copyright 2016 The WWU eLectures Team All rights reserved.
+#
+# Licensed under the Educational Community License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License. You may obtain a copy of the License at
+#
+#     http://opensource.org/licenses/ECL-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -e
+
+if test -z "$1"; then
+  log_err "oc_install" "No distribution given as first argument."
+  exit 1
+fi
+
+if ! is_oc_dist "$1"; then
+  log_err "oc_install" "$1 is not an Opencast distribution."
+  exit 1
+fi
+
+if is_oc_installed "$1"; then
+  log_err "oc_install" "There is already an installation. Uninstall first."
+  exit 1
+fi
+
+log "oc_install" "Start installation"
+cd "${OPENCAST_SRC}"
+
+log "oc_install" "Extract archive"
+tar -xzf build/opencast-dist-$1-*.tar.gz --strip 1 -C "${OPENCAST_HOME}"
+
+log "oc_install" "Copy Docker scripts"
+mkdir -p "${OPENCAST_SCRIPTS}"
+cp -r ${OPENCAST_BUILD_ASSETS}/distributions/$1/scripts/* "${OPENCAST_SCRIPTS}/"
+cp "${OPENCAST_BUILD_ASSETS}/distributions/$1/docker-entrypoint.sh" "${OPENCAST_SCRIPTS}/entrypoint.sh"
+javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
+
+log "oc_install" "Copy configuration"
+cp -r ${OPENCAST_BUILD_ASSETS}/distributions/$1/etc/* "${OPENCAST_CONFIG}/"
+cp "${OPENCAST_BUILD_ASSETS}/distributions/$1/etc/index/adminui/settings.yml" "${OPENCAST_CONFIG}/index/adminui/"
+
+log "oc_install" "Write environment file"
+echo "export OPENCAST_DISTRIBUTION=$1" > "${OPENCAST_SCRIPTS}/env"
+
+log "oc_install" "Set permissions"
+chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}"
+
+log "oc_install" "End installation"
