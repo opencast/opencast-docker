@@ -78,7 +78,7 @@ The images come with multiple commands. You can see a full list with description
 $ docker run --rm learnweb/opencast:<distribution> app:help
 Usage:
   app:help                Prints the usage information
-  app:print:dll           Prints SQL commands to set up the database
+  app:print:ddl           Prints SQL commands to set up the database
   app:print:activemq.xml  Prints the configuration for ActiveMQ
   app:init                Checks and configures Opencast but does not run it
   app:start               Starts Opencast
