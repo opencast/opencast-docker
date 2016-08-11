@@ -103,13 +103,23 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
   \
   # Compile front-end assets manually as the bundeled node does not run on Alpine
  && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" "${OPENCAST_SCRIPTS}" \
- && wget -O - "${OPENCAST_URL}" | tar -xz --strip 1 -C "${OPENCAST_SRC}" \
+ && wget -O /tmp/opencast.tar.gz "${OPENCAST_URL}" \
+ && tar -xzf /tmp/opencast.tar.gz --strip 1 -C "${OPENCAST_SRC}" \
  && cd "${OPENCAST_SRC}/modules/matterhorn-admin-ui-ng" \
  && sed -i 's/"grunt-sass":.*/"grunt-sass": "^1.2.0",/g' package.json \
- && npm install -g npm \
- && npm install -g grunt-cli \
- && npm install \
- && grunt build --no-color --skipTests=true \
+ && { \
+      # This is a hack for nodejs tools which seem to be unreliable within Docker Hub and Travis CI.
+      echo '#!/bin/sh'; \
+      echo 'for i in $(seq 1 4); do'; \
+      echo '  "$@" && exit 0'; \
+      echo 'done'; \
+      echo 'exit 1'; \
+    } > /tmp/retry \
+    && chmod +x /tmp/retry \
+ && /tmp/retry npm install -g npm \
+ && /tmp/retry npm install -g grunt-cli \
+ && /tmp/retry npm install \
+ && /tmp/retry grunt build --no-color --skipTests=true \
   \
   # Compile and install Opencast
  && cd "${OPENCAST_SRC}" \

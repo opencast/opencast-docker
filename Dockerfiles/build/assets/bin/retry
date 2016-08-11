@@ -13,21 +13,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# This is a hack for nodejs tools which seem to be unreliable within Docker Hub
+# and Travis CI.
 
-set -e
+# shellcheck disable=SC2034
+for i in $(seq 1 4); do
+  "$@" && exit 0
+done
 
-log "oc_build_frontend" "Start building front-end assets"
-cd "${OPENCAST_SRC}/modules/matterhorn-admin-ui-ng"
-
-log "oc_build_frontend" "Patch package.json for grunt-sass"
-sed -i 's/"grunt-sass":.*/"grunt-sass": "^1.2.0",/g' package.json
-
-log "oc_build_frontend" "Install npm dependencies"
-retry npm install
-
-log "oc_build_frontend" "Building front-end assets"
-# TODO: activcate tests as soon as PhantomJS works on Alpine
-retry grunt build --no-color --skipTests=true
-
-cd "${OPENCAST_SRC}"
-log "oc_build_frontend" "End building front-end assets"
+exit 1
