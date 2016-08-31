@@ -48,12 +48,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
   \
  && apk add --no-cache --virtual .run-deps \
       su-exec openssl tzdata \
-      fontconfig ttf-caladea ttf-cantoraone ttf-carlito ttf-courier-prime \
-      ttf-dejavu ttf-droid ttf-droid-nonlatin ttf-freefont ttf-gelasio \
-      ttf-heuristica ttf-inconsolata ttf-liberation ttf-linux-libertine \
-      ttf-merriweather ttf-merriweather-sans ttf-noto ttf-noto-sans \
-      ttf-noto-serif ttf-opensans ttf-signika-family ttf-symbola \
-      ttf-ubuntu-font-family \
+      fontconfig ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine \
       ffmpeg \
       sox \
       hunspell \
