@@ -28,22 +28,21 @@ env:
   - OPENCAST_DISTRIBUTION=worker
   - OPENCAST_DISTRIBUTION=build
 
+addons:
+  apt:
+    sources:
+      - debian-sid
+    packages:
+      - shellcheck
+
 before_install:
-  - docker info
-
-  - echo "deb http://archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
-  - sudo apt-get -qq update
-  - sudo apt-get -qq install shellcheck
-  - shellcheck --version
-
   - git clone https://github.com/sstephenson/bats.git /tmp/bats
   - sudo /tmp/bats/install.sh /usr/local
+
+  - docker info
+  - shellcheck --version
   - bats --version
 install: make "build-${OPENCAST_DISTRIBUTION}"
 script:
-  # TODO: replace with make lint once shellcheck is available in a newer version
-  - >
-      cd Dockerfiles/admin/assets
-      && shellcheck --shell=sh --exclude=SC1072,SC1073 *.sh ./**/*.sh
-      && cd -
+  - make lint
   - make test-common "test-${OPENCAST_DISTRIBUTION}"
