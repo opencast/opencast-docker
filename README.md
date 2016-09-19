@@ -1,6 +1,6 @@
 # [learnweb/opencast](https://hub.docker.com/r/learnweb/opencast/)
 
-[![Build Status](https://travis-ci.org/learnweb/docker-opencast.svg?branch=master)](https://travis-ci.org/learnweb/docker-opencast) [![](https://images.microbadger.com/badges/version/learnweb/opencast.svg)](https://hub.docker.com/r/learnweb/opencast/) [![](https://images.microbadger.com/badges/image/learnweb/opencast.svg)](https://microbadger.com/images/learnweb/opencast)
+[![Build Status](https://travis-ci.org/learnweb/opencast-docker.svg?branch=master)](https://travis-ci.org/learnweb/opencast-docker) [![](https://images.microbadger.com/badges/version/learnweb/opencast.svg)](https://hub.docker.com/r/learnweb/opencast/) [![](https://images.microbadger.com/badges/image/learnweb/opencast.svg)](https://microbadger.com/images/learnweb/opencast)
 
 - [Introduction](#introduction)
 - [Installation](#installation)
@@ -182,6 +182,6 @@ Opencast makes use of [Tesseract](https://github.com/tesseract-ocr/tesseract) to
 
 # References
 
-* [Project site](https://github.com/learnweb/docker-opencast)
+* [Project site](https://github.com/learnweb/opencast-docker)
 * [Opencast documentation](https://docs.opencast.org/latest/admin/)
 * [Images on Docker Hub](https://hub.docker.com/r/learnweb/opencast/)
