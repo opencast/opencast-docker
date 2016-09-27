@@ -48,8 +48,9 @@ opencast_jdbc_trytoconnect() {
   url=$(awk -F "=" '/org\.opencastproject\.db\.jdbc\.url/ {print $2}' etc/custom.properties | tr -d ' ')
   user=$(awk -F "=" '/org\.opencastproject\.db\.jdbc\.user/ {print $2}' etc/custom.properties | tr -d ' ')
   password=$(awk -F "=" '/org\.opencastproject\.db\.jdbc\.pass/ {print $2}' etc/custom.properties | tr -d ' ')
+  db_jar=$(find "${OPENCAST_HOME}/system/org/opencastproject" -name 'matterhorn-db-*.jar')
 
-  java -cp "${OPENCAST_SCRIPTS}:${OPENCAST_HOME}/system/org/opencastproject/matterhorn-db/${OPENCAST_VERSION}/matterhorn-db-${OPENCAST_VERSION}.jar" \
+  java -cp "${OPENCAST_SCRIPTS}:${db_jar}" \
     TryToConnectToDb \
     "${driver}" \
     "${url}" \
