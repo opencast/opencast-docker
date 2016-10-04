@@ -35,7 +35,8 @@ ENV OPENCAST_VERSION="2.2.2" \
     OPENCAST_BUILD_ASSETS="/docker"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
-    OPENCAST_URL="https://bitbucket.org/opencast-community/matterhorn.git"
+    OPENCAST_REPO="https://bitbucket.org/opencast-community/matterhorn.git" \
+    OPENCAST_BRANCH="${OPENCAST_VERSION}"
 
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \

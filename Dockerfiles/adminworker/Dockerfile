@@ -30,7 +30,8 @@ ENV OPENCAST_VERSION="2.2.2" \
     HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
-    OPENCAST_URL="https://bitbucket.org/opencast-community/matterhorn/get/${OPENCAST_VERSION}.tar.gz"
+    OPENCAST_REPO="https://bitbucket.org/opencast-community/matterhorn.git" \
+    OPENCAST_BRANCH="${OPENCAST_VERSION}"
 
 RUN { \
      # This is a hack for tools which seem to be unreliable within Docker Hub and Travis CI.
@@ -108,8 +109,7 @@ RUN { \
   \
   # Download Opencast
  && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" "${OPENCAST_SCRIPTS}" \
- && wget -O /tmp/opencast.tar.gz "${OPENCAST_URL}" \
- && /tmp/retry tar -xzf /tmp/opencast.tar.gz --strip 1 -C "${OPENCAST_SRC}" \
+ && git clone --recursive --depth 1 "${OPENCAST_REPO}" "${OPENCAST_SRC}" -b "${OPENCAST_BRANCH}" \
   \
   # Compile front-end assets manually as the bundeled node does not run on Alpine
  && cd "${OPENCAST_SRC}/modules/matterhorn-admin-ui-ng" \
