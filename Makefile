@@ -13,44 +13,45 @@
 # limitations under the License.
 
 VERSION=$(shell cat VERSION)
+IMAGE=learnweb/opencast
 
 all: lint build test
 
 build: build-allinone build-admin build-adminworker build-ingest build-presentation build-worker build-build
 build-allinone:
 	docker build \
-		-t learnweb/opencast:allinone \
-		-t learnweb/opencast:allinone-${VERSION} \
+		-t ${IMAGE}:allinone \
+		-t ${IMAGE}:allinone-${VERSION} \
 		Dockerfiles/allinone
 build-admin:
 	docker build \
-		-t learnweb/opencast:admin \
-		-t learnweb/opencast:admin-${VERSION} \
+		-t ${IMAGE}:admin \
+		-t ${IMAGE}:admin-${VERSION} \
 		Dockerfiles/admin
 build-adminworker:
 	docker build \
-		-t learnweb/opencast:adminworker \
-		-t learnweb/opencast:adminworker-${VERSION} \
+		-t ${IMAGE}:adminworker \
+		-t ${IMAGE}:adminworker-${VERSION} \
 		Dockerfiles/adminworker
 build-ingest:
 	docker build \
-		-t learnweb/opencast:ingest \
-		-t learnweb/opencast:ingest-${VERSION} \
+		-t ${IMAGE}:ingest \
+		-t ${IMAGE}:ingest-${VERSION} \
 		Dockerfiles/ingest
 build-presentation:
 	docker build \
-		-t learnweb/opencast:presentation \
-		-t learnweb/opencast:presentation-${VERSION} \
+		-t ${IMAGE}:presentation \
+		-t ${IMAGE}:presentation-${VERSION} \
 		Dockerfiles/presentation
 build-worker:
 	docker build \
-		-t learnweb/opencast:worker \
-		-t learnweb/opencast:worker-${VERSION} \
+		-t ${IMAGE}:worker \
+		-t ${IMAGE}:worker-${VERSION} \
 		Dockerfiles/worker
 build-build:
 	docker build \
-		-t learnweb/opencast:build \
-		-t learnweb/opencast:build-${VERSION} \
+		-t ${IMAGE}:build \
+		-t ${IMAGE}:build-${VERSION} \
 		Dockerfiles/build
 .PHONY: build build-allinone build-admin build-adminworker build-ingest build-presentation build-worker build-build
 
@@ -67,20 +68,20 @@ test-build: build-build
 .PHONY: test test-common test-allinone test-admin test-adminworker test-ingest test-presentation test-worker test-build
 
 clean:
-	-docker rmi learnweb/opencast:allinone
-	-docker rmi learnweb/opencast:admin
-	-docker rmi learnweb/opencast:adminworker
-	-docker rmi learnweb/opencast:ingest
-	-docker rmi learnweb/opencast:presentation
-	-docker rmi learnweb/opencast:worker
-	-docker rmi learnweb/opencast:build
-	-docker rmi learnweb/opencast:allinone-${VERSION}
-	-docker rmi learnweb/opencast:admin-${VERSION}
-	-docker rmi learnweb/opencast:adminworker-${VERSION}
-	-docker rmi learnweb/opencast:ingest-${VERSION}
-	-docker rmi learnweb/opencast:presentation-${VERSION}
-	-docker rmi learnweb/opencast:worker-${VERSION}
-	-docker rmi learnweb/opencast:build-${VERSION}
+	-docker rmi ${IMAGE}:allinone
+	-docker rmi ${IMAGE}:admin
+	-docker rmi ${IMAGE}:adminworker
+	-docker rmi ${IMAGE}:ingest
+	-docker rmi ${IMAGE}:presentation
+	-docker rmi ${IMAGE}:worker
+	-docker rmi ${IMAGE}:build
+	-docker rmi ${IMAGE}:allinone-${VERSION}
+	-docker rmi ${IMAGE}:admin-${VERSION}
+	-docker rmi ${IMAGE}:adminworker-${VERSION}
+	-docker rmi ${IMAGE}:ingest-${VERSION}
+	-docker rmi ${IMAGE}:presentation-${VERSION}
+	-docker rmi ${IMAGE}:worker-${VERSION}
+	-docker rmi ${IMAGE}:build-${VERSION}
 .PHONY: clean
 
 lint:
