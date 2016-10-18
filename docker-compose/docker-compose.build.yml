@@ -30,7 +30,7 @@ services:
       - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
   opencast:
-    image: learnweb/opencast:build-2.2.2
+    image: learnweb/opencast:build-2.2.3
     tty: true
     stdin_open: true
     environment:
