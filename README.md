@@ -4,6 +4,7 @@
 
 - [Introduction](#introduction)
 - [Installation](#installation)
+- [Build](#build)
 - [Quick Start](#quick-start)
 - [Images](#images)
     - [`allinone`](#allinone)
@@ -39,7 +40,18 @@ To install a specific version, use the following command:
 $ docker pull "learnweb/opencast:<distribution>-<version>"
 ```
 
-If you want to build the images yourself, there is a `Makefile` with the necessary `docker build` commands for all distributions. Running `make` in the root directory will create these images.
+# Build
+
+If you want to build the images yourself, there is a `Makefile` with the necessary `docker build` commands for all distributions. Running `make` in the root directory will create these images. To customize the build you can override these variables:
+
+* `DOCKER_REPO`  
+  The fist part of the image name. It defaults to `learnweb/opencast` and will be extended by the name of the Opencast distribution.
+* `DOCKER_TAG`  
+  The tag of the image. Defaults to the content of `VERSION`.
+* `REPO`  
+  The git repository to clone Opencast from. The default is the upstream repository, but you can use your own fork.
+* `BRANCH`  
+  The name of the git branch to check out.
 
 # Quick Start
 
