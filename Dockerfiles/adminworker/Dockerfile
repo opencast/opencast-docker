@@ -15,6 +15,9 @@
 FROM java:8-jdk-alpine
 MAINTAINER WWU eLectures team <electures.dev@uni-muenster.de>
 
+ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
+ARG branch="2.2.3"
+
 ENV OPENCAST_VERSION="2.2.3" \
     OPENCAST_DISTRIBUTION="adminworker" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -30,8 +33,8 @@ ENV OPENCAST_VERSION="2.2.3" \
     HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
-    OPENCAST_REPO="https://bitbucket.org/opencast-community/matterhorn.git" \
-    OPENCAST_BRANCH="${OPENCAST_VERSION}"
+    OPENCAST_REPO="${repo}" \
+    OPENCAST_BRANCH="${branch}"
 
 RUN { \
      # This is a hack for tools which seem to be unreliable within Docker Hub and Travis CI.

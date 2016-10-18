@@ -15,6 +15,9 @@
 FROM java:8-jdk-alpine
 MAINTAINER WWU eLectures team <electures.dev@uni-muenster.de>
 
+ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
+ARG branch="2.2.3"
+
 ENV OPENCAST_VERSION="2.2.3" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
@@ -35,8 +38,8 @@ ENV OPENCAST_VERSION="2.2.3" \
     OPENCAST_BUILD_ASSETS="/docker"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
-    OPENCAST_REPO="https://bitbucket.org/opencast-community/matterhorn.git" \
-    OPENCAST_BRANCH="${OPENCAST_VERSION}"
+    OPENCAST_REPO="${repo}" \
+    OPENCAST_BRANCH="${branch}"
 
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
