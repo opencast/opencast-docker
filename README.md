@@ -1,6 +1,6 @@
-# [learnweb/opencast](https://hub.docker.com/r/learnweb/opencast/)
+# [Opencast Docker images](https://hub.docker.com/r/opencast/)
 
-[![Build Status](https://travis-ci.org/learnweb/opencast-docker.svg?branch=master)](https://travis-ci.org/learnweb/opencast-docker) [![](https://images.microbadger.com/badges/version/learnweb/opencast.svg)](https://hub.docker.com/r/learnweb/opencast/) [![](https://images.microbadger.com/badges/image/learnweb/opencast.svg)](https://microbadger.com/images/learnweb/opencast)
+[![Build Status](https://travis-ci.org/opencast/opencast-docker.svg?branch=master)](https://travis-ci.org/opencast/opencast-docker) [![](https://images.microbadger.com/badges/version/opencast/allinone.svg)](https://hub.docker.com/r/opencast/allinone/) [![](https://images.microbadger.com/badges/image/opencast/allinone.svg)](https://microbadger.com/images/opencast/allinone)
 
 - [Introduction](#introduction)
 - [Installation](#installation)
@@ -28,24 +28,24 @@ This repository holds `Dockerfiles` for creating [Opencast](http://www.opencast.
 
 # Installation
 
-All images are available on [Docker Hub](https://hub.docker.com/r/learnweb/opencast/). To install the image simply pull the distribution you want:
+All images are available on [Docker Hub](https://hub.docker.com/r/opencast/). To install the image simply pull the distribution you want:
 
 ```sh
-$ docker pull "learnweb/opencast:<distribution>"
+$ docker pull "opencast/<distribution>"
 ```
 
 To install a specific version, use the following command:
 
 ```sh
-$ docker pull "learnweb/opencast:<distribution>-<version>"
+$ docker pull "opencast/<distribution>:<version>"
 ```
 
 # Build
 
 If you want to build the images yourself, there is a `Makefile` with the necessary `docker build` commands for all distributions. Running `make` in the root directory will create these images. To customize the build you can override these variables:
 
-* `DOCKER_REPO`  
-  The fist part of the image name. It defaults to `learnweb/opencast` and will be extended by the name of the Opencast distribution.
+* `DOCKER_IMAGE_BASE`  
+  The fist part of the image name. It defaults to `opencast` and will be extended by the name of the Opencast distribution.
 * `DOCKER_TAG`  
   The tag of the image. Defaults to the content of `VERSION`.
 * `REPO`  
@@ -68,7 +68,7 @@ In the `./docker-compose` directory there are also compose files for more produc
 
 # Images
 
-Opencast comes in different distributions. For each of the official distributions there is a specific Docker image tag. `latest` is the same as `allinone`. In addition each version is tagged and concatenated with the distribution. For example the full image name containing the `admin` distribution at version `2.2.3` is `learnweb/opencast:admin-2.2.3`. Leaving the version out will install the latest one.
+Opencast comes in different distributions. For each of the official distributions there is a specific Docker image. Each version is tagged. For example the full image name containing the `admin` distribution at version `2.2.3` is `opencast/admin:2.2.3`. Leaving the version out will install the latest one.
 
 ## `allinone`
 
@@ -87,7 +87,7 @@ This images helps you set up a development environment for Opencast. For more in
 The images come with multiple commands. You can see a full list with description by running:
 
 ```sh
-$ docker run --rm learnweb/opencast:<distribution> app:help
+$ docker run --rm opencast/<distribution> app:help
 Usage:
   app:help                Prints the usage information
   app:print:ddl           Prints SQL commands to set up the database
@@ -102,7 +102,7 @@ Usage:
 It's recommended to configure Opencast by using [Docker Volumes](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems):
 
 ```sh
-$ docker run -v "/path/to/opencast-etc:/etc/opencast" learnweb/opencast:<distribution>
+$ docker run -v "/path/to/opencast-etc:/etc/opencast" opencast/<distribution>
 ```
 
 The most important settings however can be configured by [environment variables](https://docs.docker.com/engine/reference/run/#env-environment-variables). You can use this functionally to generate new configuration files. For this start a new container with specific variables and execute the `app:init` command. This will ensure you haven't missed anything, write the configuration files and exit. Then you can copy the files to a target directory:
@@ -117,7 +117,7 @@ $ docker run --name opencast_generate_config \
   -e "ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast" \
   -e "ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account" \
   -e "ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME" \
-  learnweb/opencast:<distribution> "app:init"
+  opencast/<distribution> "app:init"
 $ docker cp opencast_generate_config:/opencast/etc opencast-config
 $ docker rm opencast_generate_config
 ```
@@ -194,6 +194,6 @@ Opencast makes use of [Tesseract](https://github.com/tesseract-ocr/tesseract) to
 
 # References
 
-* [Project site](https://github.com/learnweb/opencast-docker)
+* [Project site](https://github.com/opencast/opencast-docker)
 * [Opencast documentation](https://docs.opencast.org/latest/admin/)
-* [Images on Docker Hub](https://hub.docker.com/r/learnweb/opencast/)
+* [Images on Docker Hub](https://hub.docker.com/r/opencast/)

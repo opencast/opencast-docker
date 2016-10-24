@@ -1,6 +1,6 @@
-# learnweb/opencast:build
+# opencast/build
 
-In order to help you develop Opencast while sill using Docker containers the `learnweb/opencast:build` image was created.
+In order to help you develop Opencast while sill using Docker containers the `opencast/build` image was created.
 
 ## Quick Start
 

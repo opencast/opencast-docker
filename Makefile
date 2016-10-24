@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-DOCKER_REPO=learnweb/opencast
+DOCKER_IMAGE_BASE=opencast
 DOCKER_TAG=$(shell cat VERSION)
 
 REPO=https://bitbucket.org/opencast-community/matterhorn.git
@@ -25,50 +25,50 @@ build-allinone:
 	docker build \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_REPO):allinone \
-		-t $(DOCKER_REPO):allinone-$(DOCKER_TAG) \
+		-t $(DOCKER_IMAGE_BASE)/allinone \
+		-t $(DOCKER_IMAGE_BASE)/allinone:$(DOCKER_TAG) \
 		Dockerfiles/allinone
 build-admin:
 	docker build \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_REPO):admin \
-		-t $(DOCKER_REPO):admin-$(DOCKER_TAG) \
+		-t $(DOCKER_IMAGE_BASE)/admin \
+		-t $(DOCKER_IMAGE_BASE)/admin:$(DOCKER_TAG) \
 		Dockerfiles/admin
 build-adminworker:
 	docker build \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_REPO):adminworker \
-		-t $(DOCKER_REPO):adminworker-$(DOCKER_TAG) \
+		-t $(DOCKER_IMAGE_BASE)/adminworker \
+		-t $(DOCKER_IMAGE_BASE)/adminworker:$(DOCKER_TAG) \
 		Dockerfiles/adminworker
 build-ingest:
 	docker build \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_REPO):ingest \
-		-t $(DOCKER_REPO):ingest-$(DOCKER_TAG) \
+		-t $(DOCKER_IMAGE_BASE)/ingest \
+		-t $(DOCKER_IMAGE_BASE)/ingest:$(DOCKER_TAG) \
 		Dockerfiles/ingest
 build-presentation:
 	docker build \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_REPO):presentation \
-		-t $(DOCKER_REPO):presentation-$(DOCKER_TAG) \
+		-t $(DOCKER_IMAGE_BASE)/presentation \
+		-t $(DOCKER_IMAGE_BASE)/presentation:$(DOCKER_TAG) \
 		Dockerfiles/presentation
 build-worker:
 	docker build \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_REPO):worker \
-		-t $(DOCKER_REPO):worker-$(DOCKER_TAG) \
+		-t $(DOCKER_IMAGE_BASE)/worker \
+		-t $(DOCKER_IMAGE_BASE)/worker:$(DOCKER_TAG) \
 		Dockerfiles/worker
 build-build:
 	docker build \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_REPO):build \
-		-t $(DOCKER_REPO):build-$(DOCKER_TAG) \
+		-t $(DOCKER_IMAGE_BASE)/build \
+		-t $(DOCKER_IMAGE_BASE)/build:$(DOCKER_TAG) \
 		Dockerfiles/build
 .PHONY: build build-allinone build-admin build-adminworker build-ingest build-presentation build-worker build-build
 
@@ -85,20 +85,20 @@ test-build: build-build
 .PHONY: test test-common test-allinone test-admin test-adminworker test-ingest test-presentation test-worker test-build
 
 clean:
-	-docker rmi $(DOCKER_REPO):allinone
-	-docker rmi $(DOCKER_REPO):admin
-	-docker rmi $(DOCKER_REPO):adminworker
-	-docker rmi $(DOCKER_REPO):ingest
-	-docker rmi $(DOCKER_REPO):presentation
-	-docker rmi $(DOCKER_REPO):worker
-	-docker rmi $(DOCKER_REPO):build
-	-docker rmi $(DOCKER_REPO):allinone-$(DOCKER_TAG)
-	-docker rmi $(DOCKER_REPO):admin-$(DOCKER_TAG)
-	-docker rmi $(DOCKER_REPO):adminworker-$(DOCKER_TAG)
-	-docker rmi $(DOCKER_REPO):ingest-$(DOCKER_TAG)
-	-docker rmi $(DOCKER_REPO):presentation-$(DOCKER_TAG)
-	-docker rmi $(DOCKER_REPO):worker-$(DOCKER_TAG)
-	-docker rmi $(DOCKER_REPO):build-$(DOCKER_TAG)
+	-docker rmi $(DOCKER_IMAGE_BASE)/allinone
+	-docker rmi $(DOCKER_IMAGE_BASE)/admin
+	-docker rmi $(DOCKER_IMAGE_BASE)/adminworker
+	-docker rmi $(DOCKER_IMAGE_BASE)/ingest
+	-docker rmi $(DOCKER_IMAGE_BASE)/presentation
+	-docker rmi $(DOCKER_IMAGE_BASE)/worker
+	-docker rmi $(DOCKER_IMAGE_BASE)/build
+	-docker rmi $(DOCKER_IMAGE_BASE)/allinone:$(DOCKER_TAG)
+	-docker rmi $(DOCKER_IMAGE_BASE)/admin:$(DOCKER_TAG)
+	-docker rmi $(DOCKER_IMAGE_BASE)/adminworker:$(DOCKER_TAG)
+	-docker rmi $(DOCKER_IMAGE_BASE)/ingest:$(DOCKER_TAG)
+	-docker rmi $(DOCKER_IMAGE_BASE)/presentation:$(DOCKER_TAG)
+	-docker rmi $(DOCKER_IMAGE_BASE)/worker:$(DOCKER_TAG)
+	-docker rmi $(DOCKER_IMAGE_BASE)/build:$(DOCKER_TAG)
 .PHONY: clean
 
 lint:
