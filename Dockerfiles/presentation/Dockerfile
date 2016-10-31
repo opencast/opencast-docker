@@ -112,7 +112,9 @@ RUN { \
   \
   # Download Opencast
  && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" "${OPENCAST_SCRIPTS}" \
- && git clone --recursive --depth 1 "${OPENCAST_REPO}" "${OPENCAST_SRC}" -b "${OPENCAST_BRANCH}" \
+ && git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
+ && cd "${OPENCAST_SRC}" \
+ && git checkout "${OPENCAST_BRANCH}" \
   \
   # Compile front-end assets manually as the bundeled node does not run on Alpine
  && cd "${OPENCAST_SRC}/modules/matterhorn-admin-ui-ng" \
