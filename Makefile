@@ -18,6 +18,8 @@ DOCKER_TAG=$(shell cat VERSION)
 REPO=https://bitbucket.org/opencast-community/matterhorn.git
 BRANCH=$(DOCKER_TAG)
 
+CUSTOM_DOCKER_BUILD_ARGS=
+
 all: lint build test
 
 build: build-allinone build-admin build-adminworker build-ingest build-presentation build-worker build-build
@@ -27,6 +29,7 @@ build-allinone:
 		--build-arg branch=$(BRANCH) \
 		-t $(DOCKER_IMAGE_BASE)/allinone \
 		-t $(DOCKER_IMAGE_BASE)/allinone:$(DOCKER_TAG) \
+		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		Dockerfiles/allinone
 build-admin:
 	docker build \
@@ -34,6 +37,7 @@ build-admin:
 		--build-arg branch=$(BRANCH) \
 		-t $(DOCKER_IMAGE_BASE)/admin \
 		-t $(DOCKER_IMAGE_BASE)/admin:$(DOCKER_TAG) \
+		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		Dockerfiles/admin
 build-adminworker:
 	docker build \
@@ -41,6 +45,7 @@ build-adminworker:
 		--build-arg branch=$(BRANCH) \
 		-t $(DOCKER_IMAGE_BASE)/adminworker \
 		-t $(DOCKER_IMAGE_BASE)/adminworker:$(DOCKER_TAG) \
+		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		Dockerfiles/adminworker
 build-ingest:
 	docker build \
@@ -48,6 +53,7 @@ build-ingest:
 		--build-arg branch=$(BRANCH) \
 		-t $(DOCKER_IMAGE_BASE)/ingest \
 		-t $(DOCKER_IMAGE_BASE)/ingest:$(DOCKER_TAG) \
+		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		Dockerfiles/ingest
 build-presentation:
 	docker build \
@@ -55,6 +61,7 @@ build-presentation:
 		--build-arg branch=$(BRANCH) \
 		-t $(DOCKER_IMAGE_BASE)/presentation \
 		-t $(DOCKER_IMAGE_BASE)/presentation:$(DOCKER_TAG) \
+		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		Dockerfiles/presentation
 build-worker:
 	docker build \
@@ -62,6 +69,7 @@ build-worker:
 		--build-arg branch=$(BRANCH) \
 		-t $(DOCKER_IMAGE_BASE)/worker \
 		-t $(DOCKER_IMAGE_BASE)/worker:$(DOCKER_TAG) \
+		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		Dockerfiles/worker
 build-build:
 	docker build \
@@ -69,6 +77,7 @@ build-build:
 		--build-arg branch=$(BRANCH) \
 		-t $(DOCKER_IMAGE_BASE)/build \
 		-t $(DOCKER_IMAGE_BASE)/build:$(DOCKER_TAG) \
+		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		Dockerfiles/build
 .PHONY: build build-allinone build-admin build-adminworker build-ingest build-presentation build-worker build-build
 

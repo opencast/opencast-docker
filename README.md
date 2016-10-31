@@ -51,7 +51,9 @@ If you want to build the images yourself, there is a `Makefile` with the necessa
 * `REPO`  
   The git repository to clone Opencast from. The default is the upstream repository, but you can use your own fork.
 * `BRANCH`  
-  The name of the git branch to check out.
+  The name of the git branch to check out. Defaults to the value of `DOCKER_TAG`.
+* `CUSTOM_DOCKER_BUILD_ARGS`  
+  Custom arguments that should be passed to `docker build`, e.g. you can set this to `--no-cache` to force an image build. By default empty.
 
 # Quick Start
 
