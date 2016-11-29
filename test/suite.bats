@@ -31,6 +31,9 @@ load test_helper
 
   run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-entrypoint.sh" "${DOCKERFILES_WORKER}/assets/docker-entrypoint.sh"
   [ "${status}" -eq 0 ]
+
+  run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-entrypoint.sh" "${DOCKERFILES_BUILD}/assets/build/docker-entrypoint.sh"
+  [ "${status}" -eq 0 ]
 }
 
 @test "all Dockerfiles should be the same" {
@@ -72,24 +75,27 @@ load test_helper
 
   run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_WORKER}/assets/scripts"
   [ "${status}" -eq 0 ]
+
+  run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_BUILD}/assets/build/scripts/"
+  [ "${status}" -eq 0 ]
 }
 
 @test "build image should have the same distribution assets" {
-  run diff -qr "${DOCKERFILES_BUILD}/assets/build/distributions/allinone" "${DOCKERFILES_ALLINONE}/assets"
+  run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/allinone" "${DOCKERFILES_ALLINONE}/assets/etc"
   [ "${status}" -eq 0 ]
 
-  run diff -qr "${DOCKERFILES_BUILD}/assets/build/distributions/admin" "${DOCKERFILES_ADMIN}/assets"
+  run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/admin" "${DOCKERFILES_ADMIN}/assets/etc"
   [ "${status}" -eq 0 ]
 
-  run diff -qr "${DOCKERFILES_BUILD}/assets/build/distributions/adminworker" "${DOCKERFILES_ADMINWORKER}/assets"
+  run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/adminworker" "${DOCKERFILES_ADMINWORKER}/assets/etc"
   [ "${status}" -eq 0 ]
 
-  run diff -qr "${DOCKERFILES_BUILD}/assets/build/distributions/ingest" "${DOCKERFILES_INGEST}/assets"
+  run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/ingest" "${DOCKERFILES_INGEST}/assets/etc"
   [ "${status}" -eq 0 ]
 
-  run diff -qr "${DOCKERFILES_BUILD}/assets/build/distributions/presentation" "${DOCKERFILES_PRESENTATION}/assets"
+  run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/presentation" "${DOCKERFILES_PRESENTATION}/assets/etc"
   [ "${status}" -eq 0 ]
 
-  run diff -qr "${DOCKERFILES_BUILD}/assets/build/distributions/worker" "${DOCKERFILES_WORKER}/assets"
+  run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/worker" "${DOCKERFILES_WORKER}/assets/etc"
   [ "${status}" -eq 0 ]
 }

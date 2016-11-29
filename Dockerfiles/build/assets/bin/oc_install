@@ -39,13 +39,13 @@ tar -xzf build/opencast-dist-$1-*.tar.gz --strip 1 -C "${OPENCAST_HOME}"
 
 log "oc_install" "Copy Docker scripts"
 mkdir -p "${OPENCAST_SCRIPTS}"
-cp -r ${OPENCAST_BUILD_ASSETS}/distributions/$1/scripts/* "${OPENCAST_SCRIPTS}/"
-cp "${OPENCAST_BUILD_ASSETS}/distributions/$1/docker-entrypoint.sh" "${OPENCAST_SCRIPTS}/entrypoint.sh"
+cp -r ${OPENCAST_BUILD_ASSETS}/scripts/* "${OPENCAST_SCRIPTS}/"
+cp "${OPENCAST_BUILD_ASSETS}/docker-entrypoint.sh" "${OPENCAST_SCRIPTS}/entrypoint.sh"
 javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
 log "oc_install" "Copy configuration"
-cp -r ${OPENCAST_BUILD_ASSETS}/distributions/$1/etc/* "${OPENCAST_CONFIG}/"
-cp "${OPENCAST_BUILD_ASSETS}/distributions/$1/etc/index/adminui/settings.yml" "${OPENCAST_CONFIG}/index/adminui/"
+cp -r ${OPENCAST_BUILD_ASSETS}/etc/$1/* "${OPENCAST_CONFIG}/"
+cp "${OPENCAST_BUILD_ASSETS}/etc/$1/index/adminui/settings.yml" "${OPENCAST_CONFIG}/index/adminui/"
 
 log "oc_install" "Write environment file"
 echo "export OPENCAST_DISTRIBUTION=$1" > "${OPENCAST_SCRIPTS}/env"
