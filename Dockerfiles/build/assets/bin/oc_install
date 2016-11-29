@@ -40,7 +40,7 @@ tar -xzf build/opencast-dist-$1-*.tar.gz --strip 1 -C "${OPENCAST_HOME}"
 log "oc_install" "Copy Docker scripts"
 mkdir -p "${OPENCAST_SCRIPTS}"
 cp -r ${OPENCAST_BUILD_ASSETS}/scripts/* "${OPENCAST_SCRIPTS}/"
-cp "${OPENCAST_BUILD_ASSETS}/docker-entrypoint.sh" "${OPENCAST_SCRIPTS}/entrypoint.sh"
+cp "${OPENCAST_BUILD_ASSETS}/docker-entrypoint.sh" "${OPENCAST_SCRIPTS}/docker-entrypoint.sh"
 javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
 log "oc_install" "Copy configuration"

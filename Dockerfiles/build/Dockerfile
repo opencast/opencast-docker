@@ -115,6 +115,6 @@ WORKDIR "${OPENCAST_SRC}"
 EXPOSE 8080
 VOLUME [ "${OPENCAST_DATA}", "${OPENCAST_SRC}", "/root/.m2" ]
 
-COPY assets/docker-entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+COPY assets/docker-entrypoint.sh /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["sh"]

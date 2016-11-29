@@ -137,6 +137,7 @@ RUN { \
  && apk del --no-cache .build-deps \
  && rm -rf "${OPENCAST_SRC}" /tmp/* ~/.m2 ~/.npm ~/.node-gyp /usr/lib/node_modules
 
+COPY assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
 COPY assets/scripts/* "${OPENCAST_SCRIPTS}/"
 COPY assets/etc/* "${OPENCAST_CONFIG}/"
 COPY assets/etc/index/adminui/settings.yml "${OPENCAST_CONFIG}/index/adminui/"
@@ -148,6 +149,6 @@ WORKDIR "${OPENCAST_HOME}"
 EXPOSE 8080
 VOLUME [ "${OPENCAST_DATA}" ]
 
-COPY assets/docker-entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+HEALTHCHECK --timeout=10s CMD /docker-healthcheck.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["app:start"]
