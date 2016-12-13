@@ -18,6 +18,6 @@ set -e
 
 log "oc_install" "Start uninstallation"
 
-rm -rf ${OPENCAST_HOME:?}/* ${OPENCAST_HOME:?}/.*
+rm -rf "${OPENCAST_HOME:?}/*" "${OPENCAST_HOME:?}/.*"
 
 log "oc_install" "End uninstallation"

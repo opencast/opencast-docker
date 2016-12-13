@@ -9,7 +9,7 @@ $ export HOSTIP=<IP address of the Docker host>
 $ export OPENCAST_SRC=</path/to/my/opencast/code>
 
 $ docker-compose -p opencast-build -f docker-compose/docker-compose.build.yml up -d
-$ docker-compose -p opencast-build -f docker-compose/docker-compose.build.yml exec opencast sh
+$ docker-compose -p opencast-build -f docker-compose/docker-compose.build.yml exec opencast bash
 ```
 
 ## Getting the Code

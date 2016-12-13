@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM openjdk:8-jdk-alpine
+FROM fedora:25
 MAINTAINER WWU eLectures team <electures.dev@uni-muenster.de>
 
 ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
@@ -41,27 +41,42 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
- && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
- && apk add --no-cache --virtual .build-deps \
-      tar gzip \
-      git \
-      make gcc g++ binutils-gold \
-      maven \
-      python \
+RUN dnf -y install \
+  "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
+  "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm" \
   \
- && apk add --no-cache --virtual .run-deps \
-      su-exec openssl tzdata \
-      fontconfig ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine \
+  # Build deps
+ && dnf -y install \
+      tar gzip bzip2 unzip \
+      git wget \
+      make automake gcc gcc-c++ \
+      java-1.8.0-openjdk maven \
+      python nodejs \
+  \
+ # && npm install -g npm@2 \
+ # \
+ # && mkdir -p /tmp/phantomjs \
+ # && cd /tmp/phantomjs \
+ # && wget -O phantomjs.tar.bz2 "${PHANTOMJS_URL}" \
+ # && echo "86dd9a4bf4aee45f1a84c9f61cf1947c1d6dce9b9e8d2a907105da7852460d2f  phantomjs.tar.bz2" | sha256sum -c - \
+ # && tar -xjf phantomjs.tar.bz2 --strip 1 \
+ # && cp bin/phantomjs /usr/local/bin/ \
+  \
+  # Run deps
+ && dnf -y install \
+      openssl tzdata \
+      fontconfig dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts \
+      gnu-free-serif-fonts gnu-free-mono-fonts gnu-free-sans-fonts \
+      liberation-fonts linux-libertine-fonts \
       ffmpeg \
       sox \
       hunspell \
-      tesseract-ocr \
+      tesseract \
   \
-  # TODO: Remove @old repo when http://stackoverflow.com/questions/37450473/cssmin-is-giving-me-path-must-be-a-string-received-undefined is fixed
-  && apk add --no-cache --repository "@old http://dl-cdn.alpinelinux.org/alpine/v3.3/main" \
-      nodejs@old \
-  \
+ && git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
+ && cd /tmp/su-exec \
+ && make \
+ && cp su-exec /usr/local/sbin \
   # Install languag files for tesseract and hunspell
  && mkdir -p /tmp/tesseract /tmp/hunspell /usr/share/tessdata /usr/share/hunspell \
  && { \
@@ -100,13 +115,15 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
       unzip "/tmp/hunspell/${file}"; \
     done \
  && cp *.aff *.dic /usr/share/hunspell \
- && npm install -g npm \
- && npm install -g grunt-cli \
- && addgroup -S -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
- && adduser -S -D -H -G "${OPENCAST_GROUP}" -h "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
+ && groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
+ && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
  && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" "${OPENCAST_BUILD_ASSETS}" \
- && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_DATA}"
+ && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" \
+  \
+  # Cleanup
+ && rm -rf /tmp/* /var/cache/dnf /var/log/dnf* /var/log/hawkey.log
 
+COPY assets/docker-entrypoint.sh /docker-entrypoint.sh
 COPY assets/build "${OPENCAST_BUILD_ASSETS}/"
 COPY assets/bin/* "/usr/local/bin/"
 
@@ -115,6 +132,5 @@ WORKDIR "${OPENCAST_SRC}"
 EXPOSE 8080
 VOLUME [ "${OPENCAST_DATA}", "${OPENCAST_SRC}", "/root/.m2" ]
 
-COPY assets/docker-entrypoint.sh /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["sh"]
+CMD ["bash"]

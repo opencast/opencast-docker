@@ -22,5 +22,5 @@ if is_git_repo; then
 fi
 
 cd "${OPENCAST_SRC}"
-git clone "${OPENCAST_REPO}" .
+git clone --recursive "${OPENCAST_REPO}" .
 git checkout "${OPENCAST_BRANCH}"
