@@ -15,8 +15,8 @@
 # limitations under the License.
 
 OPENCAST_API="http://127.0.0.1:8080"
-DIGEST_USER=$(awk -F "=" '/org\.opencastproject\.security\.digest\.user/ {print $2}' etc/custom.properties | tr -d ' ')
-DIGEST_PASSWORD=$(awk -F "=" '/org\.opencastproject\.security\.digest\.pass/ {print $2}' etc/custom.properties | tr -d ' ')
+DIGEST_USER=$(awk -F "=" '/org\.opencastproject\.security\.digest\.user/ {print $2}' "${OPENCAST_CONFIG}/etc/custom.properties" | tr -d ' ')
+DIGEST_PASSWORD=$(awk -F "=" '/org\.opencastproject\.security\.digest\.pass/ {print $2}' "${OPENCAST_CONFIG}/etc/custom.properties" | tr -d ' ')
 
 for ENDPOINT in "services/health" "broker/status"; do
   HTTP_CODE=$(curl \
@@ -30,7 +30,8 @@ for ENDPOINT in "services/health" "broker/status"; do
   )
 
   [           "$?" -eq   0 ] || exit 1
-  [ "${HTTP_CODE}" -eq 204 ] || exit 1
+  [ "${HTTP_CODE}" -ge 200 ] && \
+  [ "${HTTP_CODE}" -lt 300 ] || exit 1
 done
 
 exit 0

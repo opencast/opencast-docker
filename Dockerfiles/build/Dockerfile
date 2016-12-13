@@ -53,18 +53,9 @@ RUN dnf -y install \
       java-1.8.0-openjdk maven \
       python nodejs \
   \
- # && npm install -g npm@2 \
- # \
- # && mkdir -p /tmp/phantomjs \
- # && cd /tmp/phantomjs \
- # && wget -O phantomjs.tar.bz2 "${PHANTOMJS_URL}" \
- # && echo "86dd9a4bf4aee45f1a84c9f61cf1947c1d6dce9b9e8d2a907105da7852460d2f  phantomjs.tar.bz2" | sha256sum -c - \
- # && tar -xjf phantomjs.tar.bz2 --strip 1 \
- # && cp bin/phantomjs /usr/local/bin/ \
-  \
   # Run deps
  && dnf -y install \
-      openssl tzdata \
+      openssl tzdata curl \
       fontconfig dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts \
       gnu-free-serif-fonts gnu-free-mono-fonts gnu-free-sans-fonts \
       liberation-fonts linux-libertine-fonts \
@@ -77,6 +68,7 @@ RUN dnf -y install \
  && cd /tmp/su-exec \
  && make \
  && cp su-exec /usr/local/sbin \
+  \
   # Install languag files for tesseract and hunspell
  && mkdir -p /tmp/tesseract /tmp/hunspell /usr/share/tessdata /usr/share/hunspell \
  && { \

@@ -60,7 +60,7 @@ RUN { \
   #   - Tesseract Open Source OCR Engine
   #   - Hunspell
  && apk add --no-cache --virtual .run-deps \
-      su-exec openssl tzdata \
+      su-exec openssl tzdata curl \
       fontconfig ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine \
       ffmpeg \
       sox \
