@@ -19,6 +19,7 @@ set -e
 for dist in \
     "allinone" \
     "admin" \
+    "adminpresentation" \
     "adminworker" \
     "ingest" \
     "presentation" \

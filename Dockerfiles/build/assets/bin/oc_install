@@ -48,6 +48,7 @@ cp -r ${OPENCAST_BUILD_ASSETS}/support "${OPENCAST_SUPPORT}"
 log "oc_install" "Copy configuration"
 cp -r ${OPENCAST_BUILD_ASSETS}/etc/$1/* "${OPENCAST_CONFIG}/"
 cp "${OPENCAST_BUILD_ASSETS}/etc/$1/index/adminui/settings.yml" "${OPENCAST_CONFIG}/index/adminui/"
+cp "${OPENCAST_BUILD_ASSETS}/etc/$1/index/externalapi/settings.yml" "${OPENCAST_CONFIG}/index/externalapi/"
 
 log "oc_install" "Write environment file"
 echo "export OPENCAST_DISTRIBUTION=$1" > "${OPENCAST_SCRIPTS}/env"

@@ -8,7 +8,7 @@
 - [Quick Start](#quick-start)
 - [Images](#images)
     - [`allinone`](#allinone)
-    - [`admin`, `worker`, `adminworker`, `ingest` and `presentation`](#admin-worker-adminworker-ingest-and-presentation)
+    - [`admin`, `worker`, `adminpresentation`, `adminworker`, `ingest` and `presentation`](#admin-worker-adminpresentation-adminworker-ingest-and-presentation)
     - [`build`](#build)
 - [Usage](#usage)
 - [Configuration](#configuration)
@@ -70,13 +70,13 @@ In the `./docker-compose` directory there are also compose files for more produc
 
 # Images
 
-Opencast comes in different distributions. For each of the official distributions there is a specific Docker image. Each version is tagged. For example the full image name containing the `admin` distribution at version `2.2.4` is `opencast/admin:2.2.4`. Leaving the version out will install the latest one.
+Opencast comes in different distributions. For each of the official distributions there is a specific Docker image. Each version is tagged. For example the full image name containing the `admin` distribution at version `2.3.0` is `opencast/admin:2.3.0`. Leaving the version out will install the latest one.
 
 ## `allinone`
 
 This image contains all Opencast modules necessary to run a full Opencast installation. It's useful for small and local test setups. If you however want to run Opencast in a distributed fashion, you probably should use a combination of `admin`, `worker` and `presentation` containers.
 
-## `admin`, `worker`, `adminworker`, `ingest` and `presentation`
+## `admin`, `worker`, `adminpresentation`, `adminworker`, `ingest` and `presentation`
 
 These images contain the Opencast modules of the corresponding Opencast distributions.
 

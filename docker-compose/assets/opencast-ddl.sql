@@ -1,4 +1,4 @@
--- Created with Opencast version 2.2.4
+-- Created with Opencast version 2.3.0
 
 CREATE TABLE SEQUENCE (
   SEQ_NAME VARCHAR(50) NOT NULL,
@@ -539,7 +539,7 @@ CREATE TABLE mh_event_comment (
   event VARCHAR(128) NOT NULL,
   creation_date DATETIME NOT NULL,
   author VARCHAR(255) NOT NULL,
-  text VARCHAR(255) NOT NULL,
+  text TEXT(65535) NOT NULL,
   reason VARCHAR(255) DEFAULT NULL,
   modification_date DATETIME NOT NULL,
   resolved_status TINYINT(1) NOT NULL DEFAULT '0',
@@ -551,7 +551,7 @@ CREATE TABLE mh_event_comment_reply (
   event_comment_id BIGINT(20) NOT NULL,
   creation_date DATETIME NOT NULL,
   author VARCHAR(255) NOT NULL,
-  text VARCHAR(255) NOT NULL,
+  text TEXT(65535) NOT NULL,
   modification_date DATETIME NOT NULL,
   PRIMARY KEY (id),
   CONSTRAINT FK_mh_event_comment_reply_mh_event_comment FOREIGN KEY (event_comment_id) REFERENCES mh_event_comment (id)

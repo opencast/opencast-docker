@@ -16,9 +16,9 @@ FROM openjdk:8-jdk-alpine
 MAINTAINER WWU eLectures team <electures.dev@uni-muenster.de>
 
 ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
-ARG branch="2.2.4"
+ARG branch="2.3.0"
 
-ENV OPENCAST_VERSION="2.2.4" \
+ENV OPENCAST_VERSION="2.3.0" \
     OPENCAST_DISTRIBUTION="presentation" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
@@ -53,7 +53,7 @@ RUN { \
       git \
       make gcc g++ binutils-gold \
       maven \
-      python \
+      python nodejs \
   \
   # Install dependencies
   #   - FFmpeg
@@ -67,10 +67,6 @@ RUN { \
       sox \
       hunspell \
       tesseract-ocr \
-  \
-  # TODO: Remove @old repo when http://stackoverflow.com/questions/37450473/cssmin-is-giving-me-path-must-be-a-string-received-undefined is fixed
-  && apk add --no-cache --repository "@old http://dl-cdn.alpinelinux.org/alpine/v3.3/main" \
-      nodejs@old \
   \
   # Install languag files for tesseract and hunspell
  && mkdir -p /tmp/tesseract /tmp/hunspell /usr/share/tessdata /usr/share/hunspell \
@@ -119,7 +115,6 @@ RUN { \
   \
   # Compile front-end assets manually as the bundeled node does not run on Alpine
  && cd "${OPENCAST_SRC}/modules/matterhorn-admin-ui-ng" \
- && sed -i 's/"grunt-sass":.*/"grunt-sass": "^1.2.0",/g' package.json \
  && /tmp/retry npm install -g npm \
  && /tmp/retry npm install -g grunt-cli \
  && /tmp/retry npm install \
@@ -134,7 +129,6 @@ RUN { \
  && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" \
   \
   # Cleanup
- && apk del --no-cache nodejs \
  && apk del --no-cache .build-deps \
  && rm -rf "${OPENCAST_SRC}" /tmp/* ~/.m2 ~/.npm ~/.node-gyp /usr/lib/node_modules
 
@@ -143,6 +137,7 @@ COPY assets/scripts/* "${OPENCAST_SCRIPTS}/"
 COPY assets/support "${OPENCAST_SUPPORT}"
 COPY assets/etc/* "${OPENCAST_CONFIG}/"
 COPY assets/etc/index/adminui/settings.yml "${OPENCAST_CONFIG}/index/adminui/"
+COPY assets/etc/index/externalapi/settings.yml "${OPENCAST_CONFIG}/index/externalapi/"
 RUN javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
  && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_CONFIG}"
 

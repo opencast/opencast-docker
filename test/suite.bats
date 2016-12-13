@@ -20,6 +20,9 @@ load test_helper
   run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-entrypoint.sh" "${DOCKERFILES_ADMIN}/assets/docker-entrypoint.sh"
   [ "${status}" -eq 0 ]
 
+  run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-entrypoint.sh" "${DOCKERFILES_ADMINPRESENTATION}/assets/docker-entrypoint.sh"
+  [ "${status}" -eq 0 ]
+
   run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-entrypoint.sh" "${DOCKERFILES_ADMINWORKER}/assets/docker-entrypoint.sh"
   [ "${status}" -eq 0 ]
 
@@ -39,12 +42,16 @@ load test_helper
 @test "all Dockerfiles should be the same" {
   allinone=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_ALLINONE}/Dockerfile")
   admin=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_ADMIN}/Dockerfile")
+  adminpresentation=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_ADMINPRESENTATION}/Dockerfile")
   adminworker=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_ADMINWORKER}/Dockerfile")
   ingest=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_INGEST}/Dockerfile")
   presentation=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_PRESENTATION}/Dockerfile")
   worker=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_WORKER}/Dockerfile")
 
   run test "${allinone}" = "${admin}"
+  [ "${status}" -eq 0 ]
+
+  run test "${allinone}" = "${adminpresentation}"
   [ "${status}" -eq 0 ]
 
   run test "${allinone}" = "${adminworker}"
@@ -62,6 +69,9 @@ load test_helper
 
 @test "all scripts should be the same" {
   run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_ADMIN}/assets/scripts"
+  [ "${status}" -eq 0 ]
+
+  run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_ADMINPRESENTATION}/assets/scripts"
   [ "${status}" -eq 0 ]
 
   run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_ADMINWORKER}/assets/scripts"
@@ -82,6 +92,9 @@ load test_helper
 
 @test "all support files should be the same" {
   run diff -qr "${DOCKERFILES_ALLINONE}/assets/support" "${DOCKERFILES_ADMIN}/assets/support"
+  [ "${status}" -eq 0 ]
+
+  run diff -qr "${DOCKERFILES_ALLINONE}/assets/support" "${DOCKERFILES_ADMINPRESENTATION}/assets/support"
   [ "${status}" -eq 0 ]
 
   run diff -qr "${DOCKERFILES_ALLINONE}/assets/support" "${DOCKERFILES_ADMINWORKER}/assets/support"
@@ -105,6 +118,9 @@ load test_helper
   [ "${status}" -eq 0 ]
 
   run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/admin" "${DOCKERFILES_ADMIN}/assets/etc"
+  [ "${status}" -eq 0 ]
+
+  run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/adminpresentation" "${DOCKERFILES_ADMINPRESENTATION}/assets/etc"
   [ "${status}" -eq 0 ]
 
   run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/adminworker" "${DOCKERFILES_ADMINWORKER}/assets/etc"
