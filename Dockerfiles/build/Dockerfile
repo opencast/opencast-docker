@@ -16,9 +16,9 @@ FROM fedora:25
 MAINTAINER WWU eLectures team <electures.dev@uni-muenster.de>
 
 ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
-ARG branch="2.2.3"
+ARG branch="2.2.4"
 
-ENV OPENCAST_VERSION="2.2.3" \
+ENV OPENCAST_VERSION="2.2.4" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
