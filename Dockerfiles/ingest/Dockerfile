@@ -32,6 +32,7 @@ ENV OPENCAST_VERSION="2.2.4" \
     TESSERACT_BASE_URL="https://github.com/tesseract-ocr/tessdata/raw/3cf1e2df1fe1d1da29295c9ef0983796c7958b7d" \
     HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
+    OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
     OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
@@ -139,6 +140,7 @@ RUN { \
 
 COPY assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
 COPY assets/scripts/* "${OPENCAST_SCRIPTS}/"
+COPY assets/support "${OPENCAST_SUPPORT}"
 COPY assets/etc/* "${OPENCAST_CONFIG}/"
 COPY assets/etc/index/adminui/settings.yml "${OPENCAST_CONFIG}/index/adminui/"
 RUN javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \

@@ -76,7 +76,27 @@ load test_helper
   run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_WORKER}/assets/scripts"
   [ "${status}" -eq 0 ]
 
-  run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_BUILD}/assets/build/scripts/"
+  run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_BUILD}/assets/build/scripts"
+  [ "${status}" -eq 0 ]
+}
+
+@test "all support files should be the same" {
+  run diff -qr "${DOCKERFILES_ALLINONE}/assets/support" "${DOCKERFILES_ADMIN}/assets/support"
+  [ "${status}" -eq 0 ]
+
+  run diff -qr "${DOCKERFILES_ALLINONE}/assets/support" "${DOCKERFILES_ADMINWORKER}/assets/support"
+  [ "${status}" -eq 0 ]
+
+  run diff -qr "${DOCKERFILES_ALLINONE}/assets/support" "${DOCKERFILES_INGEST}/assets/support"
+  [ "${status}" -eq 0 ]
+
+  run diff -qr "${DOCKERFILES_ALLINONE}/assets/support" "${DOCKERFILES_PRESENTATION}/assets/support"
+  [ "${status}" -eq 0 ]
+
+  run diff -qr "${DOCKERFILES_ALLINONE}/assets/support" "${DOCKERFILES_WORKER}/assets/support"
+  [ "${status}" -eq 0 ]
+
+  run diff -qr "${DOCKERFILES_ALLINONE}/assets/support" "${DOCKERFILES_BUILD}/assets/build/support"
   [ "${status}" -eq 0 ]
 }
 

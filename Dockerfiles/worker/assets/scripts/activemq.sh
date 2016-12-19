@@ -36,5 +36,5 @@ opencast_activemq_configure() {
 
 opencast_activemq_printactivemqxml() {
   # TODO: read env variables and add config for jaasAuthenticationPlugin
-  cat /opencast/docs/scripts/activemq/activemq.xml
+  cat "${OPENCAST_SUPPORT}/activemq.xml"
 }
