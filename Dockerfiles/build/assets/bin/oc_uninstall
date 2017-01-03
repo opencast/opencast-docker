@@ -16,8 +16,10 @@
 
 set -e
 
-log "oc_install" "Start uninstallation"
+log "oc_uninstall" "Start uninstallation"
 
-rm -rf "${OPENCAST_HOME:?}/*" "${OPENCAST_HOME:?}/.*"
+rm -rf "${OPENCAST_HOME}"
+mkdir -p "${OPENCAST_HOME}"
+chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}"
 
-log "oc_install" "End uninstallation"
+log "oc_uninstall" "End uninstallation"

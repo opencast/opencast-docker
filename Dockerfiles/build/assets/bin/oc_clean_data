@@ -18,6 +18,8 @@ set -e
 
 log "oc_clean_data" "Start cleaning data"
 
-rm -rf "${OPENCAST_DATA:?}/*" "${OPENCAST_DATA:?}/.*"
+rm -rf "${OPENCAST_DATA}"
+mkdir -p "${OPENCAST_DATA}"
+chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_DATA}"
 
 log "oc_clean_data" "End cleaning data"
