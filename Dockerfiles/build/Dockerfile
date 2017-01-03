@@ -16,9 +16,9 @@ FROM fedora:25
 MAINTAINER WWU eLectures team <electures.dev@uni-muenster.de>
 
 ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
-ARG branch="2.2.4"
+ARG branch="2.3.0"
 
-ENV OPENCAST_VERSION="2.2.4" \
+ENV OPENCAST_VERSION="2.3.0" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
@@ -53,6 +53,15 @@ RUN dnf -y install \
       make automake gcc gcc-c++ \
       java-1.8.0-openjdk maven \
       python nodejs \
+  \
+ # && npm install -g npm@2 \
+ # \
+ # && mkdir -p /tmp/phantomjs \
+ # && cd /tmp/phantomjs \
+ # && wget -O phantomjs.tar.bz2 "${PHANTOMJS_URL}" \
+ # && echo "86dd9a4bf4aee45f1a84c9f61cf1947c1d6dce9b9e8d2a907105da7852460d2f  phantomjs.tar.bz2" | sha256sum -c - \
+ # && tar -xjf phantomjs.tar.bz2 --strip 1 \
+ # && cp bin/phantomjs /usr/local/bin/ \
   \
   # Run deps
  && dnf -y install \
