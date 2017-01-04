@@ -16,8 +16,8 @@
 
 set -e
 
-log "oc_install" "Start uninstallation"
+log "oc_uninstall" "Start uninstallation"
 
-rm -rf "${OPENCAST_HOME:?}/*" "${OPENCAST_HOME:?}/.*"
+find "${OPENCAST_HOME:?}" -mindepth 1 -delete
 
-log "oc_install" "End uninstallation"
+log "oc_uninstall" "End uninstallation"
