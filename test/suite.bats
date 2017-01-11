@@ -39,6 +39,26 @@ load test_helper
   [ "${status}" -eq 0 ]
 }
 
+@test "all healthcheck scripts should be the same" {
+  run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-healthcheck.sh" "${DOCKERFILES_ADMIN}/assets/docker-healthcheck.sh"
+  [ "${status}" -eq 0 ]
+
+  run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-healthcheck.sh" "${DOCKERFILES_ADMINPRESENTATION}/assets/docker-healthcheck.sh"
+  [ "${status}" -eq 0 ]
+
+  run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-healthcheck.sh" "${DOCKERFILES_ADMINWORKER}/assets/docker-healthcheck.sh"
+  [ "${status}" -eq 0 ]
+
+  run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-healthcheck.sh" "${DOCKERFILES_INGEST}/assets/docker-healthcheck.sh"
+  [ "${status}" -eq 0 ]
+
+  run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-healthcheck.sh" "${DOCKERFILES_PRESENTATION}/assets/docker-healthcheck.sh"
+  [ "${status}" -eq 0 ]
+
+  run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-healthcheck.sh" "${DOCKERFILES_WORKER}/assets/docker-healthcheck.sh"
+  [ "${status}" -eq 0 ]
+}
+
 @test "all Dockerfiles should be the same" {
   allinone=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_ALLINONE}/Dockerfile")
   admin=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_ADMIN}/Dockerfile")
