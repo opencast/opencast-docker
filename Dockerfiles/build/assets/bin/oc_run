@@ -18,6 +18,6 @@ set -e
 
 log "oc_run" "Start run"
 
-sh -c '. "${OPENCAST_SCRIPTS}/env" && cd "${OPENCAST_HOME}" && "${OPENCAST_SCRIPTS}/docker-entrypoint.sh" app:start'
+sudo -E "PATH=$PATH" sh -c '. "${OPENCAST_SCRIPTS}/env" && cd "${OPENCAST_HOME}" && "${OPENCAST_SCRIPTS}/docker-entrypoint.sh" app:start'
 
 log "oc_run" "End run"
