@@ -15,12 +15,13 @@
 # limitations under the License.
 
 OPENCAST_API="http://127.0.0.1:8080"
-DIGEST_USER=$(awk -F "=" '/org\.opencastproject\.security\.digest\.user/ {print $2}' "${OPENCAST_CONFIG}/etc/custom.properties" | tr -d ' ')
-DIGEST_PASSWORD=$(awk -F "=" '/org\.opencastproject\.security\.digest\.pass/ {print $2}' "${OPENCAST_CONFIG}/etc/custom.properties" | tr -d ' ')
+DIGEST_USER=$(awk -F "=" '/org\.opencastproject\.security\.digest\.user/ {print $2}' "${OPENCAST_CONFIG}/custom.properties" | tr -d ' ')
+DIGEST_PASSWORD=$(awk -F "=" '/org\.opencastproject\.security\.digest\.pass/ {print $2}' "${OPENCAST_CONFIG}/custom.properties" | tr -d ' ')
 
 for ENDPOINT in "services/health" "broker/status"; do
   HTTP_CODE=$(curl \
     -sw '%{http_code}' \
+    -o /dev/null \
     --digest \
     -u "${DIGEST_USER}:${DIGEST_PASSWORD}" \
     -H 'X-Requested-Auth: Digest' \
@@ -29,7 +30,7 @@ for ENDPOINT in "services/health" "broker/status"; do
     "${OPENCAST_API}/${ENDPOINT}" \
   )
 
-  [           "$?" -eq   0 ] || exit 1
+  [                     $? ] || exit 1
   [ "${HTTP_CODE}" -ge 200 ] && \
   [ "${HTTP_CODE}" -lt 300 ] || exit 1
 done
