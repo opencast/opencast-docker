@@ -68,7 +68,27 @@ opencast_main_init() {
 
 opencast_main_start() {
   echo "Run opencast_main_start"
-  su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast server
+
+  su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast server &
+  OC_PID=$!
+  trap opencast_main_stop TERM INT
+
+  status=0
+
+  set +e
+  while kill -0 "$OC_PID" >/dev/null 2>&1; do
+    wait "$OC_PID"
+    status=$?
+  done
+  set -e
+
+  return $status
+}
+
+opencast_main_stop() {
+  echo "Run opencast_main_stop"
+
+  bin/stop-opencast &
 }
 
 case ${1} in
