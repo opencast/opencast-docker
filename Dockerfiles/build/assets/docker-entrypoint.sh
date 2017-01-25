@@ -16,4 +16,24 @@
 
 set -e
 
-exec "$@"
+# Options
+OPENCAST_BUILD_USER_UID="${OPENCAST_BUILD_USER_UID:-1000}"
+OPENCAST_BUILD_USER_GID="${OPENCAST_BUILD_USER_GID:-1000}"
+
+if ! id opencast-builder >/dev/null 2>&1; then
+  # Create a user
+  groupadd -g "${OPENCAST_BUILD_USER_GID}" opencast-builder
+  useradd \
+    --no-user-group \
+    --gid "${OPENCAST_BUILD_USER_GID}" \
+    --uid "${OPENCAST_BUILD_USER_UID}" \
+    opencast-builder
+
+  # Make sure the user can read the Opencast source
+  chown -R "${OPENCAST_BUILD_USER_GID}:${OPENCAST_BUILD_USER_UID}" "${OPENCAST_SRC}"
+
+  # Give user sudo rights with no password
+  echo "opencast-builder ALL = NOPASSWD: ALL" > /etc/sudoers.d/opencast-builder
+fi
+
+su-exec "${OPENCAST_BUILD_USER_UID}:${OPENCAST_BUILD_USER_GID}" "$@"

@@ -16,7 +16,7 @@
 
 set -e
 
-if is_git_repo; then
+if is_git_repo "${OPENCAST_SRC}"; then
   log_err "oc_clone" "You are already in a Git repository. Cannot clone here."
   exit 1
 fi

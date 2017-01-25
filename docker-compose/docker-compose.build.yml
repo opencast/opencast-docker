@@ -34,6 +34,8 @@ services:
     tty: true
     stdin_open: true
     environment:
+      - OPENCAST_BUILD_USER_UID=${OPENCAST_BUILD_USER_UID}
+      - OPENCAST_BUILD_USER_GID=${OPENCAST_BUILD_USER_GID}
       - ORG_OPENCASTPROJECT_SERVER_URL=http://${HOSTIP}:8080
       - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
       - ACTIVEMQ_BROKER_USERNAME=admin

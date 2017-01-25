@@ -48,20 +48,12 @@ RUN dnf -y install \
   \
   # Build deps
  && dnf -y install \
+      sudo \
       tar gzip bzip2 unzip \
       git wget \
       make automake gcc gcc-c++ \
       java-1.8.0-openjdk maven \
       python nodejs \
-  \
- # && npm install -g npm@2 \
- # \
- # && mkdir -p /tmp/phantomjs \
- # && cd /tmp/phantomjs \
- # && wget -O phantomjs.tar.bz2 "${PHANTOMJS_URL}" \
- # && echo "86dd9a4bf4aee45f1a84c9f61cf1947c1d6dce9b9e8d2a907105da7852460d2f  phantomjs.tar.bz2" | sha256sum -c - \
- # && tar -xjf phantomjs.tar.bz2 --strip 1 \
- # && cp bin/phantomjs /usr/local/bin/ \
   \
   # Run deps
  && dnf -y install \
