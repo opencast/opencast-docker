@@ -128,8 +128,8 @@ Make sure to use the correct Opencast distribution as there are small difference
 
 ## Opencast
 
-* `ORG_OPENCASTPROJECT_SERVER_URL` **Required**  
-  The HTTP-URL where Opencast is accessible.
+* `ORG_OPENCASTPROJECT_SERVER_URL` Optional  
+  The HTTP-URL where Opencast is accessible. The default is `http://<Fully Qualified Host Name>:8080`.
 * `ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER` **Required**  
   Username of the admin user.
 * `ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS` **Required**  
