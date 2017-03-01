@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-version: "2"
+version: "3"
 volumes:
   data: {}
   mvn: {}
@@ -36,7 +36,8 @@ services:
     environment:
       - OPENCAST_BUILD_USER_UID=${OPENCAST_BUILD_USER_UID}
       - OPENCAST_BUILD_USER_GID=${OPENCAST_BUILD_USER_GID}
-      - ORG_OPENCASTPROJECT_SERVER_URL=http://${HOSTIP}:8080
+      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast:8080
+      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://${HOSTIP:-localhost}:8080/static
       - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
       - ACTIVEMQ_BROKER_USERNAME=admin
       - ACTIVEMQ_BROKER_PASSWORD=password
