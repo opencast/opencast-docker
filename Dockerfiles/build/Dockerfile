@@ -16,9 +16,9 @@ FROM fedora:25
 MAINTAINER WWU eLectures team <electures.dev@uni-muenster.de>
 
 ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
-ARG branch="2.3.0"
+ARG branch="2.3.1"
 
-ENV OPENCAST_VERSION="2.3.0" \
+ENV OPENCAST_VERSION="2.3.1" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
@@ -52,11 +52,12 @@ RUN dnf -y install \
       tar gzip bzip2 unzip \
       git wget \
       make automake gcc gcc-c++ \
-      java-1.8.0-openjdk maven \
-      python nodejs \
+      maven \
+      python \
   \
   # Run deps
  && dnf -y install \
+      java-1.8.0-openjdk \
       openssl tzdata curl \
       fontconfig dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts \
       gnu-free-serif-fonts gnu-free-mono-fonts gnu-free-sans-fonts \
