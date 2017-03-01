@@ -13,7 +13,17 @@
 # limitations under the License.
 
 FROM openjdk:8-jdk-alpine
-MAINTAINER WWU eLectures team <electures.dev@uni-muenster.de>
+LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
+      org.label-schema.schema-version="1.0" \
+      org.label-schema.version="2.3.0" \
+      org.label-schema.name="opencast-presentation" \
+      org.label-schema.description="Opencast image for the presentation distribution" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/2.3.0/README.md" \
+      org.label-schema.url="http://www.opencast.org/" \
+      org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
+      org.label-schema.vendor="University of Münster" \
+      org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
+      org.label-schema.docker.cmd.help="docker run --rm opencast/presentation:2.3.0 app:help"
 
 ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
 ARG branch="2.3.0"
