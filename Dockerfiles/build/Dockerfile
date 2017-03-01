@@ -57,7 +57,7 @@ RUN dnf -y install \
   \
   # Run deps
  && dnf -y install \
-      openssl tzdata curl \
+      openssl tzdata curl nc \
       fontconfig dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts \
       gnu-free-serif-fonts gnu-free-mono-fonts gnu-free-sans-fonts \
       liberation-fonts linux-libertine-fonts \
