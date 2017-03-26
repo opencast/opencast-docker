@@ -96,7 +96,7 @@ test-allinone: build-allinone
 test-admin: build-admin
 test-adminpresentation: build-adminpresentation
 test-adminworker: build-adminworker
-test-ingest: build-allinone
+test-ingest: build-ingest
 test-presentation: build-presentation
 test-worker: build-worker
 test-build: build-build
