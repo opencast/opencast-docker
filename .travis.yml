@@ -20,13 +20,14 @@ services:
   - docker
 
 env:
-  - OPENCAST_DISTRIBUTION=allinone
   - OPENCAST_DISTRIBUTION=admin
+  - OPENCAST_DISTRIBUTION=adminpresentation
   - OPENCAST_DISTRIBUTION=adminworker
+  - OPENCAST_DISTRIBUTION=allinone
+  - OPENCAST_DISTRIBUTION=build
   - OPENCAST_DISTRIBUTION=ingest
   - OPENCAST_DISTRIBUTION=presentation
   - OPENCAST_DISTRIBUTION=worker
-  - OPENCAST_DISTRIBUTION=build
 
 addons:
   apt:
@@ -34,6 +35,7 @@ addons:
       - debian-sid
     packages:
       - shellcheck
+      - docker-engine
 
 before_install:
   - git clone https://github.com/sstephenson/bats.git /tmp/bats
@@ -42,7 +44,11 @@ before_install:
   - docker info
   - shellcheck --version
   - bats --version
-install: make "build-${OPENCAST_DISTRIBUTION}"
+
+install:
+  - docker pull "opencast/${OPENCAST_DISTRIBUTION}:$(cat VERSION)" || true
+  - make "build-${OPENCAST_DISTRIBUTION}" CUSTOM_DOCKER_BUILD_ARGS="--cache-from 'opencast/${OPENCAST_DISTRIBUTION}:$(cat VERSION)'"
+
 script:
   - make lint
-  - make test-common "test-${OPENCAST_DISTRIBUTION}"
+  - make test-common "test-${OPENCAST_DISTRIBUTION}" CUSTOM_DOCKER_BUILD_ARGS="--cache-from 'opencast/${OPENCAST_DISTRIBUTION}:$(cat VERSION)'"
