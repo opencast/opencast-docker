@@ -60,13 +60,13 @@ load test_helper
 }
 
 @test "all Dockerfiles should be the same" {
-  allinone=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_ALLINONE}/Dockerfile")
-  admin=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_ADMIN}/Dockerfile")
-  adminpresentation=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_ADMINPRESENTATION}/Dockerfile")
-  adminworker=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_ADMINWORKER}/Dockerfile")
-  ingest=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_INGEST}/Dockerfile")
-  presentation=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_PRESENTATION}/Dockerfile")
-  worker=$(grep -v 'OPENCAST_DISTRIBUTION="' "${DOCKERFILES_WORKER}/Dockerfile")
+  allinone=$(grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_ALLINONE}/Dockerfile")
+  admin=$(grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_ADMIN}/Dockerfile")
+  adminpresentation=$(grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_ADMINPRESENTATION}/Dockerfile")
+  adminworker=$(grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_ADMINWORKER}/Dockerfile")
+  ingest=$(grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_INGEST}/Dockerfile")
+  presentation=$(grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_PRESENTATION}/Dockerfile")
+  worker=$(grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_WORKER}/Dockerfile")
 
   run test "${allinone}" = "${admin}"
   [ "${status}" -eq 0 ]

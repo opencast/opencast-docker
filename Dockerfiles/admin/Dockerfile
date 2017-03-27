@@ -12,13 +12,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM openjdk:8-jdk-alpine
-MAINTAINER WWU eLectures team <electures.dev@uni-muenster.de>
+FROM alpine:3.5
+LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
+      org.label-schema.schema-version="1.0" \
+      org.label-schema.version="2.3.0" \
+      org.label-schema.name="opencast-admin" \
+      org.label-schema.description="Opencast image for the admin distribution" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/2.3.0/README.md" \
+      org.label-schema.url="http://www.opencast.org/" \
+      org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
+      org.label-schema.vendor="University of Münster" \
+      org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
+      org.label-schema.docker.cmd.help="docker run --rm opencast/admin:2.3.0 app:help"
 
 ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
 ARG branch="2.3.1"
 
-ENV OPENCAST_VERSION="2.3.1" \
+ENV LANG="C.UTF-8" \
+    JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
+    PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
+    \
+    OPENCAST_VERSION="2.3.1" \
     OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
@@ -29,7 +43,7 @@ ENV OPENCAST_VERSION="2.3.1" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     \
-    TESSERACT_BASE_URL="https://github.com/tesseract-ocr/tessdata/raw/3cf1e2df1fe1d1da29295c9ef0983796c7958b7d" \
+    TESSERACT_BASE_URL="https://github.com/tesseract-ocr/tessdata/raw/8bf2e7ad08db9ca174ae2b0b3a7498c9f1f71d40" \
     HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
@@ -46,14 +60,12 @@ RUN { \
      echo 'exit 1'; \
    } > /tmp/retry \
  && chmod +x /tmp/retry \
- && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
- && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
  && apk add --no-cache --virtual .build-deps \
       tar gzip \
       git \
       make gcc g++ binutils-gold \
       maven \
-      python nodejs \
+      python2 nodejs \
   \
   # Install dependencies
   #   - FFmpeg
@@ -61,6 +73,7 @@ RUN { \
   #   - Tesseract Open Source OCR Engine
   #   - Hunspell
  && apk add --no-cache --virtual .run-deps \
+      openjdk8 \
       bash su-exec openssl tzdata curl \
       fontconfig ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine \
       ffmpeg \
@@ -71,16 +84,8 @@ RUN { \
   # Install languag files for tesseract and hunspell
  && mkdir -p /tmp/tesseract /tmp/hunspell /usr/share/tessdata /usr/share/hunspell \
  && { \
-      echo "cb7eb42a7e972cec7ef904fe81825d7b547c46df684c814fdb11a930b13bca3a  deu.traineddata"; \
-      echo "64adf2cc0b2a6705368aa357224d1a6739035d5fe892cd0cc457016df5b4280f  eng.cube.bigrams"; \
-      echo "2b229895623934b493fe69c51fcc387295d91af8b4e43cc51748b3d269a95eed  eng.cube.fold"; \
-      echo "a6f769245b0a55f42a3ce157cd19d96828483c3384c6483433ed83579ea16e36  eng.cube.lm"; \
-      echo "8f345f1c19772dd71a5214bc94175ccf647c003ab77e4143fde48f11bf3cb0ef  eng.cube.nn"; \
-      echo "c2aa2854951bd823d89cc86d53a6d9712a6a885de6fbaf650ff3df48bfed85d7  eng.cube.params"; \
-      echo "e5f95de7e2754eb2df03451885277ca4573b3770816043ae2e2f09d1f7232604  eng.cube.size"; \
-      echo "8d612bef20ae3052fce0b8650575a80d87c94d772ec6d1f0c6a1ad591586ea44  eng.cube.word-freq"; \
-      echo "196bedc8a5bc8c30361c2c9518f648b45b498759cb6041827ff6fbfb8da2a8d1  eng.tesseract_cube.nn"; \
-      echo "c0515c9f1e0c79e1069fcc05c2b2f6a6841fb5e1082d695db160333c1154f06d  eng.traineddata"; \
+      echo "59d92b49a22ff96964ba7be053a9e7198cd14c88f76788e7ce2555f5acb9a40c  deu.traineddata"; \
+      echo "1cb1468826191cc7d4158fe0a3014d3f5e3bbac618d754586afc86ddae8bcdae  eng.traineddata"; \
     } > /tmp/tesseract-sha256sum.txt \
  && cd /tmp/tesseract \
  && for file in $(awk '{print $2}' /tmp/tesseract-sha256sum.txt); do \

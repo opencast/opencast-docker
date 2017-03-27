@@ -13,7 +13,16 @@
 # limitations under the License.
 
 FROM fedora:25
-MAINTAINER WWU eLectures team <electures.dev@uni-muenster.de>
+LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
+      org.label-schema.schema-version="1.0" \
+      org.label-schema.version="2.3.0" \
+      org.label-schema.name="opencast-build" \
+      org.label-schema.description="Image that provides an Opencast build and development environment" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/2.3.0/README.md" \
+      org.label-schema.url="http://www.opencast.org/" \
+      org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
+      org.label-schema.vendor="University of Münster" \
+      org.label-schema.docker.debug="docker exec -it $CONTAINER bash"
 
 ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
 ARG branch="2.3.1"
@@ -58,7 +67,7 @@ RUN dnf -y install \
   # Run deps
  && dnf -y install \
       java-1.8.0-openjdk \
-      openssl tzdata curl \
+      openssl tzdata curl nc \
       fontconfig dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts \
       gnu-free-serif-fonts gnu-free-mono-fonts gnu-free-sans-fonts \
       liberation-fonts linux-libertine-fonts \
@@ -75,16 +84,8 @@ RUN dnf -y install \
   # Install languag files for tesseract and hunspell
  && mkdir -p /tmp/tesseract /tmp/hunspell /usr/share/tessdata /usr/share/hunspell \
  && { \
-      echo "cb7eb42a7e972cec7ef904fe81825d7b547c46df684c814fdb11a930b13bca3a  deu.traineddata"; \
-      echo "64adf2cc0b2a6705368aa357224d1a6739035d5fe892cd0cc457016df5b4280f  eng.cube.bigrams"; \
-      echo "2b229895623934b493fe69c51fcc387295d91af8b4e43cc51748b3d269a95eed  eng.cube.fold"; \
-      echo "a6f769245b0a55f42a3ce157cd19d96828483c3384c6483433ed83579ea16e36  eng.cube.lm"; \
-      echo "8f345f1c19772dd71a5214bc94175ccf647c003ab77e4143fde48f11bf3cb0ef  eng.cube.nn"; \
-      echo "c2aa2854951bd823d89cc86d53a6d9712a6a885de6fbaf650ff3df48bfed85d7  eng.cube.params"; \
-      echo "e5f95de7e2754eb2df03451885277ca4573b3770816043ae2e2f09d1f7232604  eng.cube.size"; \
-      echo "8d612bef20ae3052fce0b8650575a80d87c94d772ec6d1f0c6a1ad591586ea44  eng.cube.word-freq"; \
-      echo "196bedc8a5bc8c30361c2c9518f648b45b498759cb6041827ff6fbfb8da2a8d1  eng.tesseract_cube.nn"; \
-      echo "c0515c9f1e0c79e1069fcc05c2b2f6a6841fb5e1082d695db160333c1154f06d  eng.traineddata"; \
+      echo "59d92b49a22ff96964ba7be053a9e7198cd14c88f76788e7ce2555f5acb9a40c  deu.traineddata"; \
+      echo "1cb1468826191cc7d4158fe0a3014d3f5e3bbac618d754586afc86ddae8bcdae  eng.traineddata"; \
     } > /tmp/tesseract-sha256sum.txt \
  && cd /tmp/tesseract \
  && for file in $(awk '{print $2}' /tmp/tesseract-sha256sum.txt); do \
@@ -114,6 +115,7 @@ RUN dnf -y install \
  && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
  && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" "${OPENCAST_BUILD_ASSETS}" \
  && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" \
+ && echo "opencast-builder ALL = NOPASSWD: ALL" > /etc/sudoers.d/opencast-builder \
   \
   # Cleanup
  && rm -rf /tmp/* /var/cache/dnf /var/log/dnf* /var/log/hawkey.log

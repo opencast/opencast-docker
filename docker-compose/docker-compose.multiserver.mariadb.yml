@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-version: "2"
+version: "3"
 volumes:
   data: {}
 services:
@@ -38,10 +38,11 @@ services:
     volumes:
       - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
-  opencastadmin:
+  opencast-admin:
     image: opencast/admin:2.3.1
     environment:
-      - ORG_OPENCASTPROJECT_SERVER_URL=http://${HOSTIP}:8080
+      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast-admin:8080
+      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://${HOSTIP:-localhost}:8080/static
       - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
       - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
       - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
@@ -50,8 +51,8 @@ services:
       - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
       - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
       - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
-      - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://${HOSTIP}:8080
-      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://${HOSTIP}:8081
+      - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://opencast-admin:8080
+      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://opencast-presentation:8080
       - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
       - ACTIVEMQ_BROKER_USERNAME=admin
       - ACTIVEMQ_BROKER_PASSWORD=password
@@ -60,10 +61,11 @@ services:
     volumes:
       - data:/data
 
-  opencastpresentation:
+  opencast-presentation:
     image: opencast/presentation:2.3.1
     environment:
-      - ORG_OPENCASTPROJECT_SERVER_URL=http://${HOSTIP}:8081
+      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast-presentation:8080
+      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://${HOSTIP:-localhost}:8080/static
       - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
       - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
       - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
@@ -72,8 +74,8 @@ services:
       - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
       - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
       - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
-      - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://${HOSTIP}:8080
-      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://${HOSTIP}:8081
+      - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://opencast-admin:8080
+      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://opencast-presentation:8080
       - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
       - ACTIVEMQ_BROKER_USERNAME=admin
       - ACTIVEMQ_BROKER_PASSWORD=password
@@ -82,10 +84,11 @@ services:
     volumes:
       - data:/data
 
-  opencastworker:
+  opencast-worker:
     image: opencast/worker:2.3.1
     environment:
-      - ORG_OPENCASTPROJECT_SERVER_URL=http://${HOSTIP}:8082
+      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast-worker:8080
+      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://${HOSTIP:-localhost}:8080/static
       - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
       - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
       - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
@@ -94,12 +97,10 @@ services:
       - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
       - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
       - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
-      - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://${HOSTIP}:8080
-      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://${HOSTIP}:8081
+      - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://opencast-admin:8080
+      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://opencast-presentation:8080
       - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
       - ACTIVEMQ_BROKER_USERNAME=admin
       - ACTIVEMQ_BROKER_PASSWORD=password
-    ports:
-      - "8082:8080"
     volumes:
       - data:/data
