@@ -15,15 +15,15 @@
 FROM alpine:3.5
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="2.3.0" \
+      org.label-schema.version="2.3.1" \
       org.label-schema.name="opencast-worker" \
       org.label-schema.description="Opencast image for the worker distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/2.3.0/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/2.3.1/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm opencast/worker:2.3.0 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm opencast/worker:2.3.1 app:help"
 
 ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
 ARG branch="2.3.1"
