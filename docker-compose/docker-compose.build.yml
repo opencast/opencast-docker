@@ -12,10 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-version: "2"
+version: "3"
 volumes:
   data: {}
-  mvn: {}
 services:
   activemq:
     image: webcenter/activemq:5.13.2
@@ -34,15 +33,19 @@ services:
     tty: true
     stdin_open: true
     environment:
-      - OPENCAST_BUILD_USER_UID=${OPENCAST_BUILD_USER_UID}
-      - OPENCAST_BUILD_USER_GID=${OPENCAST_BUILD_USER_GID}
-      - ORG_OPENCASTPROJECT_SERVER_URL=http://${HOSTIP}:8080
+      - OPENCAST_BUILD_USER_UID=${OPENCAST_BUILD_USER_UID:-1000}
+      - OPENCAST_BUILD_USER_GID=${OPENCAST_BUILD_USER_GID:-1000}
+      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast:8080
+      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://${HOSTIP:-localhost}:8080/static
       - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
       - ACTIVEMQ_BROKER_USERNAME=admin
       - ACTIVEMQ_BROKER_PASSWORD=password
+      - KARAF_DEBUG=1
+      - DEFAULT_JAVA_DEBUG_OPTS='-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
     ports:
       - "8080:8080"
+      - "5005:5005"
     volumes:
       - data:/data
-      - mvn:/root/.m2
+      - "${M2_REPO:-~/.m2}:/home/opencast-builder/.m2"
       - "${OPENCAST_SRC}:/usr/src/opencast"

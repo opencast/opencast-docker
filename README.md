@@ -139,7 +139,7 @@ Make sure to use the correct Opencast distribution as there are small difference
 * `ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS` **Required**  
   Password for the communication between Opencast nodes and capture agents.
 * `ORG_OPENCASTPROJECT_DOWNLOAD_URL` Optional  
-  The HTTP-URL to use for downloading media files, e.g. for the player. Defaults to `${org.opencastproject.server.url}`.
+  The HTTP-URL to use for downloading media files, e.g. for the player. Defaults to `${org.opencastproject.server.url}/static`.
 
 For an installation with multiple nodes you can also set:
 

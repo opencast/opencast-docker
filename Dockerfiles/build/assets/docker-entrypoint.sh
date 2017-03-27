@@ -29,11 +29,8 @@ if ! id opencast-builder >/dev/null 2>&1; then
     --uid "${OPENCAST_BUILD_USER_UID}" \
     opencast-builder
 
-  # Make sure the user can read the Opencast source
-  chown -R "${OPENCAST_BUILD_USER_GID}:${OPENCAST_BUILD_USER_UID}" "${OPENCAST_SRC}"
-
-  # Give user sudo rights with no password
-  echo "opencast-builder ALL = NOPASSWD: ALL" > /etc/sudoers.d/opencast-builder
+  # Make sure the user can read the Opencast source and home directory files
+  chown -R "${OPENCAST_BUILD_USER_GID}:${OPENCAST_BUILD_USER_UID}" "${OPENCAST_SRC}" /home/opencast-builder
 fi
 
 su-exec "${OPENCAST_BUILD_USER_UID}:${OPENCAST_BUILD_USER_GID}" "$@"
