@@ -126,7 +126,7 @@ COPY assets/bin/* "/usr/local/bin/"
 
 WORKDIR "${OPENCAST_SRC}"
 
-EXPOSE 8080
+EXPOSE 8080 5005
 VOLUME [ "${OPENCAST_DATA}", "${OPENCAST_SRC}", "/root/.m2" ]
 
 ENTRYPOINT ["/docker-entrypoint.sh"]

@@ -16,14 +16,14 @@
 
 set -e
 
-opencast_hsql_check() {
-  echo "Run opencast_hsql_check"
+opencast_h2_check() {
+  echo "Run opencast_h2_check"
 
   export ORG_OPENCASTPROJECT_DB_DDL_GENERATION="true"
 }
 
-opencast_hsql_configure() {
-  echo "Run opencast_hsql_configure"
+opencast_h2_configure() {
+  echo "Run opencast_h2_configure"
 
   opencast_helper_deleteinfile "etc/custom.properties" \
     "ORG_OPENCASTPROJECT_DB_VENDOR" \
@@ -36,10 +36,10 @@ opencast_hsql_configure() {
     "ORG_OPENCASTPROJECT_DB_DDL_GENERATION"
 }
 
-opencast_hsql_trytoconnect() {
-  echo "Run opencast_hsql_trytoconnect"
+opencast_h2_trytoconnect() {
+  echo "Run opencast_h2_trytoconnect"
 }
 
-opencast_hsql_printddl() {
-  echo "-- Database for HSQL is created automatically"
+opencast_h2_printddl() {
+  echo "-- Database for H2 is created automatically"
 }
