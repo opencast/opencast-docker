@@ -16,15 +16,15 @@
 
 set -e
 
-ORG_OPENCASTPROJECT_DB_VENDOR="${ORG_OPENCASTPROJECT_DB_VENDOR:-HSQL}"
+ORG_OPENCASTPROJECT_DB_VENDOR="${ORG_OPENCASTPROJECT_DB_VENDOR:-H2}"
 NUMER_OF_TIMES_TRYING_TO_CONNECT_TO_DB="${NUMER_OF_TIMES_TRYING_TO_CONNECT_TO_DB:-25}"
 
 opencast_db_check() {
   echo "Run opencast_db_check"
 
   case "$ORG_OPENCASTPROJECT_DB_VENDOR" in
-    HSQL)
-      opencast_hsql_check
+    H2)
+      opencast_h2_check
       ;;
     MySQL)
       opencast_mysql_check
@@ -41,8 +41,8 @@ opencast_db_configure() {
   echo "Run opencast_db_configure"
 
   case "$ORG_OPENCASTPROJECT_DB_VENDOR" in
-    HSQL)
-      opencast_hsql_configure
+    H2)
+      opencast_h2_configure
       ;;
     MySQL)
       opencast_mysql_configure
@@ -59,8 +59,8 @@ opencast_db_trytoconnect() {
   echo "Run opencast_db_trytoconnect"
 
   case "$ORG_OPENCASTPROJECT_DB_VENDOR" in
-    HSQL)
-      opencast_hsql_trytoconnect
+    H2)
+      opencast_h2_trytoconnect
       ;;
     MySQL)
       opencast_jdbc_trytoconnect
@@ -76,8 +76,8 @@ opencast_db_printddl() {
   echo "-- Created with Opencast version ${OPENCAST_VERSION}"
   echo
   case "$ORG_OPENCASTPROJECT_DB_VENDOR" in
-    HSQL)
-      opencast_hsql_printddl
+    H2)
+      opencast_h2_printddl
       ;;
     MySQL)
       opencast_mysql_printddl

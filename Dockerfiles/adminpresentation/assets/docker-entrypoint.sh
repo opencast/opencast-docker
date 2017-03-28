@@ -26,8 +26,8 @@ set -e
 . "${OPENCAST_SCRIPTS}/activemq.sh"
 # shellcheck source=./scripts/db.sh
 . "${OPENCAST_SCRIPTS}/db.sh"
-# shellcheck source=./scripts/hsql.sh
-. "${OPENCAST_SCRIPTS}/hsql.sh"
+# shellcheck source=./scripts/h2.sh
+. "${OPENCAST_SCRIPTS}/h2.sh"
 # shellcheck source=./scripts/jdbc.sh
 . "${OPENCAST_SCRIPTS}/jdbc.sh"
 # shellcheck source=./scripts/mysql.sh
