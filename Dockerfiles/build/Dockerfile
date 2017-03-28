@@ -15,19 +15,19 @@
 FROM fedora:25
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="2.3.0" \
+      org.label-schema.version="2.3.1" \
       org.label-schema.name="opencast-build" \
       org.label-schema.description="Image that provides an Opencast build and development environment" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/2.3.0/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/2.3.1/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER bash"
 
 ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
-ARG branch="2.3.0"
+ARG branch="2.3.1"
 
-ENV OPENCAST_VERSION="2.3.0" \
+ENV OPENCAST_VERSION="2.3.1" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
@@ -61,11 +61,12 @@ RUN dnf -y install \
       tar gzip bzip2 unzip \
       git wget \
       make automake gcc gcc-c++ \
-      java-1.8.0-openjdk maven \
-      python nodejs \
+      maven \
+      python \
   \
   # Run deps
  && dnf -y install \
+      java-1.8.0-openjdk \
       openssl tzdata curl nc \
       fontconfig dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts \
       gnu-free-serif-fonts gnu-free-mono-fonts gnu-free-sans-fonts \

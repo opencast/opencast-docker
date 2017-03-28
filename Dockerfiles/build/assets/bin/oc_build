@@ -18,13 +18,6 @@ set -e
 
 log "oc_build" "Start building Opencast"
 
-# NOTE: we run npm install to use a newer verion of node and npm as shipped
-#       with Opencast.
-log "oc_build" "npm install"
-cd "${OPENCAST_SRC}/modules/matterhorn-admin-ui-ng"
-retry npm install
-
-log "oc_build" "mvn install"
 cd "${OPENCAST_SRC}"
 mvn install
 
