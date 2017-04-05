@@ -41,15 +41,15 @@ log "oc_install" "Create folders"
 sudo mkdir -p "${OPENCAST_CONFIG}" "${OPENCAST_SCRIPTS}" "${OPENCAST_SUPPORT}"
 
 log "oc_install" "Copy Docker scripts"
-sudo cp -r ${OPENCAST_BUILD_ASSETS}/scripts/* "${OPENCAST_SCRIPTS}/"
+sudo cp -R ${OPENCAST_BUILD_ASSETS}/scripts/* "${OPENCAST_SCRIPTS}/"
 sudo cp "${OPENCAST_BUILD_ASSETS}/docker-entrypoint.sh" "${OPENCAST_SCRIPTS}/docker-entrypoint.sh"
 sudo javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
 log "oc_install" "Copy support files"
-sudo cp -r ${OPENCAST_BUILD_ASSETS}/support/* "${OPENCAST_SUPPORT}/"
+sudo cp -R ${OPENCAST_BUILD_ASSETS}/support/* "${OPENCAST_SUPPORT}/"
 
 log "oc_install" "Copy configuration"
-sudo cp -r ${OPENCAST_BUILD_ASSETS}/etc/$1/* "${OPENCAST_CONFIG}/"
+sudo cp -R ${OPENCAST_BUILD_ASSETS}/etc/$1/* "${OPENCAST_CONFIG}/"
 sudo cp "${OPENCAST_BUILD_ASSETS}/etc/$1/index/adminui/settings.yml" "${OPENCAST_CONFIG}/index/adminui/"
 sudo cp "${OPENCAST_BUILD_ASSETS}/etc/$1/index/externalapi/settings.yml" "${OPENCAST_CONFIG}/index/externalapi/"
 
