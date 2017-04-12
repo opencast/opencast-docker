@@ -25,6 +25,7 @@ all: lint build test
 build: build-allinone build-admin build-adminpresentation build-adminworker build-ingest build-presentation build-worker build-build
 build-allinone:
 	docker build \
+		--pull \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
 		-t $(DOCKER_IMAGE_BASE)/allinone \
@@ -33,6 +34,7 @@ build-allinone:
 		Dockerfiles/allinone
 build-admin:
 	docker build \
+		--pull \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
 		-t $(DOCKER_IMAGE_BASE)/admin \
@@ -41,6 +43,7 @@ build-admin:
 		Dockerfiles/admin
 build-adminpresentation:
 	docker build \
+		--pull \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
 		-t $(DOCKER_IMAGE_BASE)/adminpresentation \
@@ -49,6 +52,7 @@ build-adminpresentation:
 		Dockerfiles/adminpresentation
 build-adminworker:
 	docker build \
+		--pull \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
 		-t $(DOCKER_IMAGE_BASE)/adminworker \
@@ -57,6 +61,7 @@ build-adminworker:
 		Dockerfiles/adminworker
 build-ingest:
 	docker build \
+		--pull \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
 		-t $(DOCKER_IMAGE_BASE)/ingest \
@@ -65,6 +70,7 @@ build-ingest:
 		Dockerfiles/ingest
 build-presentation:
 	docker build \
+		--pull \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
 		-t $(DOCKER_IMAGE_BASE)/presentation \
@@ -73,6 +79,7 @@ build-presentation:
 		Dockerfiles/presentation
 build-worker:
 	docker build \
+		--pull \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
 		-t $(DOCKER_IMAGE_BASE)/worker \
@@ -81,6 +88,7 @@ build-worker:
 		Dockerfiles/worker
 build-build:
 	docker build \
+		--pull \
 		--build-arg repo=$(REPO) \
 		--build-arg branch=$(BRANCH) \
 		-t $(DOCKER_IMAGE_BASE)/build \
