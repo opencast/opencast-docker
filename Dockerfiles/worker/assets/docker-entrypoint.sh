@@ -62,8 +62,9 @@ opencast_main_init() {
   else
     echo "No custom config found"
     opencast_main_check
-    opencast_main_configure
   fi
+
+  opencast_main_configure
 }
 
 opencast_main_start() {

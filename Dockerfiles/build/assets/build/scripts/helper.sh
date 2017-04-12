@@ -37,8 +37,7 @@ opencast_helper_customconfig() {
 }
 
 opencast_helper_copycustomconfig() {
-  rm -rf "${OPENCAST_CONFIG}"
-  cp -r "${OPENCAST_CUSTOM_CONFIG}" "${OPENCAST_CONFIG}"
+  cp -R "${OPENCAST_CUSTOM_CONFIG}"/* "${OPENCAST_CONFIG}"
   chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_CONFIG}"
 }
 
@@ -54,12 +53,13 @@ opencast_helper_checkforvariables() {
   done
 }
 
-# Replaces {{$2...}} with $!2... in file $1
+# Replaces {{$2...}} with $!2... in file $1 if $!2... exists
 opencast_helper_replaceinfile() {
   file="$1"
   shift
   for var in "$@"; do
     eval exp_var="\$${var}"
+    # shellcheck disable=SC2154
     sed -ri "s/[{]{2}${var}[}]{2}/$( echo "${exp_var}" | sed -e 's/[\/&]/\\&/g' )/g" "${file}"
   done
 }
