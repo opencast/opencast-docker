@@ -15,24 +15,24 @@
 FROM alpine:3.5
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="2.3.2" \
+      org.label-schema.version="2.3.3" \
       org.label-schema.name="opencast-admin" \
       org.label-schema.description="Opencast image for the admin distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/2.3.2/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/2.3.3/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm opencast/admin:2.3.2 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm opencast/admin:2.3.3 app:help"
 
 ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
-ARG branch="2.3.2"
+ARG branch="2.3.3"
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
     PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
     \
-    OPENCAST_VERSION="2.3.2" \
+    OPENCAST_VERSION="2.3.3" \
     OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
