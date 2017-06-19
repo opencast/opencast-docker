@@ -29,7 +29,7 @@ services:
       - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
   opencast:
-    image: opencast/allinone:2.3.3
+    image: opencast/allinone:3.0
     environment:
       - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast:8080
       - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://${HOSTIP:-localhost}:8080/static

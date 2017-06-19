@@ -15,24 +15,24 @@
 FROM alpine:3.5
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="2.3.3" \
+      org.label-schema.version="3.0" \
       org.label-schema.name="opencast-worker" \
       org.label-schema.description="Opencast image for the worker distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/2.3.3/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/3.0/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm opencast/worker:2.3.3 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm opencast/worker:3.0 app:help"
 
 ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
-ARG branch="2.3.3"
+ARG branch="3.0"
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
     PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
     \
-    OPENCAST_VERSION="2.3.3" \
+    OPENCAST_VERSION="3.0" \
     OPENCAST_DISTRIBUTION="worker" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
@@ -43,7 +43,7 @@ ENV LANG="C.UTF-8" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     \
-    TESSERACT_BASE_URL="https://github.com/tesseract-ocr/tessdata/raw/8bf2e7ad08db9ca174ae2b0b3a7498c9f1f71d40" \
+    TESSERACT_BASE_URL="https://github.com/tesseract-ocr/tessdata/raw/eb769ead0516ecd3c83e10f27678e8fd9e474cb8" \
     HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
@@ -89,7 +89,7 @@ RUN { \
     } > /tmp/tesseract-sha256sum.txt \
  && cd /tmp/tesseract \
  && for file in $(awk '{print $2}' /tmp/tesseract-sha256sum.txt); do \
-      wget -O "${file}" "${TESSERACT_BASE_URL}/${file}"; \
+      curl -L -o "${file}" "${TESSERACT_BASE_URL}/${file}"; \
       grep "${file}" /tmp/tesseract-sha256sum.txt | sha256sum -c -; \
       cp "${file}" /usr/share/tessdata; \
     done \
@@ -106,7 +106,7 @@ RUN { \
     } > /tmp/hunspell-sha256sum.txt \
  && cd /tmp/hunspell \
  && for file in $(awk '{print $2}' /tmp/hunspell-sha256sum.txt); do \
-      wget -O "${file}" "${HUNSPELL_BASE_URL}/${file}"; \
+      curl -L -o "${file}" "${HUNSPELL_BASE_URL}/${file}"; \
       grep "${file}" /tmp/hunspell-sha256sum.txt | sha256sum -c -; \
       unzip "/tmp/hunspell/${file}"; \
     done \

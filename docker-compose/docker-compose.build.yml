@@ -29,7 +29,7 @@ services:
       - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
   opencast:
-    image: opencast/build:2.3.3
+    image: opencast/build:3.0
     tty: true
     stdin_open: true
     environment:
