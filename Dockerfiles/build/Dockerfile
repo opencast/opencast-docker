@@ -15,19 +15,19 @@
 FROM fedora:25
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="2.3.3" \
+      org.label-schema.version="3.0" \
       org.label-schema.name="opencast-build" \
       org.label-schema.description="Image that provides an Opencast build and development environment" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/2.3.3/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/3.0/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER bash"
 
 ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
-ARG branch="2.3.3"
+ARG branch="3.0"
 
-ENV OPENCAST_VERSION="2.3.3" \
+ENV OPENCAST_VERSION="3.0" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
@@ -89,7 +89,7 @@ RUN dnf -y install \
     } > /tmp/tesseract-sha256sum.txt \
  && cd /tmp/tesseract \
  && for file in $(awk '{print $2}' /tmp/tesseract-sha256sum.txt); do \
-      wget -O "${file}" "${TESSERACT_BASE_URL}/${file}"; \
+      curl -L -o "${file}" "${TESSERACT_BASE_URL}/${file}"; \
       grep "${file}" /tmp/tesseract-sha256sum.txt | sha256sum -c -; \
       cp "${file}" /usr/share/tessdata; \
     done \
@@ -106,7 +106,7 @@ RUN dnf -y install \
     } > /tmp/hunspell-sha256sum.txt \
  && cd /tmp/hunspell \
  && for file in $(awk '{print $2}' /tmp/hunspell-sha256sum.txt); do \
-      wget -O "${file}" "${HUNSPELL_BASE_URL}/${file}"; \
+      curl -L -o "${file}" "${HUNSPELL_BASE_URL}/${file}"; \
       grep "${file}" /tmp/hunspell-sha256sum.txt | sha256sum -c -; \
       unzip "/tmp/hunspell/${file}"; \
     done \
