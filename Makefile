@@ -15,7 +15,7 @@
 DOCKER_IMAGE_BASE=opencast
 DOCKER_TAG=$(shell cat VERSION)
 
-REPO=https://bitbucket.org/opencast-community/matterhorn.git
+REPO=https://bitbucket.org/opencast-community/opencast.git
 BRANCH=$(DOCKER_TAG)
 
 CUSTOM_DOCKER_BUILD_ARGS=
