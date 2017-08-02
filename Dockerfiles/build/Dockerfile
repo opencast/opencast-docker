@@ -24,7 +24,7 @@ LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER bash"
 
-ARG repo="https://bitbucket.org/opencast-community/matterhorn.git"
+ARG repo="https://bitbucket.org/opencast-community/opencast.git"
 ARG branch="2.3.1"
 
 ENV OPENCAST_VERSION="2.3.1" \
