@@ -15,24 +15,24 @@
 FROM alpine:3.5
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="3.0" \
+      org.label-schema.version="3.1" \
       org.label-schema.name="opencast-presentation" \
       org.label-schema.description="Opencast image for the presentation distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/3.0/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/3.1/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm opencast/presentation:3.0 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm opencast/presentation:3.1 app:help"
 
 ARG repo="https://bitbucket.org/opencast-community/opencast.git"
-ARG branch="3.0"
+ARG branch="3.1"
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
     PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
     \
-    OPENCAST_VERSION="3.0" \
+    OPENCAST_VERSION="3.1" \
     OPENCAST_DISTRIBUTION="presentation" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
