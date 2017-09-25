@@ -15,24 +15,24 @@
 FROM alpine:3.5
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="3.2" \
+      org.label-schema.version="3.3" \
       org.label-schema.name="opencast-admin" \
       org.label-schema.description="Docker image for the Opencast admin distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/3.2/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/3.3/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm opencast/admin:3.2 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm opencast/admin:3.3 app:help"
 
 ARG repo="https://bitbucket.org/opencast-community/opencast.git"
-ARG branch="3.2"
+ARG branch="3.3"
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
     PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
     \
-    OPENCAST_VERSION="3.2" \
+    OPENCAST_VERSION="3.3" \
     OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
@@ -43,7 +43,7 @@ ENV LANG="C.UTF-8" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     \
-    TESSERACT_BASE_URL="https://github.com/tesseract-ocr/tessdata/raw/eb769ead0516ecd3c83e10f27678e8fd9e474cb8" \
+    TESSERACT_BASE_URL="https://github.com/tesseract-ocr/tessdata/raw/9b2e3f6642285b3e9a7a5852e5b10259e42d5510" \
     HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
