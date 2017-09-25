@@ -15,19 +15,19 @@
 FROM fedora:25
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="3.2" \
+      org.label-schema.version="3.3" \
       org.label-schema.name="opencast-build" \
       org.label-schema.description="Image that provides an Opencast build and development environment" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/3.2/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/3.3/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER bash"
 
 ARG repo="https://bitbucket.org/opencast-community/opencast.git"
-ARG branch="3.2"
+ARG branch="3.3"
 
-ENV OPENCAST_VERSION="3.2" \
+ENV OPENCAST_VERSION="3.3" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
@@ -55,7 +55,6 @@ RUN dnf -y install \
   "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
   "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm" \
   \
-  # Build deps
  && dnf -y install \
       sudo \
       tar gzip bzip2 unzip \
@@ -64,7 +63,6 @@ RUN dnf -y install \
       maven \
       python \
   \
-  # Run deps
  && dnf -y install \
       java-1.8.0-openjdk \
       openssl tzdata curl nc \
@@ -81,7 +79,6 @@ RUN dnf -y install \
  && make \
  && cp su-exec /usr/local/sbin \
   \
-  # Install languag files for tesseract and hunspell
  && mkdir -p /tmp/tesseract /tmp/hunspell /usr/share/tessdata /usr/share/hunspell \
  && { \
       echo "59d92b49a22ff96964ba7be053a9e7198cd14c88f76788e7ce2555f5acb9a40c  deu.traineddata"; \
@@ -117,7 +114,6 @@ RUN dnf -y install \
  && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" \
  && echo "opencast-builder ALL = NOPASSWD: ALL" > /etc/sudoers.d/opencast-builder \
   \
-  # Cleanup
  && rm -rf /tmp/* /var/cache/dnf /var/log/dnf* /var/log/hawkey.log
 
 COPY assets/docker-entrypoint.sh /docker-entrypoint.sh

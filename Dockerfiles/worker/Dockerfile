@@ -15,24 +15,24 @@
 FROM alpine:3.5
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="3.2" \
+      org.label-schema.version="3.3" \
       org.label-schema.name="opencast-worker" \
       org.label-schema.description="Docker image for the Opencast worker distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/3.2/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/3.3/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm opencast/worker:3.2 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm opencast/worker:3.3 app:help"
 
 ARG repo="https://bitbucket.org/opencast-community/opencast.git"
-ARG branch="3.2"
+ARG branch="3.3"
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
     PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
     \
-    OPENCAST_VERSION="3.2" \
+    OPENCAST_VERSION="3.3" \
     OPENCAST_DISTRIBUTION="worker" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
@@ -43,7 +43,7 @@ ENV LANG="C.UTF-8" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     \
-    TESSERACT_BASE_URL="https://github.com/tesseract-ocr/tessdata/raw/eb769ead0516ecd3c83e10f27678e8fd9e474cb8" \
+    TESSERACT_BASE_URL="https://github.com/tesseract-ocr/tessdata/raw/9b2e3f6642285b3e9a7a5852e5b10259e42d5510" \
     HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
@@ -52,7 +52,6 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_BRANCH="${branch}"
 
 RUN { \
-     # This is a hack for tools which seem to be unreliable within Docker Hub and Travis CI.
      echo '#!/bin/sh'; \
      echo 'for i in $(seq 1 4); do'; \
      echo '  "$@" && exit 0'; \
@@ -67,11 +66,6 @@ RUN { \
       maven \
       python2 nodejs \
   \
-  # Install dependencies
-  #   - FFmpeg
-  #   - Sound eXchange (SoX)
-  #   - Tesseract Open Source OCR Engine
-  #   - Hunspell
  && apk add --no-cache --virtual .run-deps \
       openjdk8 \
       bash su-exec openssl tzdata curl \
@@ -81,7 +75,6 @@ RUN { \
       hunspell \
       tesseract-ocr \
   \
-  # Install languag files for tesseract and hunspell
  && mkdir -p /tmp/tesseract /tmp/hunspell /usr/share/tessdata /usr/share/hunspell \
  && { \
       echo "59d92b49a22ff96964ba7be053a9e7198cd14c88f76788e7ce2555f5acb9a40c  deu.traineddata"; \
@@ -112,20 +105,17 @@ RUN { \
     done \
  && cp *.aff *.dic /usr/share/hunspell \
   \
-  # Download Opencast
  && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" "${OPENCAST_SCRIPTS}" \
  && git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
  && cd "${OPENCAST_SRC}" \
  && git checkout "${OPENCAST_BRANCH}" \
   \
-  # Compile front-end assets manually as the bundeled node does not run on Alpine
  && cd "${OPENCAST_SRC}/modules/matterhorn-admin-ui-ng" \
  && /tmp/retry npm install -g npm \
  && /tmp/retry npm install -g grunt-cli \
  && /tmp/retry npm install \
  && /tmp/retry grunt build --no-color --skipTests=true \
   \
-  # Compile and install Opencast
  && cd "${OPENCAST_SRC}" \
  && mvn --quiet --batch-mode install -P '!frontend' -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true \
  && tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}" \
@@ -133,7 +123,6 @@ RUN { \
  && adduser -S -D -H -G "${OPENCAST_GROUP}" -h "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
  && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" \
   \
-  # Cleanup
  && apk del --no-cache .build-deps \
  && rm -rf "${OPENCAST_SRC}" /tmp/* ~/.m2 ~/.npm ~/.node-gyp /usr/lib/node_modules
 
