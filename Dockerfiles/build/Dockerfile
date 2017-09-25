@@ -55,7 +55,6 @@ RUN dnf -y install \
   "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
   "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm" \
   \
-  # Build deps
  && dnf -y install \
       sudo \
       tar gzip bzip2 unzip \
@@ -64,7 +63,6 @@ RUN dnf -y install \
       maven \
       python \
   \
-  # Run deps
  && dnf -y install \
       java-1.8.0-openjdk \
       openssl tzdata curl nc \
@@ -81,7 +79,6 @@ RUN dnf -y install \
  && make \
  && cp su-exec /usr/local/sbin \
   \
-  # Install languag files for tesseract and hunspell
  && mkdir -p /tmp/tesseract /tmp/hunspell /usr/share/tessdata /usr/share/hunspell \
  && { \
       echo "59d92b49a22ff96964ba7be053a9e7198cd14c88f76788e7ce2555f5acb9a40c  deu.traineddata"; \
@@ -117,7 +114,6 @@ RUN dnf -y install \
  && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" \
  && echo "opencast-builder ALL = NOPASSWD: ALL" > /etc/sudoers.d/opencast-builder \
   \
-  # Cleanup
  && rm -rf /tmp/* /var/cache/dnf /var/log/dnf* /var/log/hawkey.log
 
 COPY assets/docker-entrypoint.sh /docker-entrypoint.sh
