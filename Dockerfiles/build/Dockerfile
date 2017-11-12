@@ -37,7 +37,7 @@ ENV OPENCAST_VERSION="3.3" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     \
-    TESSERACT_BASE_URL="https://github.com/tesseract-ocr/tessdata/raw/3cf1e2df1fe1d1da29295c9ef0983796c7958b7d" \
+    TESSERACT_BASE_URL="https://github.com/tesseract-ocr/tessdata/raw/3.04.00" \
     HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries" \
     \
     ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER="admin" \
@@ -81,8 +81,8 @@ RUN dnf -y install \
   \
  && mkdir -p /tmp/tesseract /tmp/hunspell /usr/share/tessdata /usr/share/hunspell \
  && { \
-      echo "59d92b49a22ff96964ba7be053a9e7198cd14c88f76788e7ce2555f5acb9a40c  deu.traineddata"; \
-      echo "1cb1468826191cc7d4158fe0a3014d3f5e3bbac618d754586afc86ddae8bcdae  eng.traineddata"; \
+      echo "cb7eb42a7e972cec7ef904fe81825d7b547c46df684c814fdb11a930b13bca3a  deu.traineddata"; \
+      echo "c0515c9f1e0c79e1069fcc05c2b2f6a6841fb5e1082d695db160333c1154f06d  eng.traineddata"; \
     } > /tmp/tesseract-sha256sum.txt \
  && cd /tmp/tesseract \
  && for file in $(awk '{print $2}' /tmp/tesseract-sha256sum.txt); do \
