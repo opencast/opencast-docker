@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM alpine:3.5
+FROM alpine:3.6
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
       org.label-schema.version="3.3" \
@@ -64,7 +64,7 @@ RUN { \
       git \
       make gcc g++ binutils-gold \
       maven \
-      python2 nodejs \
+      python2 nodejs-current nodejs-current-npm \
   \
  && apk add --no-cache --virtual .run-deps \
       openjdk8 \
