@@ -113,6 +113,7 @@ RUN { \
  && cd "${OPENCAST_SRC}/modules/matterhorn-admin-ui-ng" \
  && /tmp/retry npm install -g npm \
  && /tmp/retry npm install -g grunt-cli \
+ && /tmp/retry npm install --save-dev 'node-sass@~4.6.0' \
  && /tmp/retry npm install \
  && /tmp/retry grunt build --no-color --skipTests=true \
   \
