@@ -130,4 +130,5 @@ clean:
 
 lint:
 	cd Dockerfiles/admin/assets && shellcheck --shell=sh --external-sources *.sh ./**/*.sh
+	cd Dockerfiles/build/assets/bin && shellcheck --shell=sh --external-sources *
 .PHONY: lint
