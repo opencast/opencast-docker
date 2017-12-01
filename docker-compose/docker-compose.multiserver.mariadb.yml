@@ -24,6 +24,8 @@ services:
       - MYSQL_DATABASE=opencast
       - MYSQL_USER=opencast
       - MYSQL_PASSWORD=opencast
+    ports:
+      - "3306:3306"
     volumes:
       - ./assets/opencast-ddl.sql:/docker-entrypoint-initdb.d/opencast-ddl.sql:ro
       - db:/var/lib/mysql
