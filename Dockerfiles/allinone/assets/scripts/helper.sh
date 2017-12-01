@@ -16,20 +16,8 @@
 
 set -e
 
-opencast_helper_dist_admin() {
-  test "${OPENCAST_DISTRIBUTION}" = "admin"
-}
-
 opencast_helper_dist_allinone() {
   test "${OPENCAST_DISTRIBUTION}" = "allinone"
-}
-
-opencast_helper_dist_presentation() {
-  test "${OPENCAST_DISTRIBUTION}" = "presentation"
-}
-
-opencast_helper_dist_worker() {
-  test "${OPENCAST_DISTRIBUTION}" = "worker"
 }
 
 opencast_helper_customconfig() {
