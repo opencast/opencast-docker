@@ -15,6 +15,7 @@
 version: "3"
 volumes:
   data: {}
+  db: {}
 services:
   mariadb:
     image: mariadb:10.0
@@ -25,6 +26,7 @@ services:
       - MYSQL_PASSWORD=opencast
     volumes:
       - ./assets/opencast-ddl.sql:/docker-entrypoint-initdb.d/opencast-ddl.sql:ro
+      - db:/var/lib/mysql
 
   activemq:
     image: webcenter/activemq:5.13.2
