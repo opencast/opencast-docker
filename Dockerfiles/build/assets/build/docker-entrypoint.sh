@@ -70,6 +70,12 @@ opencast_main_init() {
 opencast_main_start() {
   echo "Run opencast_main_start"
 
+  # In some corner cases, when the container is restarted, the pid file of the
+  # previous Opencast process is still present preventing a normal start. This
+  # function will only be called once per container start when no other
+  # processes are running. We therefore can just clean up the old pid file.
+  rm -rf /opencast/data/pid /opencast/instances/instance.properties
+
   su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast server &
   OC_PID=$!
   trap opencast_main_stop TERM INT
