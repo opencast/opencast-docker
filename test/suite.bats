@@ -134,6 +134,10 @@ load test_helper
 }
 
 @test "build image should have the same distribution assets" {
+  run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/allinone" "${DOCKERFILES_BUILD}/assets/build/etc/develop" \
+           -x org.ops4j.pax.logging.cfg
+  [ "${status}" -eq 0 ]
+
   run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/allinone" "${DOCKERFILES_ALLINONE}/assets/etc"
   [ "${status}" -eq 0 ]
 
