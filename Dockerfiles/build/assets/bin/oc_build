@@ -18,7 +18,12 @@ set -e
 
 log "oc_build" "Start building Opencast"
 
+if test "$1" = "dev"; then
+  log "oc_build" "Activatig dev build mode"
+  opts="-Pdev"
+fi
+
 cd "${OPENCAST_SRC}"
-mvn install
+mvn install $opts
 
 log "oc_build" "End building Opencast"

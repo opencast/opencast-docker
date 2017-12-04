@@ -16,17 +16,18 @@
 
 set -e
 
-if test -z "$1"; then
-  log_err "oc_install" "No distribution given as first argument."
+dist="$1"
+if test -z "$dist"; then
+  log "oc_install" "No distribution given as first argument. Using 'develop'."
+  dist=develop
+fi
+
+if ! is_oc_dist "$dist"; then
+  log_err "oc_install" "$dist is not an Opencast distribution."
   exit 1
 fi
 
-if ! is_oc_dist "$1"; then
-  log_err "oc_install" "$1 is not an Opencast distribution."
-  exit 1
-fi
-
-if is_oc_installed "$1"; then
+if is_oc_installed "$dist"; then
   log_err "oc_install" "There is already an installation. Uninstall first."
   exit 1
 fi
@@ -34,8 +35,14 @@ fi
 log "oc_install" "Start installation"
 cd "${OPENCAST_SRC}"
 
-log "oc_install" "Extract archive"
-sudo tar -xzf build/opencast-dist-$1-*.tar.gz --strip 1 -C "${OPENCAST_HOME}"
+if test "$dist" = "develop"; then
+  log "oc_install" "Linking develop"
+  sudo rmdir "${OPENCAST_HOME}"
+  sudo ln -s /usr/src/opencast/build/opencast-dist-develop-* "${OPENCAST_HOME}"
+else
+  log "oc_install" "Extract archive"
+  sudo tar -xzf build/opencast-dist-$dist-*.tar.gz --strip 1 -C "${OPENCAST_HOME}"
+fi
 
 log "oc_install" "Create folders"
 sudo mkdir -p "${OPENCAST_CONFIG}" "${OPENCAST_SCRIPTS}" "${OPENCAST_SUPPORT}"
@@ -51,13 +58,13 @@ log "oc_install" "Copy support files"
 sudo cp -R ${OPENCAST_BUILD_ASSETS}/support/* "${OPENCAST_SUPPORT}/"
 
 log "oc_install" "Copy configuration"
-sudo cp -R ${OPENCAST_BUILD_ASSETS}/etc/$1/* "${OPENCAST_CONFIG}/"
-sudo cp "${OPENCAST_BUILD_ASSETS}/etc/$1/index/adminui/settings.yml" "${OPENCAST_CONFIG}/index/adminui/"
-sudo cp "${OPENCAST_BUILD_ASSETS}/etc/$1/index/externalapi/settings.yml" "${OPENCAST_CONFIG}/index/externalapi/"
 # shellcheck disable=SC2086
+sudo cp -R ${OPENCAST_BUILD_ASSETS}/etc/$dist/* "${OPENCAST_CONFIG}/"
+sudo cp "${OPENCAST_BUILD_ASSETS}/etc/$dist/index/adminui/settings.yml" "${OPENCAST_CONFIG}/index/adminui/"
+sudo cp "${OPENCAST_BUILD_ASSETS}/etc/$dist/index/externalapi/settings.yml" "${OPENCAST_CONFIG}/index/externalapi/"
 
 log "oc_install" "Write environment file"
-echo "export OPENCAST_DISTRIBUTION=$1" | sudo tee "${OPENCAST_SCRIPTS}/env" > /dev/null
+echo "export OPENCAST_DISTRIBUTION=$dist" | sudo tee "${OPENCAST_SCRIPTS}/env" > /dev/null
 
 log "oc_install" "Set permissions"
 sudo chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}"

@@ -20,6 +20,10 @@ opencast_helper_dist_allinone() {
   test "${OPENCAST_DISTRIBUTION}" = "allinone"
 }
 
+opencast_helper_dist_develop() {
+  test "${OPENCAST_DISTRIBUTION}" = "develop"
+}
+
 opencast_helper_customconfig() {
   test -d "${OPENCAST_CUSTOM_CONFIG}"
 }

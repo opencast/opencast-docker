@@ -18,6 +18,8 @@ set -e
 
 log "oc_uninstall" "Start uninstallation"
 
-sudo find "${OPENCAST_HOME:?}" -mindepth 1 -delete
+sudo rm -rf "${OPENCAST_HOME}"
+sudo mkdir -p "${OPENCAST_HOME}"
+sudo chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}"
 
 log "oc_uninstall" "End uninstallation"

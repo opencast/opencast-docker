@@ -20,7 +20,7 @@ ORG_OPENCASTPROJECT_SERVER_URL="${ORG_OPENCASTPROJECT_SERVER_URL:-http://$(hostn
 ORG_OPENCASTPROJECT_ADMIN_EMAIL="${ORG_OPENCASTPROJECT_ADMIN_EMAIL:-admin@localhost}"
 ORG_OPENCASTPROJECT_DOWNLOAD_URL="${ORG_OPENCASTPROJECT_DOWNLOAD_URL:-\$\{org.opencastproject.server.url\}/static}"
 
-if opencast_helper_dist_allinone; then
+if opencast_helper_dist_allinone || opencast_helper_dist_develop; then
   # shellcheck disable=SC2016
   export ORG_OPENCASTPROJECT_FILE_REPO_URL='${org.opencastproject.server.url}'
 else
@@ -38,7 +38,7 @@ opencast_opencast_check() {
     "ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS" \
     "ORG_OPENCASTPROJECT_FILE_REPO_URL"
 
-  if ! opencast_helper_dist_allinone; then
+  if ! (opencast_helper_dist_allinone || opencast_helper_dist_develop); then
     opencast_helper_checkforvariables \
       "PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL" \
       "PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL"
@@ -57,7 +57,7 @@ opencast_opencast_configure() {
     "ORG_OPENCASTPROJECT_FILE_REPO_URL" \
     "ORG_OPENCASTPROJECT_DOWNLOAD_URL"
 
-  if ! opencast_helper_dist_allinone; then
+  if ! (opencast_helper_dist_allinone || opencast_helper_dist_develop); then
     opencast_helper_replaceinfile "etc/org.opencastproject.organization-mh_default_org.cfg" \
       "PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL" \
       "PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL"

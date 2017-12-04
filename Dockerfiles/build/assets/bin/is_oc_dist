@@ -19,6 +19,7 @@ for dist in \
     "admin" \
     "adminpresentation" \
     "adminworker" \
+    "develop" \
     "ingest" \
     "presentation" \
     "worker" \
