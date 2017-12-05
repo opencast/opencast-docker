@@ -70,7 +70,7 @@ In the `./docker-compose` directory there are also compose files for more produc
 
 # Images
 
-Opencast comes in different distributions. For each of the official distributions there is a specific Docker image. Each version is tagged. For example the full image name containing the `admin` distribution at version `2.3.4` is `opencast/admin:2.3.4`. Leaving the version out will install the latest one.
+Opencast comes in different distributions. For each of the official distributions there is a specific Docker image. Each version is tagged. For example the full image name containing the `admin` distribution at version `2.3.5` is `opencast/admin:2.3.5`. Leaving the version out will install the latest one.
 
 ## `allinone`
 
