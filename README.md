@@ -70,19 +70,23 @@ In the `./docker-compose` directory there are also compose files for more produc
 
 # Images
 
-Opencast comes in different distributions. For each of the official distributions there is a specific Docker image. Each version is tagged. For example the full image name containing the `admin` distribution at version `3.4` is `opencast/admin:3.4`. Leaving the version out will install the latest one.
+Opencast comes in different distributions. For each of the official distributions there is a specific Docker image. Each version is tagged. For example the full image name containing the `admin` distribution at version `4.0` is `opencast/admin:4.0`. Leaving the version out will install the latest one.
 
 ## `allinone`
 
 This image contains all Opencast modules necessary to run a full Opencast installation. It's useful for small and local test setups. If you however want to run Opencast in a distributed fashion, you probably should use a combination of `admin`, `worker` and `presentation` containers.
 
-## `admin`, `worker`, `adminpresentation`, `adminworker`, `ingest` and `presentation`
+## `admin`, `adminpresentation`, `adminworker`, `ingest`, `presentation` and `worker`,
 
 These images contain the Opencast modules of the corresponding Opencast distributions.
 
 ## `build`
 
 This images helps you set up a development environment for Opencast. For more information see [here](Dockerfiles/build/README.md).
+
+## `migration`
+
+TODO: add migration distribution
 
 # Usage
 
@@ -107,7 +111,7 @@ It's recommended to configure Opencast by using [Docker Volumes](https://docs.do
 $ docker run -v "/path/to/opencast-etc:/etc/opencast" opencast/<distribution>
 ```
 
-The most important settings however can be configured by [environment variables](https://docs.docker.com/engine/reference/run/#env-environment-variables). You can use this functionally to generate new configuration files. For this start a new container with specific variables and execute the `app:init` command. This will ensure you haven't missed anything, write the configuration files and exit. Then you can copy the files to a target directory:
+The most important settings, however, can be configured by [environment variables](https://docs.docker.com/engine/reference/run/#env-environment-variables). You can use this functionally to generate new configuration files. For this start a new container with specific variables and execute the `app:init` command. This will ensure you haven't missed anything, write the configuration files and exit. Then you can copy the files to a target directory:
 
 ```sh
 $ docker run --name opencast_generate_config \
@@ -143,7 +147,7 @@ Make sure to use the correct Opencast distribution as there are small difference
 
 For an installation with multiple nodes you can also set:
 
--   `ORG_OPENCASTPROJECT_FILE_REPO_URL` Optional<br>
+-   `PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL` Optional<br>
     HTTP-URL of the file repository. Defaults to `${org.opencastproject.server.url}` in the `allinone` distribution and `${org.opencastproject.admin.ui.url}` for every other one.
 -   `PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL` **Required for all but `allinone`**<br>
     HTTP-URL of the admin node.
