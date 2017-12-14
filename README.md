@@ -10,6 +10,7 @@
     -   [`allinone`](#allinone)
     -   [`admin`, `worker`, `adminpresentation`, `adminworker`, `ingest` and `presentation`](#admin-worker-adminpresentation-adminworker-ingest-and-presentation)
     -   [`build`](#build)
+    -   [`migration`](#migration)
 -   [Usage](#usage)
 -   [Configuration](#configuration)
     -   [Opencast](#opencast)
@@ -86,7 +87,7 @@ This images helps you set up a development environment for Opencast. For more in
 
 ## `migration`
 
-TODO: add migration distribution
+This images contains the smalles set of modules necessary for supporting you to migrate from an older Opencast version to a newer one.
 
 # Usage
 
@@ -153,6 +154,11 @@ For an installation with multiple nodes you can also set:
     HTTP-URL of the admin node.
 -   `PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL` **Required for all but `allinone`**<br>
     HTTP-URL of the engage node.
+
+The `migration` distribution has the following additional options:
+
+-   `ORG_OPENCASTPROJECT_MIGRATION_ORGANIZATION` Optional<br>
+    The organizational context, i.e. destination organization, for the migration. Defaults to `mh_default_org`.
 
 ## ActiveMQ
 

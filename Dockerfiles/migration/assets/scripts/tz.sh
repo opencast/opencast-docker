@@ -14,18 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-for dist in \
-    "allinone" \
-    "admin" \
-    "adminpresentation" \
-    "adminworker" \
-    "develop" \
-    "ingest" \
-    "migration" \
-    "presentation" \
-    "worker" \
-    ; do
-  test "$1" = "$dist" && exit 0
-done
+set -e
 
-exit 1
+TIMEZONE="${TIMEZONE:-UTC}"
+
+opencast_tz_set() {
+  echo "Run opencast_tz_set"
+  echo "  Setting timezone to ${TIMEZONE}"
+
+  ln -snf "/usr/share/zoneinfo/${TIMEZONE}" /etc/localtime
+  echo "${TIMEZONE}" > /etc/timezone
+  echo "${TIMEZONE}" > /etc/TIMEZONE
+}

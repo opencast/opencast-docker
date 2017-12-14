@@ -22,7 +22,7 @@ CUSTOM_DOCKER_BUILD_ARGS=
 
 all: lint build test
 
-build: build-allinone build-admin build-adminpresentation build-adminworker build-ingest build-presentation build-worker build-build
+build: build-allinone build-admin build-adminpresentation build-adminworker build-ingest build-migration build-presentation build-worker build-build
 build-allinone:
 	docker build \
 		--pull \
@@ -68,6 +68,15 @@ build-ingest:
 		-t $(DOCKER_IMAGE_BASE)/ingest:$(DOCKER_TAG) \
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		Dockerfiles/ingest
+build-migration:
+	docker build \
+		--pull \
+		--build-arg repo=$(REPO) \
+		--build-arg branch=$(BRANCH) \
+		-t $(DOCKER_IMAGE_BASE)/migration \
+		-t $(DOCKER_IMAGE_BASE)/migration:$(DOCKER_TAG) \
+		$(CUSTOM_DOCKER_BUILD_ARGS) \
+		Dockerfiles/migration
 build-presentation:
 	docker build \
 		--pull \
@@ -95,9 +104,9 @@ build-build:
 		-t $(DOCKER_IMAGE_BASE)/build:$(DOCKER_TAG) \
 		$(CUSTOM_DOCKER_BUILD_ARGS) \
 		Dockerfiles/build
-.PHONY: build build-allinone build-admin build-adminpresentation build-adminworker build-ingest build-presentation build-worker build-build
+.PHONY: build build-allinone build-admin build-adminpresentation build-adminworker build-ingest build-migration build-presentation build-worker build-build
 
-test: test-common test-allinone test-admin test-adminpresentation test-adminworker test-ingest test-presentation test-worker test-build
+test: test-common test-allinone test-admin test-adminpresentation test-adminworker test-ingest test-migration test-presentation test-worker test-build
 test-common:
 	bats test
 test-allinone: build-allinone
@@ -105,16 +114,18 @@ test-admin: build-admin
 test-adminpresentation: build-adminpresentation
 test-adminworker: build-adminworker
 test-ingest: build-ingest
+test-migration: build-migration
 test-presentation: build-presentation
 test-worker: build-worker
 test-build: build-build
-.PHONY: test test-common test-allinone test-admin test-adminpresentation test-adminworker test-ingest test-presentation test-worker test-build
+.PHONY: test test-common test-allinone test-admin test-adminpresentation test-adminworker test-ingest test-migration test-presentation test-worker test-build
 
 clean:
 	-docker rmi $(DOCKER_IMAGE_BASE)/allinone
 	-docker rmi $(DOCKER_IMAGE_BASE)/admin
 	-docker rmi $(DOCKER_IMAGE_BASE)/adminworker
 	-docker rmi $(DOCKER_IMAGE_BASE)/ingest
+	-docker rmi $(DOCKER_IMAGE_BASE)/migration
 	-docker rmi $(DOCKER_IMAGE_BASE)/presentation
 	-docker rmi $(DOCKER_IMAGE_BASE)/worker
 	-docker rmi $(DOCKER_IMAGE_BASE)/build
@@ -123,6 +134,7 @@ clean:
 	-docker rmi $(DOCKER_IMAGE_BASE)/adminpresentation:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/adminworker:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/ingest:$(DOCKER_TAG)
+	-docker rmi $(DOCKER_IMAGE_BASE)/migration:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/presentation:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/worker:$(DOCKER_TAG)
 	-docker rmi $(DOCKER_IMAGE_BASE)/build:$(DOCKER_TAG)

@@ -14,18 +14,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-for dist in \
-    "allinone" \
-    "admin" \
-    "adminpresentation" \
-    "adminworker" \
-    "develop" \
-    "ingest" \
-    "migration" \
-    "presentation" \
-    "worker" \
-    ; do
-  test "$1" = "$dist" && exit 0
-done
+set -e
 
-exit 1
+opencast_activemq_check() {
+  echo "Run opencast_activemq_check"
+
+  opencast_helper_checkforvariables \
+    "ACTIVEMQ_BROKER_URL" \
+    "ACTIVEMQ_BROKER_USERNAME" \
+    "ACTIVEMQ_BROKER_PASSWORD"
+}
+
+opencast_activemq_configure() {
+  echo "Run opencast_activemq_configure"
+
+  opencast_helper_replaceinfile "etc/custom.properties" \
+    "ACTIVEMQ_BROKER_URL" \
+    "ACTIVEMQ_BROKER_USERNAME" \
+    "ACTIVEMQ_BROKER_PASSWORD"
+}
+
+opencast_activemq_printactivemqxml() {
+  # TODO: read env variables and add config for jaasAuthenticationPlugin
+  cat "${OPENCAST_SUPPORT}/activemq.xml"
+}

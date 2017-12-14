@@ -14,18 +14,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-for dist in \
-    "allinone" \
-    "admin" \
-    "adminpresentation" \
-    "adminworker" \
-    "develop" \
-    "ingest" \
-    "migration" \
-    "presentation" \
-    "worker" \
-    ; do
-  test "$1" = "$dist" && exit 0
-done
+set -e
 
-exit 1
+opencast_mysql_check() {
+  echo "Run opencast_mysql_check"
+
+  export ORG_OPENCASTPROJECT_DB_JDBC_DRIVER="com.mysql.jdbc.Driver"
+}
+
+opencast_mysql_configure() {
+  echo "Run opencast_mysql_configure"
+
+  export ORG_OPENCASTPROJECT_DB_JDBC_DRIVER="com.mysql.jdbc.Driver"
+}
+
+opencast_mysql_printddl() {
+  cat /opencast/docs/scripts/ddl/mysql5.sql
+}
