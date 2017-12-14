@@ -65,7 +65,7 @@ RUN dnf -y install \
   \
  && dnf -y install \
       java-1.8.0-openjdk \
-      openssl tzdata curl nc \
+      openssl tzdata curl nc jq \
       fontconfig dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts \
       gnu-free-serif-fonts gnu-free-mono-fonts gnu-free-sans-fonts \
       liberation-fonts linux-libertine-fonts \

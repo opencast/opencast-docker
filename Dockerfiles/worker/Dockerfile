@@ -68,7 +68,7 @@ RUN { \
   \
  && apk add --no-cache --virtual .run-deps \
       openjdk8 \
-      bash su-exec openssl tzdata curl \
+      bash su-exec openssl tzdata curl jq \
       fontconfig ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine \
       ffmpeg \
       sox \
