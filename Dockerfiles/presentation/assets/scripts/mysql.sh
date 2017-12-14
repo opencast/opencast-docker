@@ -18,6 +18,8 @@ set -e
 
 opencast_mysql_check() {
   echo "Run opencast_mysql_check"
+
+  export ORG_OPENCASTPROJECT_DB_JDBC_DRIVER="com.mysql.jdbc.Driver"
 }
 
 opencast_mysql_configure() {
