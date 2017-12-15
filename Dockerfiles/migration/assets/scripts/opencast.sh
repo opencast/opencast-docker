@@ -31,7 +31,7 @@ else
   export PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL="${PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL:-\$\{prop.org.opencastproject.admin.ui.url\}}"
 fi
 
-if opencast_helper_dist_migrate ; then
+if opencast_helper_dist_migration ; then
   export ORG_OPENCASTPROJECT_MIGRATION_ORGANIZATION="${ORG_OPENCASTPROJECT_MIGRATION_ORGANIZATION:-mh_default_org}"
 fi
 
@@ -47,7 +47,7 @@ opencast_opencast_check() {
     "PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL" \
     "PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL"
 
-  if opencast_helper_dist_migrate ; then
+  if opencast_helper_dist_migration ; then
     opencast_helper_checkforvariables "ORG_OPENCASTPROJECT_MIGRATION_ORGANIZATION"
   fi
 }
@@ -68,7 +68,7 @@ opencast_opencast_configure() {
     "PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL" \
     "PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL"
 
-  if opencast_helper_dist_migrate ; then
+  if opencast_helper_dist_migration ; then
     opencast_helper_replaceinfile "etc/custom.properties" "ORG_OPENCASTPROJECT_MIGRATION_ORGANIZATION"
   fi
 }
