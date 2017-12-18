@@ -18,9 +18,10 @@ set -e
 
 log "oc_build" "Start building Opencast"
 
-if test "$1" = "dev"; then
-  log "oc_build" "Activatig dev build mode"
-  opts="-Pdev"
+opts="-Pdev"
+if test "$1" = "all"; then
+  log "oc_build" "Activatig 'all' build mode"
+  opts=""
 fi
 
 cd "${OPENCAST_SRC}"

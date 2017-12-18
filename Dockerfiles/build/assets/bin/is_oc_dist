@@ -21,6 +21,7 @@ for dist in \
     "adminworker" \
     "develop" \
     "ingest" \
+    "migration" \
     "presentation" \
     "worker" \
     ; do

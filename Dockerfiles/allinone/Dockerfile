@@ -15,24 +15,24 @@
 FROM alpine:3.6
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="3.4" \
+      org.label-schema.version="4.0" \
       org.label-schema.name="opencast-allinone" \
       org.label-schema.description="Docker image for the Opencast allinone distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/3.4/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/4.0/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm opencast/allinone:3.4 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm opencast/allinone:4.0 app:help"
 
 ARG repo="https://bitbucket.org/opencast-community/opencast.git"
-ARG branch="3.4"
+ARG branch="4.0"
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
     PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
     \
-    OPENCAST_VERSION="3.4" \
+    OPENCAST_VERSION="4.0" \
     OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
@@ -68,7 +68,7 @@ RUN { \
   \
  && apk add --no-cache --virtual .run-deps \
       openjdk8 \
-      bash su-exec openssl tzdata curl \
+      bash su-exec openssl tzdata curl jq \
       fontconfig ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine \
       ffmpeg \
       sox \
@@ -118,7 +118,7 @@ RUN { \
  && /tmp/retry grunt build --no-color --skipTests=true \
   \
  && cd "${OPENCAST_SRC}" \
- && mvn --quiet --batch-mode install -P '!frontend' -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true \
+ && mvn --quiet --batch-mode install -P 'frontend-no-prebuilt' -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true \
  && tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}" \
  && addgroup -S -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && adduser -S -D -H -G "${OPENCAST_GROUP}" -h "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \

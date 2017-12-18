@@ -19,6 +19,8 @@ set -e
 opencast_jdbc_check() {
   echo "Run opencast_jdbc_check"
 
+  export ORG_OPENCASTPROJECT_DB_DDL_GENERATION="${ORG_OPENCASTPROJECT_DB_DDL_GENERATION:-false}"
+
   opencast_helper_checkforvariables \
     "ORG_OPENCASTPROJECT_DB_DDL_GENERATION" \
     "ORG_OPENCASTPROJECT_DB_JDBC_DRIVER" \

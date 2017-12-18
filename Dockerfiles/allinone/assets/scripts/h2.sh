@@ -18,6 +18,8 @@ set -e
 
 opencast_h2_check() {
   echo "Run opencast_h2_check"
+
+  export ORG_OPENCASTPROJECT_DB_DDL_GENERATION="true"
 }
 
 opencast_h2_configure() {

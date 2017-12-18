@@ -22,10 +22,17 @@ export ORG_OPENCASTPROJECT_DOWNLOAD_URL="${ORG_OPENCASTPROJECT_DOWNLOAD_URL:-\$\
 
 if opencast_helper_dist_allinone || opencast_helper_dist_develop; then
   # shellcheck disable=SC2016
-  export ORG_OPENCASTPROJECT_FILE_REPO_URL='${org.opencastproject.server.url}'
+  export PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL="${PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL:-\$\{org.opencastproject.server.url\}}"
+  export PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL="${PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL:-\$\{org.opencastproject.server.url\}}"
+  export PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL="${PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL:-\$\{org.opencastproject.server.url\}}"
+
 else
   # shellcheck disable=SC2016
-  export ORG_OPENCASTPROJECT_FILE_REPO_URL='${org.opencastproject.admin.ui.url}'
+  export PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL="${PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL:-\$\{prop.org.opencastproject.admin.ui.url\}}"
+fi
+
+if opencast_helper_dist_migration ; then
+  export ORG_OPENCASTPROJECT_MIGRATION_ORGANIZATION="${ORG_OPENCASTPROJECT_MIGRATION_ORGANIZATION:-mh_default_org}"
 fi
 
 opencast_opencast_check() {
@@ -36,12 +43,12 @@ opencast_opencast_check() {
     "ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS" \
     "ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER" \
     "ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS" \
-    "ORG_OPENCASTPROJECT_FILE_REPO_URL"
+    "PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL" \
+    "PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL" \
+    "PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL"
 
-  if ! (opencast_helper_dist_allinone || opencast_helper_dist_develop); then
-    opencast_helper_checkforvariables \
-      "PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL" \
-      "PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL"
+  if opencast_helper_dist_migration ; then
+    opencast_helper_checkforvariables "ORG_OPENCASTPROJECT_MIGRATION_ORGANIZATION"
   fi
 }
 
@@ -54,12 +61,14 @@ opencast_opencast_configure() {
     "ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS" \
     "ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER" \
     "ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS" \
-    "ORG_OPENCASTPROJECT_FILE_REPO_URL" \
     "ORG_OPENCASTPROJECT_DOWNLOAD_URL"
 
-  if ! (opencast_helper_dist_allinone || opencast_helper_dist_develop); then
-    opencast_helper_replaceinfile "etc/org.opencastproject.organization-mh_default_org.cfg" \
-      "PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL" \
-      "PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL"
+  opencast_helper_replaceinfile "etc/org.opencastproject.organization-mh_default_org.cfg" \
+    "PROP_ORG_OPENCASTPROJECT_FILE_REPO_URL" \
+    "PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL" \
+    "PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL"
+
+  if opencast_helper_dist_migration ; then
+    opencast_helper_replaceinfile "etc/custom.properties" "ORG_OPENCASTPROJECT_MIGRATION_ORGANIZATION"
   fi
 }

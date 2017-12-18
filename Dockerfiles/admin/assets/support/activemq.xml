@@ -28,11 +28,13 @@
         </property>
     </bean>
 
-   <!-- Allows accessing the server log -->
+    <!-- Allows accessing the server log -->
+    <!-- Turned off by default
     <bean id="logQuery" class="io.fabric8.insight.log.log4j.Log4jLogQuery"
           lazy-init="false" scope="singleton"
           init-method="start" destroy-method="stop">
     </bean>
+    -->
 
     <!--
         The <broker> element is used to configure the ActiveMQ broker.
@@ -72,10 +74,11 @@
           </virtualDestinationInterceptor>
           <virtualDestinationInterceptor>
             <virtualDestinations>
-              <compositeQueue name="ARCHIVE.QUEUE">
+              <compositeQueue name="ASSETMANAGER.QUEUE">
                 <forwardTo>
-                  <queue physicalName="ARCHIVE.Adminui" />
-                  <queue physicalName="ARCHIVE.Externalapi" />
+                  <queue physicalName="ASSETMANAGER.Adminui" />
+                  <queue physicalName="ASSETMANAGER.Externalapi" />
+                  <queue physicalName="ASSETMANAGER.Conductor" />
                 </forwardTo>
               </compositeQueue>
             </virtualDestinations>
@@ -96,16 +99,6 @@
                 <forwardTo>
                   <queue physicalName="GROUP.Adminui" />
                   <queue physicalName="GROUP.Externalapi" />
-                </forwardTo>
-              </compositeQueue>
-            </virtualDestinations>
-          </virtualDestinationInterceptor>
-          <virtualDestinationInterceptor>
-            <virtualDestinations>
-              <compositeQueue name="RECORDING.QUEUE">
-                <forwardTo>
-                  <queue physicalName="RECORDING.Adminui" />
-                  <queue physicalName="RECORDING.Externalapi" />
                 </forwardTo>
               </compositeQueue>
             </virtualDestinations>
