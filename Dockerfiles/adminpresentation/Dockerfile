@@ -25,7 +25,7 @@ LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
       org.label-schema.docker.cmd.help="docker run --rm opencast/adminpresentation:4.0 app:help"
 
-ARG repo="https://bitbucket.org/opencast-community/opencast.git"
+ARG repo="https://github.com/opencast/opencast.git"
 ARG branch="4.0"
 
 ENV LANG="C.UTF-8" \
