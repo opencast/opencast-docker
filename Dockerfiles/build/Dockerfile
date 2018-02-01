@@ -24,7 +24,7 @@ LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER bash"
 
-ARG repo="https://bitbucket.org/opencast-community/opencast.git"
+ARG repo="https://github.com/opencast/opencast.git"
 ARG branch="4.0"
 
 ENV OPENCAST_VERSION="4.0" \
