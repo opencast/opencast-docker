@@ -27,7 +27,14 @@ LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
 ARG repo="https://github.com/opencast/opencast.git"
 ARG branch="4.0"
 
-ENV OPENCAST_VERSION="4.0" \
+ENV HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries" \
+    \
+    ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER="admin" \
+    ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS="opencast" \
+    ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER="opencast_system_account" \
+    ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS="CHANGE_ME" \
+    \
+    OPENCAST_VERSION="4.0" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
@@ -36,14 +43,6 @@ ENV OPENCAST_VERSION="4.0" \
     OPENCAST_GROUP="opencast" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
-    \
-    TESSERACT_BASE_URL="https://github.com/tesseract-ocr/tessdata/raw/3.04.00" \
-    HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries" \
-    \
-    ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER="admin" \
-    ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS="opencast" \
-    ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER="opencast_system_account" \
-    ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS="CHANGE_ME" \
     OPENCAST_BUILD_ASSETS="/docker"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
@@ -52,9 +51,8 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_BRANCH="${branch}"
 
 RUN dnf -y install \
-  "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
-  "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm" \
-  \
+      "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
+      "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm" \
  && dnf -y install \
       sudo \
       tar gzip bzip2 unzip \
@@ -62,34 +60,20 @@ RUN dnf -y install \
       make automake gcc gcc-c++ \
       maven \
       python \
-  \
  && dnf -y install \
       java-1.8.0-openjdk \
       openssl tzdata curl nc jq \
       fontconfig dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts \
       gnu-free-serif-fonts gnu-free-mono-fonts gnu-free-sans-fonts \
       liberation-fonts linux-libertine-fonts \
-      ffmpeg \
-      sox \
-      hunspell \
-      tesseract \
+      ffmpeg sox hunspell tesseract \
   \
  && git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
  && cd /tmp/su-exec \
  && make \
  && cp su-exec /usr/local/sbin \
   \
- && mkdir -p /tmp/tesseract /tmp/hunspell /usr/share/tessdata /usr/share/hunspell \
- && { \
-      echo "cb7eb42a7e972cec7ef904fe81825d7b547c46df684c814fdb11a930b13bca3a  deu.traineddata"; \
-      echo "c0515c9f1e0c79e1069fcc05c2b2f6a6841fb5e1082d695db160333c1154f06d  eng.traineddata"; \
-    } > /tmp/tesseract-sha256sum.txt \
- && cd /tmp/tesseract \
- && for file in $(awk '{print $2}' /tmp/tesseract-sha256sum.txt); do \
-      curl -L -o "${file}" "${TESSERACT_BASE_URL}/${file}"; \
-      grep "${file}" /tmp/tesseract-sha256sum.txt | sha256sum -c -; \
-      cp "${file}" /usr/share/tessdata; \
-    done \
+ && mkdir -p /tmp/hunspell /usr/share/hunspell \
  && { \
       echo "2478723ab67dd801ec6add11b1af9d32665e7859a1cb00c95bfc2b618584a802  de_AT.zip"; \
       echo "c30bb085ba0a3d22a23aef51f4dd94ae9ae0cc811c0590ebf3713a93b209d823  de_CH.zip"; \
