@@ -29,7 +29,7 @@ opencast_helper_customconfig() {
 }
 
 opencast_helper_copycustomconfig() {
-  cp -R "${OPENCAST_CUSTOM_CONFIG}"/* "${OPENCAST_CONFIG}"
+  cp -RL "${OPENCAST_CUSTOM_CONFIG}"/* "${OPENCAST_CONFIG}"
   chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_CONFIG}"
 }
 
