@@ -145,6 +145,8 @@ Make sure to use the correct Opencast distribution as there are small difference
     Password for the communication between Opencast nodes and capture agents.
 -   `ORG_OPENCASTPROJECT_DOWNLOAD_URL` Optional<br>
     The HTTP-URL to use for downloading media files, e.g. for the player. Defaults to `${org.opencastproject.server.url}/static`.
+-   `ORG_OPENCASTPROJECT_ADMIN_EMAIL` Optional<br>
+    Email address of the server's admin. Defaults to `admin@localhost`.
 
 For an installation with multiple nodes you can also set:
 
