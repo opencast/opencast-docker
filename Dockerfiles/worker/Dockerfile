@@ -15,7 +15,7 @@
 FROM openjdk:8-jdk-slim-stretch AS build
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="4.1"
+ARG branch="4.2"
 
 ENV OPENCAST_DISTRIBUTION="worker" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -41,22 +41,22 @@ RUN apt-get update \
 FROM alpine:3.7
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="4.1" \
+      org.label-schema.version="4.2" \
       org.label-schema.name="opencast-worker" \
       org.label-schema.description="Docker image for the Opencast worker distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/4.1/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/4.2/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm opencast/worker:4.1 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm opencast/worker:4.2 app:help"
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
     PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
     HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries" \
     \
-    OPENCAST_VERSION="4.1" \
+    OPENCAST_VERSION="4.2" \
     OPENCAST_DISTRIBUTION="worker" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
