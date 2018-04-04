@@ -71,12 +71,17 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
 
-COPY --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
-COPY assets/scripts "${OPENCAST_SCRIPTS}"
-COPY assets/support "${OPENCAST_SUPPORT}"
-COPY assets/etc/* "${OPENCAST_CONFIG}/"
-COPY assets/etc/index/adminui/settings.yml "${OPENCAST_CONFIG}/index/adminui/"
-COPY assets/etc/index/externalapi/settings.yml "${OPENCAST_CONFIG}/index/externalapi/"
+RUN addgroup -S -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
+ && adduser -S -D -H -G "${OPENCAST_GROUP}" -h "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
+ && mkdir -p "${OPENCAST_DATA}" \
+ && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_DATA}"
+
+COPY --chown=opencast:opencast --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
+COPY --chown=opencast:opencast assets/scripts "${OPENCAST_SCRIPTS}"
+COPY --chown=opencast:opencast assets/support "${OPENCAST_SUPPORT}"
+COPY --chown=opencast:opencast assets/etc/* "${OPENCAST_CONFIG}/"
+COPY --chown=opencast:opencast assets/etc/index/adminui/settings.yml "${OPENCAST_CONFIG}/index/adminui/"
+COPY --chown=opencast:opencast assets/etc/index/externalapi/settings.yml "${OPENCAST_CONFIG}/index/externalapi/"
 COPY assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
 
 RUN apk add --no-cache \
@@ -86,10 +91,6 @@ RUN apk add --no-cache \
       ffmpeg sox hunspell tesseract-ocr \
   \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
- && mkdir -p "${OPENCAST_DATA}" \
- && addgroup -S -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
- && adduser -S -D -H -G "${OPENCAST_GROUP}" -h "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
- && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" \
   \
  && mkdir -p /tmp/hunspell /usr/share/hunspell \
  && { \
