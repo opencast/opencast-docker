@@ -1,6 +1,6 @@
-# opencast/build
+# quay.io/opencast/build
 
-In order to help you develop Opencast while sill using Docker containers the `opencast/build` image was created.
+In order to help you develop Opencast while sill using Docker containers the `quay.io/opencast/build` image was created.
 
 ## Quick Start
 

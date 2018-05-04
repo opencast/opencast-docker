@@ -32,13 +32,13 @@ This repository holds `Dockerfiles` for creating [Opencast](http://www.opencast.
 All images are available on [Quay](https://quay.io/organization/opencast). To install the image simply pull the distribution you want:
 
 ```sh
-$ docker pull "opencast/<distribution>"
+$ docker pull "quay.io/opencast/<distribution>"
 ```
 
 To install a specific version, use the following command:
 
 ```sh
-$ docker pull "opencast/<distribution>:<version>"
+$ docker pull "quay.io/opencast/<distribution>:<version>"
 ```
 
 # Build
@@ -71,7 +71,7 @@ In the `./docker-compose` directory there are also compose files for more produc
 
 # Images
 
-Opencast comes in different distributions. For each of the official distributions there is a specific Docker image. Each version is tagged. For example the full image name containing the `admin` distribution at version `4.3` is `opencast/admin:4.3`. Leaving the version out will install the latest one.
+Opencast comes in different distributions. For each of the official distributions there is a specific Docker image. Each version is tagged. For example the full image name containing the `admin` distribution at version `4.3` is `quay.io/opencast/admin:4.3`. Leaving the version out will install the latest one.
 
 ## `allinone`
 
@@ -94,7 +94,7 @@ This images contains the smalles set of modules necessary for supporting you to 
 The images come with multiple commands. You can see a full list with description by running:
 
 ```sh
-$ docker run --rm opencast/<distribution> app:help
+$ docker run --rm quay.io/opencast/<distribution> app:help
 Usage:
   app:help                Prints the usage information
   app:print:ddl           Prints SQL commands to set up the database
@@ -109,7 +109,7 @@ Usage:
 It's recommended to configure Opencast by using [Docker Volumes](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems):
 
 ```sh
-$ docker run -v "/path/to/opencast-etc:/etc/opencast" opencast/<distribution>
+$ docker run -v "/path/to/opencast-etc:/etc/opencast" quay.io/opencast/<distribution>
 ```
 
 The most important settings, however, can be configured by [environment variables](https://docs.docker.com/engine/reference/run/#env-environment-variables). You can use this functionally to generate new configuration files. For this start a new container with specific variables and execute the `app:init` command. This will ensure you haven't missed anything, write the configuration files and exit. Then you can copy the files to a target directory:
@@ -124,7 +124,7 @@ $ docker run --name opencast_generate_config \
   -e "ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast" \
   -e "ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account" \
   -e "ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME" \
-  opencast/<distribution> "app:init"
+  quay.io/opencast/<distribution> "app:init"
 $ docker cp opencast_generate_config:/opencast/etc opencast-config
 $ docker rm opencast_generate_config
 ```
