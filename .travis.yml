@@ -29,14 +29,6 @@ env:
   - OPENCAST_DISTRIBUTION=presentation
   - OPENCAST_DISTRIBUTION=worker
 
-addons:
-  apt:
-    sources:
-      - debian-sid
-    packages:
-      - shellcheck
-      - docker-ce
-
 before_install:
   - git clone https://github.com/sstephenson/bats.git /tmp/bats
   - sudo /tmp/bats/install.sh /usr/local
@@ -46,7 +38,7 @@ before_install:
   - bats --version
 
 install:
-  - docker pull "opencast/${OPENCAST_DISTRIBUTION}:$(cat VERSION)" || true
+  - docker pull "quay.io/opencast/${OPENCAST_DISTRIBUTION}:$(cat VERSION)" || true
   - make "build-${OPENCAST_DISTRIBUTION}" CUSTOM_DOCKER_BUILD_ARGS="--cache-from 'opencast/${OPENCAST_DISTRIBUTION}:$(cat VERSION)'"
 
 script:
