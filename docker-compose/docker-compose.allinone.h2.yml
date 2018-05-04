@@ -17,7 +17,7 @@ volumes:
   data: {}
 services:
   activemq:
-    image: webcenter/activemq:5.13.2
+    image: webcenter/activemq:5.14.3
     environment:
       - ACTIVEMQ_MIN_MEMORY=128
       - ACTIVEMQ_MAX_MEMORY=1024
