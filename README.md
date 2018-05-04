@@ -1,6 +1,6 @@
-# [Opencast Docker images](https://hub.docker.com/r/opencast/)
+# [Opencast Docker images](https://quay.io/organization/opencast)
 
-[![Build Status](https://travis-ci.org/opencast/opencast-docker.svg?branch=master)](https://travis-ci.org/opencast/opencast-docker) [![](https://images.microbadger.com/badges/version/opencast/allinone.svg)](https://hub.docker.com/r/opencast/allinone/) [![](https://images.microbadger.com/badges/image/opencast/allinone.svg)](https://microbadger.com/images/opencast/allinone)
+[![Build Status](https://travis-ci.org/opencast/opencast-docker.svg?branch=master)](https://travis-ci.org/opencast/opencast-docker) [![Docker Repository on Quay](https://quay.io/repository/opencast/allinone/status "Docker Repository on Quay")](https://quay.io/repository/opencast/allinone)
 
 -   [Introduction](#introduction)
 -   [Installation](#installation)
@@ -29,7 +29,7 @@ This repository holds `Dockerfiles` for creating [Opencast](http://www.opencast.
 
 # Installation
 
-All images are available on [Docker Hub](https://hub.docker.com/r/opencast/). To install the image simply pull the distribution you want:
+All images are available on [Quay](https://quay.io/organization/opencast). To install the image simply pull the distribution you want:
 
 ```sh
 $ docker pull "opencast/<distribution>"
@@ -210,4 +210,4 @@ Opencast makes use of [Tesseract](https://github.com/tesseract-ocr/tesseract) to
 
 -   [Project site](https://github.com/opencast/opencast-docker)
 -   [Opencast documentation](https://docs.opencast.org/latest/admin/)
--   [Images on Docker Hub](https://hub.docker.com/r/opencast/)
+-   [Images on Quay](https://quay.io/organization/opencast)
