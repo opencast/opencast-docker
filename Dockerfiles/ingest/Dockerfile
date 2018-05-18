@@ -88,7 +88,7 @@ RUN apk add --no-cache \
       openjdk8 \
       bash su-exec openssl tzdata curl jq \
       fontconfig ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine \
-      ffmpeg sox hunspell tesseract-ocr \
+      ffmpeg sox hunspell tesseract-ocr nfs-utils \
   \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
   \
