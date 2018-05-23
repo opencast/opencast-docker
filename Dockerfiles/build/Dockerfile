@@ -67,6 +67,7 @@ RUN dnf -y install \
       gnu-free-serif-fonts gnu-free-mono-fonts gnu-free-sans-fonts \
       liberation-fonts linux-libertine-fonts \
       ffmpeg sox hunspell tesseract \
+      nfs-utils \
   \
  && git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
  && cd /tmp/su-exec \
