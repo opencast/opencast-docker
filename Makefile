@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-DOCKER_IMAGE_BASE=opencast
+DOCKER_IMAGE_BASE=quay.io/opencast
 DOCKER_TAG=$(shell cat VERSION)
 
 REPO=https://github.com/opencast/opencast.git
