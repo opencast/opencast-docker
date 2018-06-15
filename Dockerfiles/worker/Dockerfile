@@ -15,7 +15,7 @@
 FROM openjdk:8-jdk-slim-stretch AS build
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="4.4"
+ARG branch="5.0"
 
 ENV OPENCAST_DISTRIBUTION="worker" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -38,25 +38,27 @@ RUN apt-get update \
  && tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}" \
  && rm -rf "${OPENCAST_SRC}" /tmp/* /var/lib/apt/lists/* ~/.m2 ~/.npm ~/.node-gyp /usr/lib/node_modules
 
+FROM quay.io/mtneug/synfig-core AS synfig
+
 FROM alpine:3.7
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="4.4" \
+      org.label-schema.version="5.0" \
       org.label-schema.name="opencast-worker" \
       org.label-schema.description="Docker image for the Opencast worker distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/4.4/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/5.0/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm opencast/worker:4.4 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm opencast/worker:5.0 app:help"
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
     PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
     HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries" \
     \
-    OPENCAST_VERSION="4.4" \
+    OPENCAST_VERSION="5.0" \
     OPENCAST_DISTRIBUTION="worker" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
@@ -84,12 +86,26 @@ COPY --chown=opencast:opencast assets/etc/index/adminui/settings.yml "${OPENCAST
 COPY --chown=opencast:opencast assets/etc/index/externalapi/settings.yml "${OPENCAST_CONFIG}/index/externalapi/"
 COPY assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
 
+COPY --from=synfig /usr/local/bin/ETL* /usr/local/bin/
+COPY --from=synfig /usr/local/bin/synfig* /usr/local/bin/
+COPY --from=synfig /usr/local/etc/synfig_modules.cfg /usr/local/etc/synfig_modules.cfg
+COPY --from=synfig /usr/local/lib/libsynfig.* /usr/local/lib/
+COPY --from=synfig /usr/local/lib/synfig/modules /usr/local/lib/synfig/modules
+COPY --from=synfig /usr/local/share/locale /usr/local/share/locale
+
 RUN apk add --no-cache \
       openjdk8 \
       bash su-exec openssl tzdata curl jq \
       fontconfig ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine \
       ffmpeg sox hunspell tesseract-ocr \
       nfs-utils \
+  \
+ && apk add --no-cache \
+      boost boost-program_options boost-system boost-filesystem zlib libsigc++ glibmm cairo fftw pango gettext swfdec \
+      imagemagick6 imagemagick6-dev libjpeg-turbo libtool libdv-tools \
+ && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+      libxml++-2.6 mlt \
+ && ln -s /usr/bin/convert-6 /usr/local/bin/convert \
   \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
   \
