@@ -40,8 +40,8 @@ before_install:
 
 install:
   - docker pull "quay.io/opencast/${OPENCAST_DISTRIBUTION}:$(cat VERSION)" || true
-  - make "build-${OPENCAST_DISTRIBUTION}" CUSTOM_DOCKER_BUILD_ARGS="--cache-from 'opencast/${OPENCAST_DISTRIBUTION}:$(cat VERSION)'"
+  - make "build-${OPENCAST_DISTRIBUTION}" CUSTOM_DOCKER_BUILD_ARGS="--cache-from 'quay.io/opencast/${OPENCAST_DISTRIBUTION}:$(cat VERSION)'"
 
 script:
   - make lint
-  - make test-common "test-${OPENCAST_DISTRIBUTION}" CUSTOM_DOCKER_BUILD_ARGS="--cache-from 'opencast/${OPENCAST_DISTRIBUTION}:$(cat VERSION)'"
+  - make test-common "test-${OPENCAST_DISTRIBUTION}" CUSTOM_DOCKER_BUILD_ARGS="--cache-from 'quay.io/opencast/${OPENCAST_DISTRIBUTION}:$(cat VERSION)'"
