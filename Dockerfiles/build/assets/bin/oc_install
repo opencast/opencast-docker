@@ -36,9 +36,9 @@ log "oc_install" "Start installation"
 cd "${OPENCAST_SRC}"
 
 if test "$dist" = "develop"; then
-  log "oc_install" "Linking develop"
+  log "oc_install" "Copy develop"
   sudo rmdir "${OPENCAST_HOME}"
-  sudo ln -s /usr/src/opencast/build/opencast-dist-develop-* "${OPENCAST_HOME}"
+  sudo cp -R /usr/src/opencast/build/opencast-dist-develop-* "${OPENCAST_HOME}"
 else
   log "oc_install" "Extract archive"
   sudo tar -xzf build/opencast-dist-$dist-*.tar.gz --strip 1 -C "${OPENCAST_HOME}"
