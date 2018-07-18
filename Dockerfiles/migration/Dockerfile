@@ -40,7 +40,7 @@ RUN apt-get update \
 
 FROM quay.io/mtneug/synfig-core AS synfig
 
-FROM alpine:3.7
+FROM alpine:3.8
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
       org.label-schema.version="5.0" \
@@ -101,8 +101,10 @@ RUN apk add --no-cache \
       nfs-utils \
   \
  && apk add --no-cache \
-      boost boost-program_options boost-system boost-filesystem zlib libsigc++ glibmm cairo fftw pango gettext swfdec \
+      boost boost-program_options boost-system boost-filesystem zlib libsigc++ glibmm cairo fftw pango gettext \
       imagemagick6 imagemagick6-dev libjpeg-turbo libtool libdv-tools \
+ && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.7/main \
+      swfdec \
  && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
       libxml++-2.6 mlt \
  && ln -s /usr/bin/convert-6 /usr/local/bin/convert \
