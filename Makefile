@@ -15,8 +15,8 @@
 DOCKER_IMAGE_BASE=quay.io/opencast
 DOCKER_TAG=$(shell cat VERSION)
 
-REPO=https://github.com/opencast/opencast.git
-BRANCH=$(DOCKER_TAG)
+REPO=$(shell sed -n -e 's/^ARG repo="\(.*\)"/\1/p' Dockerfiles/allinone/Dockerfile)
+BRANCH=$(shell sed -n -e 's/^ARG branch="\(.*\)"/\1/p' Dockerfiles/allinone/Dockerfile)
 
 CUSTOM_DOCKER_BUILD_ARGS=
 
