@@ -15,7 +15,7 @@
 FROM openjdk:8-jdk-slim-stretch AS build
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="3.6"
+ARG branch="3.7"
 
 ENV OPENCAST_DISTRIBUTION="adminpresentation" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -41,22 +41,22 @@ RUN apt-get update \
 FROM alpine:3.7
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="3.6" \
+      org.label-schema.version="3.7" \
       org.label-schema.name="opencast-adminpresentation" \
       org.label-schema.description="Docker image for the Opencast adminpresentation distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/3.6/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/3.7/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm opencast/adminpresentation:3.6 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm opencast/adminpresentation:3.7 app:help"
 
 ENV LANG="C.UTF-8" \
     JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
     PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
     HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries" \
     \
-    OPENCAST_VERSION="3.6" \
+    OPENCAST_VERSION="3.7" \
     OPENCAST_DISTRIBUTION="adminpresentation" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
