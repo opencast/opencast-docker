@@ -17,8 +17,8 @@
 set -o pipefail
 
 OPENCAST_API="http://127.0.0.1:8080"
-DIGEST_USER=$(awk -F "=" '/org\.opencastproject\.security\.digest\.user/ {print $2}' "${OPENCAST_CONFIG}/custom.properties" | tr -d ' ')
-DIGEST_PASSWORD=$(awk -F "=" '/org\.opencastproject\.security\.digest\.pass/ {print $2}' "${OPENCAST_CONFIG}/custom.properties" | tr -d ' ')
+DIGEST_USER=$(grep "^org.opencastproject.security.digest.user" "${OPENCAST_CONFIG}/custom.properties" | tr -d ' ' | cut -d '=' -f 2-)
+DIGEST_PASSWORD=$(grep "^org.opencastproject.security.digest.pass" "${OPENCAST_CONFIG}/custom.properties" | tr -d ' ' | cut -d '=' -f 2-)
 
 
 # Check services
