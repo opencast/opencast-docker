@@ -46,10 +46,10 @@ opencast_jdbc_configure() {
 opencast_jdbc_trytoconnect() {
   echo "Run opencast_jdbc_trytoconnect"
 
-  driver=$(awk -F "=" '/org\.opencastproject\.db\.jdbc\.driver/ {print $2}' etc/custom.properties | tr -d ' ')
-  url=$(awk -F "=" '/org\.opencastproject\.db\.jdbc\.url/ {print $2}' etc/custom.properties | tr -d ' ')
-  user=$(awk -F "=" '/org\.opencastproject\.db\.jdbc\.user/ {print $2}' etc/custom.properties | tr -d ' ')
-  password=$(awk -F "=" '/org\.opencastproject\.db\.jdbc\.pass/ {print $2}' etc/custom.properties | tr -d ' ')
+  driver=$(grep "^org.opencastproject.db.jdbc.driver" etc/custom.properties | tr -d ' ' | cut -d '=' -f 2-)
+  url=$(grep "^org.opencastproject.db.jdbc.url" etc/custom.properties | tr -d ' ' | cut -d '=' -f 2-)
+  user=$(grep "^org.opencastproject.db.jdbc.user" etc/custom.properties | tr -d ' ' | cut -d '=' -f 2-)
+  password=$(grep "^org.opencastproject.db.jdbc.pass" etc/custom.properties | tr -d ' ' | cut -d '=' -f 2-)
   db_jar=$(find "${OPENCAST_HOME}/system/org/opencastproject" -name 'opencast-db-*.jar')
 
   java -cp "${OPENCAST_SCRIPTS}:${db_jar}" \
