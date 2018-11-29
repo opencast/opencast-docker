@@ -68,3 +68,32 @@ opencast_helper_deleteinfile() {
     sed -ri "/[{]{2}${var}[}]{2}/d" "${file}"
   done
 }
+
+# Adopted from https://github.com/docker-library/postgres/blob/040949af1595f49f2242f6d1f9c42fb042b3eaed/11/docker-entrypoint.sh#L5-L25
+#
+# usage: file_env VAR [DEFAULT]
+#    ie: file_env 'XYZ_DB_PASSWORD' 'example'
+# (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
+#  "$XYZ_DB_PASSWORD" from a file, especially for Docker's secrets feature)
+file_env() {
+  var="$1"
+  file_var="${var}_FILE"
+  def="${2:-}"
+  eval file_var_val="\${${file_var}:-}"
+  eval var_val="\${${var}:-}"
+  # shellcheck disable=SC2154
+  if [ "${var_val}" ] && [ "${file_var_val}" ]; then
+    echo >&2 "error: both $var and $file_var are set (but are exclusive)"
+    exit 1
+  fi
+  val="$def"
+  if [ "${var_val}" ]; then
+    val="${var_val}"
+  elif [ "${file_var_val}" ]; then
+    val="$(cat "${file_var_val}")"
+  fi
+  if [ "$val" ]; then
+    export "$var"="$val"
+  fi
+  unset "$file_var"
+}
