@@ -138,11 +138,11 @@ Make sure to use the correct Opencast distribution as there are small difference
 -   `ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER` **Required**<br>
     Username of the admin user.
 -   `ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS` **Required**<br>
-    Password of the admin user.
+    Password of the admin user. You may alternatively set `ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS_FILE` to the location of a file within the container that contains the password.
 -   `ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER` **Required**<br>
     Username for the communication between Opencast nodes and capture agents.
 -   `ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS` **Required**<br>
-    Password for the communication between Opencast nodes and capture agents.
+    Password for the communication between Opencast nodes and capture agents. You may alternatively set `ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS_FILE` to the location of a file within the container that contains the password.
 -   `ORG_OPENCASTPROJECT_DOWNLOAD_URL` Optional<br>
     The HTTP-URL to use for downloading media files, e.g. for the player. Defaults to `${org.opencastproject.server.url}/static`.
 -   `ORG_OPENCASTPROJECT_ADMIN_EMAIL` Optional<br>
@@ -169,7 +169,7 @@ The `migration` distribution has the following additional options:
 -   `ACTIVEMQ_BROKER_USERNAME` **Required**<br>
     ActiveMQ username.
 -   `ACTIVEMQ_BROKER_PASSWORD` **Required**<br>
-    Password of the ActiveMQ user.
+    Password of the ActiveMQ user. You may alternatively set `ACTIVEMQ_BROKER_PASSWORD_FILE` to the location of a file within the container that contains the password.
 
 ## Database
 
@@ -191,7 +191,7 @@ There are no additional environment variables you can set if you are using the H
 -   `ORG_OPENCASTPROJECT_DB_JDBC_USER` **Required**<br>
     Database username.
 -   `ORG_OPENCASTPROJECT_DB_JDBC_PASS` **Required**<br>
-    Password of the database user.
+    Password of the database user. You may alternatively set `ORG_OPENCASTPROJECT_DB_JDBC_PASS_FILE` to the location of a file within the container that contains the password.
 
 ## Miscellaneous
 
