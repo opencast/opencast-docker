@@ -50,9 +50,17 @@ opencast_main_configure() {
   opencast_db_configure
 }
 
+opencast_file_env() {
+  file_env ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS
+  file_env ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS
+  file_env ORG_OPENCASTPROJECT_DB_JDBC_PASS
+  file_env ACTIVEMQ_BROKER_PASSWORD
+}
+
 opencast_main_init() {
   echo "Run opencast_main_init"
 
+  opencast_file_env
   opencast_tz_set
 
   if opencast_helper_customconfig; then
