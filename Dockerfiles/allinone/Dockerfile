@@ -15,7 +15,7 @@
 FROM openjdk:8-jdk-slim-stretch AS build
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="r/6.x"
+ARG branch="develop"
 
 ENV OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_SRC="/usr/src/opencast" \
