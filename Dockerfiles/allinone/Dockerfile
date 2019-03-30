@@ -94,7 +94,7 @@ COPY --from=synfig /usr/local/lib/synfig/modules /usr/local/lib/synfig/modules
 COPY --from=synfig /usr/local/share/locale /usr/local/share/locale
 
 RUN apk add --no-cache \
-      openjdk8 \
+      openjdk8 nss \
       bash su-exec openssl tzdata curl jq \
       fontconfig ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine \
       ffmpeg sox hunspell tesseract-ocr \
