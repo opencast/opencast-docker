@@ -36,11 +36,15 @@ RUN apt-get update \
  && git checkout "${OPENCAST_BRANCH}" \
  && mvn --quiet --batch-mode install -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true \
  && tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}" \
+  \
+ && git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
+ && cd /tmp/su-exec \
+ && make \
+ && cp su-exec /usr/local/sbin \
+  \
  && rm -rf "${OPENCAST_SRC}" /tmp/* /var/lib/apt/lists/* ~/.m2 ~/.npm ~/.node-gyp /usr/lib/node_modules
 
-FROM quay.io/mtneug/synfig-core AS synfig
-
-FROM alpine:edge
+FROM openjdk:8-jdk-slim-stretch
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
       org.label-schema.version="6.4" \
@@ -53,12 +57,7 @@ LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
       org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/adminpresentation:6.4 app:help"
 
-ENV LANG="C.UTF-8" \
-    JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk" \
-    PATH="$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin" \
-    HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries" \
-    \
-    OPENCAST_VERSION="6.4" \
+ENV OPENCAST_VERSION="6.4" \
     OPENCAST_DISTRIBUTION="adminpresentation" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
@@ -66,18 +65,19 @@ ENV LANG="C.UTF-8" \
     OPENCAST_USER="opencast" \
     OPENCAST_GROUP="opencast" \
     OPENCAST_UID="800" \
-    OPENCAST_GID="800"
-ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
-    OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
-    OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
+    OPENCAST_GID="800" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
+ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
+    OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
+    OPENCAST_CONFIG="${OPENCAST_HOME}/etc"
 
-RUN addgroup -S -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
- && adduser -S -D -H -G "${OPENCAST_GROUP}" -h "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
+RUN groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
+ && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
  && mkdir -p "${OPENCAST_DATA}" \
  && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_DATA}"
 
+COPY --from=build /usr/local/sbin/su-exec /usr/local/sbin/su-exec
 COPY --chown=opencast:opencast --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
 COPY --chown=opencast:opencast assets/scripts "${OPENCAST_SCRIPTS}"
 COPY --chown=opencast:opencast assets/support "${OPENCAST_SUPPORT}"
@@ -86,47 +86,17 @@ COPY --chown=opencast:opencast assets/etc/index/adminui/settings.yml "${OPENCAST
 COPY --chown=opencast:opencast assets/etc/index/externalapi/settings.yml "${OPENCAST_CONFIG}/index/externalapi/"
 COPY assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
 
-COPY --from=synfig /usr/local/bin/ETL* /usr/local/bin/
-COPY --from=synfig /usr/local/bin/synfig* /usr/local/bin/
-COPY --from=synfig /usr/local/etc/synfig_modules.cfg /usr/local/etc/synfig_modules.cfg
-COPY --from=synfig /usr/local/lib/libsynfig.* /usr/local/lib/
-COPY --from=synfig /usr/local/lib/synfig/modules /usr/local/lib/synfig/modules
-COPY --from=synfig /usr/local/share/locale /usr/local/share/locale
-
-RUN apk add --no-cache \
-      openjdk8 nss \
-      bash su-exec openssl tzdata curl jq \
-      fontconfig ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine \
-      ffmpeg sox hunspell tesseract-ocr \
-      nfs-utils \
-  \
- && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-      boost boost-program_options boost-system boost-filesystem zlib libsigc++ glibmm cairo fftw pango gettext \
-      imagemagick6 imagemagick6-dev libjpeg-turbo libtool libdv-tools \
-      libxml++-2.6 mlt \
- && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.7/main \
-      swfdec \
- && ln -s /usr/bin/convert-6 /usr/local/bin/convert \
-  \
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      ca-certificates openssl tzdata curl jq \
+      fontconfig fonts-dejavu fonts-freefont-ttf fonts-liberation fonts-linuxlibertine \
+      hunspell hunspell-en-au hunspell-en-ca hunspell-en-gb hunspell-en-us hunspell-en-za \
+      tesseract-ocr tesseract-ocr-eng \
+      ffmpeg libavcodec-extra sox synfig \
+      nfs-common \
+ && sed -i -e '/^assistive_technologies=/s/^/#/' /etc/java-*-openjdk/accessibility.properties \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
-  \
- && mkdir -p /tmp/hunspell /usr/share/hunspell \
- && { \
-      echo "22e217a631977d7b377f8dd22d2bbacd2d36b32765ce13f3474b03a4a97dd700  en_AU.zip"; \
-      echo "31fac12a1b520cde686f328d3fa7560f6eba772cddc872197ff842c57a0dc1ea  en_CA.zip"; \
-      echo "5869d8bd80eb2eb328ebe36b356348de4ae2acb1db6df39d1717d33f89f63728  en_GB.zip"; \
-      echo "6cc717b4de43240595662a2deef5447b06062e82380f5647196f07c9089284fa  en_NZ.zip"; \
-      echo "9227f658f182c9cece797352f041a888134765c11bffc91951c010a73187baea  en_US.zip"; \
-      echo "090285b721dcaabff51b467123f82a181a6904d187c90bda812c6e5f365ff19a  en_ZA.zip"; \
-    } > /tmp/hunspell-sha256sum.txt \
- && cd /tmp/hunspell \
- && for file in $(awk '{print $2}' /tmp/hunspell-sha256sum.txt); do \
-      curl -L -o "${file}" "${HUNSPELL_BASE_URL}/${file}"; \
-      grep "${file}" /tmp/hunspell-sha256sum.txt | sha256sum -c -; \
-      unzip "/tmp/hunspell/${file}"; \
-    done \
- && cp *.aff *.dic /usr/share/hunspell \
- && rm -rf /tmp/*
+ && rm -rf /tmp/* /var/lib/apt/lists/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
 WORKDIR "${OPENCAST_HOME}"
 
