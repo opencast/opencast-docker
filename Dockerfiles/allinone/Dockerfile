@@ -93,7 +93,7 @@ RUN apt-get update \
       hunspell hunspell-en-au hunspell-en-ca hunspell-en-gb hunspell-en-us hunspell-en-za \
       tesseract-ocr tesseract-ocr-eng \
       ffmpeg libavcodec-extra sox synfig \
-      nfs-common \
+      nfs-common netcat-openbsd \
  && sed -i -e '/^assistive_technologies=/s/^/#/' /etc/java-*-openjdk/accessibility.properties \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
  && rm -rf /tmp/* /var/lib/apt/lists/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
