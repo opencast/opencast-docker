@@ -25,7 +25,7 @@ LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER bash"
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="develop"
+ARG branch="r/7.x"
 
 ENV HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries" \
     \

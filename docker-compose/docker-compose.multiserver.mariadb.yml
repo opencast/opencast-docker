@@ -57,7 +57,7 @@ services:
       - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
       - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://opencast-admin:8080
       - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://opencast-presentation:8080
-      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
+      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
       - ACTIVEMQ_BROKER_USERNAME=admin
       - ACTIVEMQ_BROKER_PASSWORD=password
     ports:
@@ -80,7 +80,7 @@ services:
       - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
       - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://opencast-admin:8080
       - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://opencast-presentation:8080
-      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
+      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
       - ACTIVEMQ_BROKER_USERNAME=admin
       - ACTIVEMQ_BROKER_PASSWORD=password
     ports:
@@ -103,7 +103,7 @@ services:
       - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
       - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://opencast-admin:8080
       - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://opencast-presentation:8080
-      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
+      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
       - ACTIVEMQ_BROKER_USERNAME=admin
       - ACTIVEMQ_BROKER_PASSWORD=password
     volumes:
