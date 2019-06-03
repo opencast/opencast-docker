@@ -13,9 +13,11 @@
 # limitations under the License.
 
 version: "3"
+
 volumes:
   data: {}
   db: {}
+  assets:
 services:
   mariadb:
     image: mariadb:10.0
@@ -24,11 +26,16 @@ services:
       - MYSQL_DATABASE=opencast
       - MYSQL_USER=opencast
       - MYSQL_PASSWORD=opencast
-    ports:
-      - "3306:3306"
     volumes:
       - ./assets/opencast-ddl.sql:/docker-entrypoint-initdb.d/opencast-ddl.sql:ro
       - db:/var/lib/mysql
+    command: [
+            '--wait_timeout=28800',
+        ]
+    networks:
+      default:
+        aliases:
+          - mariadb
 
   activemq:
     image: webcenter/activemq:5.14.3
@@ -41,6 +48,10 @@ services:
       - ACTIVEMQ_OWNER_PASSWORD=password
     volumes:
       - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
+    networks:
+      default:
+        aliases:
+          - activemq
 
   opencast-admin:
     image: quay.io/opencast/admin:next
@@ -62,8 +73,15 @@ services:
       - ACTIVEMQ_BROKER_PASSWORD=password
     ports:
       - "8080:8080"
+    depends_on:
+      - mariadb
+      - activemq
     volumes:
-      - data:/data
+      - ./data:/data
+    networks:
+      default:
+        aliases:
+          - opencast-admin
 
   opencast-presentation:
     image: quay.io/opencast/presentation:next
@@ -85,8 +103,15 @@ services:
       - ACTIVEMQ_BROKER_PASSWORD=password
     ports:
       - "8081:8080"
+    depends_on:
+      - mariadb
+      - activemq
     volumes:
-      - data:/data
+      - ./data:/data
+    networks:
+      default:
+        aliases:
+          - opencast-presentation
 
   opencast-worker:
     image: quay.io/opencast/worker:next
@@ -106,5 +131,13 @@ services:
       - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
       - ACTIVEMQ_BROKER_USERNAME=admin
       - ACTIVEMQ_BROKER_PASSWORD=password
+    depends_on:
+      - mariadb
+      - activemq
     volumes:
-      - data:/data
+      - ./data:/data-
+    networks:
+      default:
+        aliases:
+          - opencast-worker
+    
