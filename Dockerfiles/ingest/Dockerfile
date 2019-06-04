@@ -103,7 +103,6 @@ RUN apt-get update \
       tesseract-ocr tesseract-ocr-eng \
       ffmpeg libavcodec-extra sox synfig \
       nfs-common netcat-openbsd \
- && sed -i -e '/^assistive_technologies=/s/^/#/' /etc/java-*-openjdk/accessibility.properties \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
  && rm -rf /tmp/* /var/lib/apt/lists/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
