@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM openjdk:8-jdk-slim-stretch AS build
+FROM maven:3.6-jdk-8-slim AS build
 
 ARG repo="https://github.com/opencast/opencast.git"
 ARG branch="6.2"
@@ -27,9 +27,9 @@ ENV OPENCAST_DISTRIBUTION="presentation" \
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      tar gzip git \
+      tar gzip bzip2 git \
       ca-certificates openssl \
-      maven make gcc g++ libc-dev \
+      make gcc g++ libc-dev \
  && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" \
  && git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
  && cd "${OPENCAST_SRC}" \
