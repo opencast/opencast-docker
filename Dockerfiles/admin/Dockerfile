@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM openjdk:8-jdk-slim-stretch AS build
+FROM maven:3.6-jdk-8-slim AS build
 
 ARG repo="https://github.com/opencast/opencast.git"
 ARG branch="r/7.x"
@@ -30,9 +30,9 @@ ENV OPENCAST_DISTRIBUTION="admin" \
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       sudo \
-      tar gzip git \
+      tar gzip bzip2 git \
       ca-certificates openssl \
-      maven make gcc g++ libc-dev \
+      make gcc g++ libc-dev \
   \
  && git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
  && cd /tmp/su-exec \
@@ -103,7 +103,6 @@ RUN apt-get update \
       tesseract-ocr tesseract-ocr-eng \
       ffmpeg libavcodec-extra sox synfig \
       nfs-common netcat-openbsd \
- && sed -i -e '/^assistive_technologies=/s/^/#/' /etc/java-*-openjdk/accessibility.properties \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
  && rm -rf /tmp/* /var/lib/apt/lists/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
