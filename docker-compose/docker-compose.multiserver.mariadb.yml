@@ -17,8 +17,8 @@ version: "3"
 volumes:
   data: {}
   db: {}
-  assets:
-services:
+
+services:  
   mariadb:
     image: mariadb:10.0
     environment:
@@ -26,16 +26,10 @@ services:
       - MYSQL_DATABASE=opencast
       - MYSQL_USER=opencast
       - MYSQL_PASSWORD=opencast
+    command: '--wait_timeout=28800'
     volumes:
       - ./assets/opencast-ddl.sql:/docker-entrypoint-initdb.d/opencast-ddl.sql:ro
       - db:/var/lib/mysql
-    command: [
-            '--wait_timeout=28800',
-        ]
-    networks:
-      default:
-        aliases:
-          - mariadb
 
   activemq:
     image: webcenter/activemq:5.14.3
@@ -48,10 +42,6 @@ services:
       - ACTIVEMQ_OWNER_PASSWORD=password
     volumes:
       - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
-    networks:
-      default:
-        aliases:
-          - activemq
 
   opencast-admin:
     image: quay.io/opencast/admin:next
@@ -77,11 +67,7 @@ services:
       - mariadb
       - activemq
     volumes:
-      - ./data:/data
-    networks:
-      default:
-        aliases:
-          - opencast-admin
+      - data:/data
 
   opencast-presentation:
     image: quay.io/opencast/presentation:next
@@ -107,11 +93,7 @@ services:
       - mariadb
       - activemq
     volumes:
-      - ./data:/data
-    networks:
-      default:
-        aliases:
-          - opencast-presentation
+      - data:/data
 
   opencast-worker:
     image: quay.io/opencast/worker:next
@@ -135,9 +117,7 @@ services:
       - mariadb
       - activemq
     volumes:
-      - ./data:/data-
-    networks:
-      default:
-        aliases:
-          - opencast-worker
+      - data:/data
+    
+
     
