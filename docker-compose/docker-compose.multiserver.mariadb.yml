@@ -63,9 +63,6 @@ services:
       - ACTIVEMQ_BROKER_PASSWORD=password
     ports:
       - "8080:8080"
-    depends_on:
-      - mariadb
-      - activemq
     volumes:
       - data:/data
 
@@ -89,9 +86,6 @@ services:
       - ACTIVEMQ_BROKER_PASSWORD=password
     ports:
       - "8081:8080"
-    depends_on:
-      - mariadb
-      - activemq
     volumes:
       - data:/data
 
