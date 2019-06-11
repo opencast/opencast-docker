@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Copyright 2016 The WWU eLectures Team All rights reserved.
 #
