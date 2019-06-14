@@ -15,13 +15,15 @@
 FROM maven:3.6-jdk-8-slim AS build
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="6.4"
+ARG branch="7.0"
 
 ENV OPENCAST_DISTRIBUTION="worker" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
+    OPENCAST_USER="opencast" \
+    OPENCAST_GROUP="opencast" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
 
@@ -30,34 +32,41 @@ RUN apt-get update \
       tar gzip bzip2 git \
       ca-certificates openssl \
       make gcc g++ libc-dev \
- && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" \
- && git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
- && cd "${OPENCAST_SRC}" \
- && git checkout "${OPENCAST_BRANCH}" \
- && mvn --quiet --batch-mode install -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true \
- && tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}" \
   \
  && git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
  && cd /tmp/su-exec \
  && make \
  && cp su-exec /usr/local/sbin \
+ && rm -rf /tmp/* /var/lib/apt/lists/* \
   \
- && rm -rf "${OPENCAST_SRC}" /tmp/* /var/lib/apt/lists/* ~/.m2 ~/.npm ~/.node-gyp /usr/lib/node_modules
+ && groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
+ && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
+ && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" \
+ && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_SRC}" "${OPENCAST_HOME}"
+
+USER "${OPENCAST_USER}"
+
+RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
+ && cd "${OPENCAST_SRC}" \
+ && git checkout "${OPENCAST_BRANCH}" \
+ && mvn --quiet --batch-mode install -DskipTests=true -Dcheckstyle.skip=true -DskipJasmineTests=true \
+ && tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}" \
+ && rm -rf "${OPENCAST_SRC}"/* ~/.m2 ~/.npm ~/.node-gyp
 
 FROM openjdk:8-jdk-slim-stretch
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="6.4" \
+      org.label-schema.version="7.0" \
       org.label-schema.name="opencast-worker" \
       org.label-schema.description="Docker image for the Opencast worker distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/6.4/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/7.0/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/worker:6.4 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/worker:7.0 app:help"
 
-ENV OPENCAST_VERSION="6.4" \
+ENV OPENCAST_VERSION="7.0" \
     OPENCAST_DISTRIBUTION="worker" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
@@ -82,8 +91,6 @@ COPY --chown=opencast:opencast --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}
 COPY --chown=opencast:opencast assets/scripts "${OPENCAST_SCRIPTS}"
 COPY --chown=opencast:opencast assets/support "${OPENCAST_SUPPORT}"
 COPY --chown=opencast:opencast assets/etc/* "${OPENCAST_CONFIG}/"
-COPY --chown=opencast:opencast assets/etc/index/adminui/settings.yml "${OPENCAST_CONFIG}/index/adminui/"
-COPY --chown=opencast:opencast assets/etc/index/externalapi/settings.yml "${OPENCAST_CONFIG}/index/externalapi/"
 COPY assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
 
 RUN apt-get update \
