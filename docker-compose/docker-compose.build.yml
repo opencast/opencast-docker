@@ -31,7 +31,7 @@ services:
       - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
   opencast:
-    image: quay.io/opencast/build:6.4
+    image: quay.io/opencast/build:7.0
     tty: true
     stdin_open: true
     environment:
@@ -39,7 +39,7 @@ services:
       - OPENCAST_BUILD_USER_GID=${OPENCAST_BUILD_USER_GID:-1000}
       - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast:8080
       - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://${HOSTIP:-localhost}:8080/static
-      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
+      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
       - ACTIVEMQ_BROKER_USERNAME=admin
       - ACTIVEMQ_BROKER_PASSWORD=password
     ports:

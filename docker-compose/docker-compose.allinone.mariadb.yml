@@ -44,7 +44,7 @@ services:
       - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
   opencast:
-    image: quay.io/opencast/allinone:6.4
+    image: quay.io/opencast/allinone:7.0
     environment:
       - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast:8080
       - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://${HOSTIP:-localhost}:8080/static
@@ -56,7 +56,7 @@ services:
       - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
       - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
       - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
-      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectAttempts=2
+      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
       - ACTIVEMQ_BROKER_USERNAME=admin
       - ACTIVEMQ_BROKER_PASSWORD=password
     ports:
