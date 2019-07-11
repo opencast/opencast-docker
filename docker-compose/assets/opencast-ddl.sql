@@ -1,4 +1,4 @@
--- Created with Opencast version 7.0
+-- Created with Opencast version 7.1
 
 CREATE TABLE SEQUENCE (
   SEQ_NAME VARCHAR(50) NOT NULL,
@@ -610,4 +610,3 @@ CREATE TABLE oc_aws_asset_mapping (
   PRIMARY KEY (id),
   CONSTRAINT UNQ_aws_archive_mapping_0 UNIQUE (organization, media_package, media_package_element, version)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
