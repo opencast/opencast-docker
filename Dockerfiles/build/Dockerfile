@@ -15,17 +15,17 @@
 FROM fedora:28
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="6.5" \
+      org.label-schema.version="6.6" \
       org.label-schema.name="opencast-build" \
       org.label-schema.description="Image that provides an Opencast build and development environment" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/6.5/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/6.6/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER bash"
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="6.5"
+ARG branch="6.6"
 
 ENV HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries" \
     \
@@ -34,7 +34,7 @@ ENV HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionar
     ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER="opencast_system_account" \
     ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS="CHANGE_ME" \
     \
-    OPENCAST_VERSION="6.5" \
+    OPENCAST_VERSION="6.6" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \

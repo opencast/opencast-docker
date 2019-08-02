@@ -44,7 +44,7 @@ services:
       - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
   opencast:
-    image: quay.io/opencast/allinone:6.5
+    image: quay.io/opencast/allinone:6.6
     environment:
       - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast:8080
       - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://${HOSTIP:-localhost}:8080/static
