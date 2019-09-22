@@ -15,7 +15,7 @@
 FROM maven:3.6-jdk-8-slim AS build
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="7.2"
+ARG branch="7.3"
 
 ENV OPENCAST_DISTRIBUTION="ingest" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -56,17 +56,17 @@ RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
 FROM openjdk:8-jdk-slim-stretch
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="7.2" \
+      org.label-schema.version="7.3" \
       org.label-schema.name="opencast-ingest" \
       org.label-schema.description="Docker image for the Opencast ingest distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/7.2/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/7.3/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/ingest:7.2 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/ingest:7.3 app:help"
 
-ENV OPENCAST_VERSION="7.2" \
+ENV OPENCAST_VERSION="7.3" \
     OPENCAST_DISTRIBUTION="ingest" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
