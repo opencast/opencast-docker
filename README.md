@@ -61,7 +61,6 @@ If you want to build the images yourself, there is a `Makefile` with the necessa
 A quick local test system can be started using [`docker-compose`](https://github.com/docker/compose). After cloning this repository you can run this command from the root directory:
 
 ```sh
-$ export HOSTIP=<IP address of the Docker host>
 $ docker-compose -p opencast-allinone -f docker-compose/docker-compose.allinone.h2.yml up
 ```
 

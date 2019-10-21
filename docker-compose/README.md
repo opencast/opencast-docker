@@ -10,9 +10,6 @@ Within this directory you simply can run these commands to startup an Opencast
 system:
 
 ```sh
-# Optional: Set an environment variable with a valid IP address/hostname to the Docker host that should be used for the download URL
-$ export HOSTIP=10.25.40.2
-
 $ docker-compose -f <docker-compose-file>.yml up
 ```
 

@@ -37,8 +37,8 @@ services:
     environment:
       - OPENCAST_BUILD_USER_UID=${OPENCAST_BUILD_USER_UID:-1000}
       - OPENCAST_BUILD_USER_GID=${OPENCAST_BUILD_USER_GID:-1000}
-      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast:8080
-      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://${HOSTIP:-localhost}:8080/static
+      - ORG_OPENCASTPROJECT_SERVER_URL=http://localhost:8080
+      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://localhost:8080/static
       - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
       - ACTIVEMQ_BROKER_USERNAME=admin
       - ACTIVEMQ_BROKER_PASSWORD=password
