@@ -5,7 +5,6 @@ In order to help you develop Opencast while sill using Docker containers the `qu
 ## Quick Start
 
 ```sh
-$ export HOSTIP=<IP address of the Docker host>
 $ export OPENCAST_SRC=</path/to/my/opencast/code>
 $ export OPENCAST_BUILD_USER_UID=$(id -u)
 $ export OPENCAST_BUILD_USER_GID=$(id -g)
