@@ -43,7 +43,8 @@ ENV HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionar
     OPENCAST_GROUP="opencast" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
-    OPENCAST_BUILD_ASSETS="/docker"
+    OPENCAST_BUILD_ASSETS="/docker" \
+    FFMPEG_VERSION="20191127043258-N-95883-ga2fbdc6898"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
     OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
@@ -55,7 +56,7 @@ RUN dnf -y install \
       "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm" \
  && dnf -y install \
       sudo \
-      tar gzip bzip2 unzip \
+      tar gzip bzip2 xz unzip \
       git wget \
       make automake gcc gcc-c++ \
       maven \
@@ -66,7 +67,7 @@ RUN dnf -y install \
       fontconfig dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts \
       gnu-free-serif-fonts gnu-free-mono-fonts gnu-free-sans-fonts \
       liberation-fonts linux-libertine-fonts \
-      ffmpeg sox hunspell tesseract \
+      sox hunspell tesseract \
       synfig \
       nfs-utils \
   \
@@ -74,6 +75,13 @@ RUN dnf -y install \
  && cd /tmp/su-exec \
  && make \
  && cp su-exec /usr/local/sbin \
+  \
+ && mkdir -p /tmp/ffmpeg \
+ && cd /tmp/ffmpeg \
+ && curl -sSL "https://pkg.opencast.org/bin/ffmpeg/ffmpeg-${FFMPEG_VERSION}.tar.xz" \
+     | tar xJf - --strip-components 1 --wildcards '*/ffmpeg' '*/ffprobe' \
+ && chown root:root ff* \
+ && mv ff* /usr/local/bin \
   \
  && mkdir -p /tmp/hunspell /usr/share/hunspell \
  && { \
