@@ -23,11 +23,12 @@ ENV OPENCAST_DISTRIBUTION="ingest" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_REPO="${repo}" \
-    OPENCAST_BRANCH="${branch}"
+    OPENCAST_BRANCH="${branch}" \
+    FFMPEG_VERSION="20191127043258-N-95883-ga2fbdc6898"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      tar gzip bzip2 git \
+      tar gzip bzip2 xz-utils git \
       ca-certificates openssl \
       make gcc g++ libc-dev \
  && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" \
@@ -41,6 +42,13 @@ RUN apt-get update \
  && cd /tmp/su-exec \
  && make \
  && cp su-exec /usr/local/sbin \
+  \
+ && mkdir -p /tmp/ffmpeg \
+ && cd /tmp/ffmpeg \
+ && curl -sSL "https://pkg.opencast.org/bin/ffmpeg/ffmpeg-${FFMPEG_VERSION}.tar.xz" \
+     | tar xJf - --strip-components 1 --wildcards '*/ffmpeg' '*/ffprobe' \
+ && chown root:root ff* \
+ && mv ff* /usr/local/bin \
   \
  && rm -rf "${OPENCAST_SRC}" /tmp/* /var/lib/apt/lists/* ~/.m2 ~/.npm ~/.node-gyp /usr/lib/node_modules
 
@@ -78,6 +86,7 @@ RUN groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_DATA}"
 
 COPY --from=build /usr/local/sbin/su-exec /usr/local/sbin/su-exec
+COPY --from=build /usr/local/bin/ff* /usr/local/sbin/
 COPY --chown=opencast:opencast --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
 COPY --chown=opencast:opencast assets/scripts "${OPENCAST_SCRIPTS}"
 COPY --chown=opencast:opencast assets/support "${OPENCAST_SUPPORT}"
@@ -92,7 +101,7 @@ RUN apt-get update \
       fontconfig fonts-dejavu fonts-freefont-ttf fonts-liberation fonts-linuxlibertine \
       hunspell hunspell-en-au hunspell-en-ca hunspell-en-gb hunspell-en-us hunspell-en-za \
       tesseract-ocr tesseract-ocr-eng \
-      ffmpeg libavcodec-extra sox synfig \
+      sox synfig \
       nfs-common netcat-openbsd \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
  && rm -rf /tmp/* /var/lib/apt/lists/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
