@@ -59,8 +59,6 @@ sudo cp -R ${OPENCAST_BUILD_ASSETS}/support/* "${OPENCAST_SUPPORT}/"
 log "oc_install" "Copy configuration"
 # shellcheck disable=SC2086
 sudo cp -R ${OPENCAST_BUILD_ASSETS}/etc/$dist/* "${OPENCAST_CONFIG}/"
-sudo cp "${OPENCAST_BUILD_ASSETS}/etc/$dist/index/adminui/settings.yml" "${OPENCAST_CONFIG}/index/adminui/"
-sudo cp "${OPENCAST_BUILD_ASSETS}/etc/$dist/index/externalapi/settings.yml" "${OPENCAST_CONFIG}/index/externalapi/"
 
 log "oc_install" "Write environment file"
 echo "export OPENCAST_DISTRIBUTION=$dist" | sudo tee "${OPENCAST_SCRIPTS}/env" > /dev/null
