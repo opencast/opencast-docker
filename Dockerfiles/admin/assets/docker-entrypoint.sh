@@ -87,17 +87,6 @@ opencast_main_start() {
   if opencast_helper_dist_develop; then
     export DEFAULT_JAVA_DEBUG_OPTS="${DEFAULT_JAVA_DEBUG_OPTS:--Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005}"
     exec su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast debug
-  elif opencast_helper_dist_migration; then
-    echo
-    echo "##############################################################################"
-    echo "# This image is meant to assist you in migrating to Opencast version ${OPENCAST_VERSION}     #"
-    echo "#                                                                             #"
-    echo "# If you do not wish to migrate to this version you can abbort with CTRL+C.   #"
-    echo "# Otherwise press enter to continue and start Opencast.                       #"
-    echo "###############################################################################"
-    echo
-    read -r
-    exec su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast
   fi
 
   su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast daemon &

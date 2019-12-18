@@ -18,10 +18,8 @@ for dist in \
     "allinone" \
     "admin" \
     "adminpresentation" \
-    "adminworker" \
     "develop" \
     "ingest" \
-    "migration" \
     "presentation" \
     "worker" \
     ; do
