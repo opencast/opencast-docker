@@ -15,17 +15,17 @@
 FROM fedora:28
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="7.5" \
+      org.label-schema.version="8.0" \
       org.label-schema.name="opencast-build" \
       org.label-schema.description="Image that provides an Opencast build and development environment" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/7.5/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/8.0/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER bash"
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="7.5"
+ARG branch="8.0"
 
 ENV HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionaries" \
     \
@@ -34,7 +34,7 @@ ENV HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionar
     ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER="opencast_system_account" \
     ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS="CHANGE_ME" \
     \
-    OPENCAST_VERSION="7.5" \
+    OPENCAST_VERSION="8.0" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
@@ -44,7 +44,7 @@ ENV HUNSPELL_BASE_URL="http://download.services.openoffice.org/contrib/dictionar
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_BUILD_ASSETS="/docker" \
-    FFMPEG_VERSION="20191127043258-N-95883-ga2fbdc6898"
+    FFMPEG_VERSION="20191218042920-N-96092-gbd83191271"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
     OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \

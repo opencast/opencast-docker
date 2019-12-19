@@ -23,13 +23,7 @@ load test_helper
   run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-entrypoint.sh" "${DOCKERFILES_ADMINPRESENTATION}/assets/docker-entrypoint.sh"
   [ "${status}" -eq 0 ]
 
-  run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-entrypoint.sh" "${DOCKERFILES_ADMINWORKER}/assets/docker-entrypoint.sh"
-  [ "${status}" -eq 0 ]
-
   run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-entrypoint.sh" "${DOCKERFILES_INGEST}/assets/docker-entrypoint.sh"
-  [ "${status}" -eq 0 ]
-
-  run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-entrypoint.sh" "${DOCKERFILES_MIGRATION}/assets/docker-entrypoint.sh"
   [ "${status}" -eq 0 ]
 
   run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-entrypoint.sh" "${DOCKERFILES_PRESENTATION}/assets/docker-entrypoint.sh"
@@ -49,13 +43,7 @@ load test_helper
   run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-healthcheck.sh" "${DOCKERFILES_ADMINPRESENTATION}/assets/docker-healthcheck.sh"
   [ "${status}" -eq 0 ]
 
-  run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-healthcheck.sh" "${DOCKERFILES_ADMINWORKER}/assets/docker-healthcheck.sh"
-  [ "${status}" -eq 0 ]
-
   run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-healthcheck.sh" "${DOCKERFILES_INGEST}/assets/docker-healthcheck.sh"
-  [ "${status}" -eq 0 ]
-
-  run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-healthcheck.sh" "${DOCKERFILES_MIGRATION}/assets/docker-healthcheck.sh"
   [ "${status}" -eq 0 ]
 
   run diff -q "${DOCKERFILES_ALLINONE}/assets/docker-healthcheck.sh" "${DOCKERFILES_PRESENTATION}/assets/docker-healthcheck.sh"
@@ -69,9 +57,7 @@ load test_helper
   allinone=$(grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_ALLINONE}/Dockerfile")
   admin=$(grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_ADMIN}/Dockerfile")
   adminpresentation=$(grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_ADMINPRESENTATION}/Dockerfile")
-  adminworker=$(grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_ADMINWORKER}/Dockerfile")
   ingest=$(grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_INGEST}/Dockerfile")
-  migration=$(grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_MIGRATION}/Dockerfile")
   presentation=$(grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_PRESENTATION}/Dockerfile")
   worker=$(grep -vE '(OPENCAST_DISTRIBUTION|org.label-schema)' "${DOCKERFILES_WORKER}/Dockerfile")
 
@@ -81,13 +67,7 @@ load test_helper
   run test "${allinone}" = "${adminpresentation}"
   [ "${status}" -eq 0 ]
 
-  run test "${allinone}" = "${adminworker}"
-  [ "${status}" -eq 0 ]
-
   run test "${allinone}" = "${ingest}"
-  [ "${status}" -eq 0 ]
-
-  run test "${allinone}" = "${migration}"
   [ "${status}" -eq 0 ]
 
   run test "${allinone}" = "${presentation}"
@@ -104,13 +84,7 @@ load test_helper
   run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_ADMINPRESENTATION}/assets/scripts"
   [ "${status}" -eq 0 ]
 
-  run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_ADMINWORKER}/assets/scripts"
-  [ "${status}" -eq 0 ]
-
   run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_INGEST}/assets/scripts"
-  [ "${status}" -eq 0 ]
-
-  run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_MIGRATION}/assets/scripts"
   [ "${status}" -eq 0 ]
 
   run diff -qr "${DOCKERFILES_ALLINONE}/assets/scripts" "${DOCKERFILES_PRESENTATION}/assets/scripts"
@@ -130,13 +104,7 @@ load test_helper
   run diff -qr "${DOCKERFILES_ALLINONE}/assets/support" "${DOCKERFILES_ADMINPRESENTATION}/assets/support"
   [ "${status}" -eq 0 ]
 
-  run diff -qr "${DOCKERFILES_ALLINONE}/assets/support" "${DOCKERFILES_ADMINWORKER}/assets/support"
-  [ "${status}" -eq 0 ]
-
   run diff -qr "${DOCKERFILES_ALLINONE}/assets/support" "${DOCKERFILES_INGEST}/assets/support"
-  [ "${status}" -eq 0 ]
-
-  run diff -qr "${DOCKERFILES_ALLINONE}/assets/support" "${DOCKERFILES_MIGRATION}/assets/support"
   [ "${status}" -eq 0 ]
 
   run diff -qr "${DOCKERFILES_ALLINONE}/assets/support" "${DOCKERFILES_PRESENTATION}/assets/support"
@@ -163,13 +131,7 @@ load test_helper
   run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/adminpresentation" "${DOCKERFILES_ADMINPRESENTATION}/assets/etc"
   [ "${status}" -eq 0 ]
 
-  run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/adminworker" "${DOCKERFILES_ADMINWORKER}/assets/etc"
-  [ "${status}" -eq 0 ]
-
   run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/ingest" "${DOCKERFILES_INGEST}/assets/etc"
-  [ "${status}" -eq 0 ]
-
-  run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/migration" "${DOCKERFILES_MIGRATION}/assets/etc"
   [ "${status}" -eq 0 ]
 
   run diff -qr "${DOCKERFILES_BUILD}/assets/build/etc/presentation" "${DOCKERFILES_PRESENTATION}/assets/etc"

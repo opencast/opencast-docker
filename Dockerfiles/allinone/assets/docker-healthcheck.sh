@@ -17,39 +17,10 @@
 set -o pipefail
 
 OPENCAST_API="http://127.0.0.1:8080"
-DIGEST_USER=$(grep "^org.opencastproject.security.digest.user" "${OPENCAST_CONFIG}/custom.properties" | tr -d ' ' | cut -d '=' -f 2-)
-DIGEST_PASSWORD=$(grep "^org.opencastproject.security.digest.pass" "${OPENCAST_CONFIG}/custom.properties" | tr -d ' ' | cut -d '=' -f 2-)
 
+STATUS=$(curl -sf --max-time 5 "${OPENCAST_API}/info/health" | jq -r '.status')
 
-# Check services
-ERRORED_SRV=$(curl \
-  -sf \
-  --digest \
-  -u "${DIGEST_USER}:${DIGEST_PASSWORD}" \
-  -H 'X-Requested-Auth: Digest' \
-  -H 'X-Opencast-Matterhorn-Authorization: true' \
-  --max-time 5 \
-  "${OPENCAST_API}/services/health.json" \
-  | jq '.health.error' \
-)
-[                     $? ] || exit 1
-[ "${ERRORED_SRV}" -eq 0 ] || exit 1
-
-
-# Check broker
-HTTP_CODE=$(curl \
-  -sw '%{http_code}' \
-  -o /dev/null \
-  --digest \
-  -u "${DIGEST_USER}:${DIGEST_PASSWORD}" \
-  -H 'X-Requested-Auth: Digest' \
-  -H 'X-Opencast-Matterhorn-Authorization: true' \
-  --max-time 5 \
-  "${OPENCAST_API}/broker/status" \
-)
-[                     $? ] || exit 1
-[ "${HTTP_CODE}" -ge 200 ] && \
-[ "${HTTP_CODE}" -lt 300 ] || exit 1
-
+[                    $? ] || exit 1
+[ "${STATUS}" != "fail" ] || exit 1
 
 exit 0
