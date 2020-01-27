@@ -102,6 +102,7 @@ RUN apt-get update \
       ffmpeg libavcodec-extra sox synfig \
       nfs-common netcat-openbsd \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
+ && sed -i 's/http:/https:/' "${OPENCAST_CONFIG}/org.ops4j.pax.url.mvn.cfg" \
  && rm -rf /tmp/* /var/lib/apt/lists/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
 WORKDIR "${OPENCAST_HOME}"
