@@ -62,7 +62,7 @@ RUN dnf -y install \
       maven \
       python \
  && dnf -y install \
-      java-1.8.1-openjdk \
+      java-1.8.0-openjdk \
       openssl tzdata curl nc jq \
       fontconfig dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts \
       gnu-free-serif-fonts gnu-free-mono-fonts gnu-free-sans-fonts \
