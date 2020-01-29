@@ -15,7 +15,7 @@
 FROM maven:3.6-jdk-8-slim AS build
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="7.5"
+ARG branch="7.6"
 
 ENV OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -26,7 +26,7 @@ ENV OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_GROUP="opencast" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}" \
-    FFMPEG_VERSION="20191127043258-N-95883-ga2fbdc6898"
+    FFMPEG_VERSION="20200129042738-N-96534-gde1b2aa796"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -66,17 +66,17 @@ RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
 FROM openjdk:8-jdk-slim-stretch
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="7.5" \
+      org.label-schema.version="7.6" \
       org.label-schema.name="opencast-allinone" \
       org.label-schema.description="Docker image for the Opencast allinone distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/7.5/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/7.6/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/allinone:7.5 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/allinone:7.6 app:help"
 
-ENV OPENCAST_VERSION="7.5" \
+ENV OPENCAST_VERSION="7.6" \
     OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
