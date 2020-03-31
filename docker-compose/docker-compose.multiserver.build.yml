@@ -1,0 +1,134 @@
+# Copyright 2016 The WWU eLectures Team All rights reserved.
+#
+# Licensed under the Educational Community License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License. You may obtain a copy of the License at
+#
+#     http://opensource.org/licenses/ECL-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+version: "3"
+
+volumes:
+  data: {}
+  db: {}
+
+services:
+  mariadb:
+    image: mariadb:10.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=opencast
+      - MYSQL_USER=opencast
+      - MYSQL_PASSWORD=opencast
+    command: '--wait_timeout=28800'
+    volumes:
+      - ./assets/opencast-ddl.sql:/docker-entrypoint-initdb.d/opencast-ddl.sql:ro
+      - db:/var/lib/mysql
+
+  activemq:
+    image: webcenter/activemq:5.14.3
+    environment:
+      - ACTIVEMQ_MIN_MEMORY=128
+      - ACTIVEMQ_MAX_MEMORY=1024
+      - ACTIVEMQ_ENABLED_SCHEDULER=true
+      - ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT=true
+      - ACTIVEMQ_OWNER_LOGIN=admin
+      - ACTIVEMQ_OWNER_PASSWORD=password
+    volumes:
+      - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
+
+  opencast-admin:
+    image: quay.io/opencast/build:8.3
+    tty: true
+    stdin_open: true
+    environment:
+      - OPENCAST_BUILD_USER_UID=${OPENCAST_BUILD_USER_UID:-1000}
+      - OPENCAST_BUILD_USER_GID=${OPENCAST_BUILD_USER_GID:-1000}
+      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast-admin:8080
+      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://localhost:8080/static
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
+      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
+      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
+      - ORG_OPENCASTPROJECT_DB_VENDOR=MySQL
+      - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
+      - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
+      - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
+      - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://localhost:8080
+      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://localhost:8081
+      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
+      - ACTIVEMQ_BROKER_USERNAME=admin
+      - ACTIVEMQ_BROKER_PASSWORD=password
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    volumes:
+      - data:/data
+      - "${M2_REPO:-~/.m2}:/home/opencast-builder/.m2"
+      - "${OPENCAST_SRC}:/usr/src/opencast"
+
+  opencast-presentation:
+    image: quay.io/opencast/build:8.3
+    tty: true
+    stdin_open: true
+    environment:
+      - OPENCAST_BUILD_USER_UID=${OPENCAST_BUILD_USER_UID:-1000}
+      - OPENCAST_BUILD_USER_GID=${OPENCAST_BUILD_USER_GID:-1000}
+      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast-presentation:8080
+      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://localhost:8080/static
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
+      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
+      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
+      - ORG_OPENCASTPROJECT_DB_VENDOR=MySQL
+      - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
+      - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
+      - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
+      - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://localhost:8080
+      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://localhost:8081
+      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
+      - ACTIVEMQ_BROKER_USERNAME=admin
+      - ACTIVEMQ_BROKER_PASSWORD=password
+    ports:
+      - "8081:8080"
+      - "5006:5005"
+    volumes:
+      - data:/data
+      - "${M2_REPO:-~/.m2}:/home/opencast-builder/.m2"
+      - "${OPENCAST_SRC}:/usr/src/opencast"
+
+  opencast-worker:
+    image: quay.io/opencast/build:8.3
+    tty: true
+    stdin_open: true
+    environment:
+      - OPENCAST_BUILD_USER_UID=${OPENCAST_BUILD_USER_UID:-1000}
+      - OPENCAST_BUILD_USER_GID=${OPENCAST_BUILD_USER_GID:-1000}
+      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast-worker:8080
+      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://localhost:8080/static
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
+      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
+      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
+      - ORG_OPENCASTPROJECT_DB_VENDOR=MySQL
+      - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
+      - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
+      - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
+      - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://localhost:8080
+      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://localhost:8081
+      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
+      - ACTIVEMQ_BROKER_USERNAME=admin
+      - ACTIVEMQ_BROKER_PASSWORD=password
+    ports:
+      - "8082:8080"
+      - "5007:5005"
+    volumes:
+      - data:/data
+      - "${M2_REPO:-~/.m2}:/home/opencast-builder/.m2"
+      - "${OPENCAST_SRC}:/usr/src/opencast"

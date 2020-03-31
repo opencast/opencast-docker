@@ -28,3 +28,9 @@ ways one can use the Docker images:
     This setup starts a multiserver Opencast distribution with one admin, worker
     and presentation server as well as an Apache ActiveMQ server and an external
     MariaDB server.
+
+-   [**`docker-compose.multiserver.build.yml`**](docker-compose.multiserver.build.yml)<br>
+    This setup starts a multiserver Opencast distribution with one admin, worker
+    and presentation server as well as an Apache ActiveMQ server and an external
+    MariaDB server using the build Docker image.  This is useful for development
+    and testing.
