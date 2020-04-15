@@ -12,14 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Note: Create also the file 'nginx-custom.conf' with a line like this:
+# Create also the file './nginx/custom.conf' with the line:
 # client_max_body_size 100m;
 
 version: "3"
 
 volumes:
   data: {}
-#  db: {}
 
 services:
   mariadb:
@@ -52,7 +51,7 @@ services:
       - ORG_OPENCASTPROJECT_SERVER_URL=https://${FQDN}
       - ORG_OPENCASTPROJECT_DOWNLOAD_URL=https://${FQDN}/static
       - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
-      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=${ADMIN_PASS}
       - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
       - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
       - ORG_OPENCASTPROJECT_DB_VENDOR=MySQL
@@ -65,8 +64,6 @@ services:
       - VIRTUAL_HOST=${FQDN}
       - VIRTUAL_PORT=8080
       - LETSENCRYPT_HOST=${FQDN}
-#    ports:
-#      - "8080:8080"
     volumes:
       - data:/data
 
@@ -80,7 +77,7 @@ services:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./nginx-custom.conf:/etc/nginx/conf.d/custom.conf:ro
+      - ./nginx/custom.conf:/etc/nginx/conf.d/custom.conf:ro
       - ./nginx/certs:/etc/nginx/certs:ro
       - ./nginx/vhost.d:/etc/nginx/vhost.d
       - ./nginx/html:/usr/share/nginx/html

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Note: Create also the file 'nginx-custom.conf' with the line:
+# Create also the file './nginx/custom.conf' with the line:
 # client_max_body_size 100m;
 
 version: "3"
@@ -36,20 +36,18 @@ services:
   opencast:
     image: quay.io/opencast/allinone:8.3
     environment:
-      - ORG_OPENCASTPROJECT_SERVER_URL=https://opencast.fs.al
-      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=https://opencast.fs.al/static
+      - ORG_OPENCASTPROJECT_SERVER_URL=https://${FQDN}
+      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=https://${FQDN}/static
       - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
-      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=${ADMIN_PASS}
       - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
       - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
       - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
       - ACTIVEMQ_BROKER_USERNAME=admin
       - ACTIVEMQ_BROKER_PASSWORD=password
-      - VIRTUAL_HOST=opencast.fs.al
+      - VIRTUAL_HOST=${FQDN}
       - VIRTUAL_PORT=8080
-      - LETSENCRYPT_HOST=opencast.fs.al
-    #ports:
-    #  - "8080:8080"
+      - LETSENCRYPT_HOST=${FQDN}
     volumes:
       - data:/data
 
@@ -57,13 +55,13 @@ services:
     image: jwilder/nginx-proxy:alpine
     restart: always
     environment:
-      - DEFAULT_HOST=opencast.fs.al
+      - DEFAULT_HOST=${FQDN}
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./nginx-custom.conf:/etc/nginx/conf.d/custom.conf:ro
+      - ./nginx/custom.conf:/etc/nginx/conf.d/custom.conf:ro
       - ./nginx/certs:/etc/nginx/certs:ro
       - ./nginx/vhost.d:/etc/nginx/vhost.d
       - ./nginx/html:/usr/share/nginx/html
@@ -74,7 +72,7 @@ services:
     image: jrcs/letsencrypt-nginx-proxy-companion
     restart: always
     environment:
-      - DEFAULT_EMAIL=dashohoxha@gmail.com
+      - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./nginx/certs:/etc/nginx/certs
