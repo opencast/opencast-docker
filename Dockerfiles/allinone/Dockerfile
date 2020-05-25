@@ -15,7 +15,7 @@
 FROM maven:3.6-jdk-8-slim AS build
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="8.3"
+ARG branch="8.4"
 
 ENV OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -66,17 +66,17 @@ RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
 FROM openjdk:8-jdk-slim-stretch
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="8.3" \
+      org.label-schema.version="8.4" \
       org.label-schema.name="opencast-allinone" \
       org.label-schema.description="Docker image for the Opencast allinone distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/8.3/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/8.4/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/allinone:8.3 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/allinone:8.4 app:help"
 
-ENV OPENCAST_VERSION="8.3" \
+ENV OPENCAST_VERSION="8.4" \
     OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
