@@ -35,6 +35,7 @@ if ! getent passwd opencast-builder >/dev/null 2>&1; then
     --gid "${OPENCAST_BUILD_USER_GID}" \
     --uid "${OPENCAST_BUILD_USER_UID}" \
     opencast-builder
+  mkdir -p /home/opencast-builder
   SET_PERM=true
 fi
 

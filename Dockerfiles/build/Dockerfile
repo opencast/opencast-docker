@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM fedora:28
+FROM maven:3.6-jdk-8-slim
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
       org.label-schema.version="8.5" \
@@ -49,25 +49,19 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
 
-RUN dnf -y install \
-      "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
-      "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm" \
- && dnf -y install \
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
       sudo \
-      tar gzip bzip2 xz unzip \
-      git wget \
-      make automake gcc gcc-c++ \
-      maven \
-      python \
- && dnf -y install \
-      java-1.8.0-openjdk \
-      openssl tzdata curl nc jq \
-      fontconfig dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts \
-      gnu-free-serif-fonts gnu-free-mono-fonts gnu-free-sans-fonts \
-      liberation-fonts linux-libertine-fonts \
-      sox hunspell hunspell-en tesseract \
-      synfig \
-      nfs-utils \
+      tar gzip bzip2 xz-utils git \
+      ca-certificates openssl \
+      make gcc g++ libc-dev \
+ && apt-get install -y --no-install-recommends \
+      ca-certificates openssl tzdata curl jq \
+      fontconfig fonts-dejavu fonts-freefont-ttf fonts-liberation fonts-linuxlibertine \
+      hunspell hunspell-en-au hunspell-en-ca hunspell-en-gb hunspell-en-us hunspell-en-za \
+      tesseract-ocr tesseract-ocr-eng \
+      sox synfig \
+      nfs-common netcat-openbsd \
   \
  && git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
  && cd /tmp/su-exec \
@@ -87,7 +81,8 @@ RUN dnf -y install \
  && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" \
  && echo "opencast-builder ALL = NOPASSWD: ALL" > /etc/sudoers.d/opencast-builder \
   \
- && rm -rf /tmp/* /var/cache/dnf /var/log/dnf* /var/log/hawkey.log
+ && cd \
+ && rm -rf /tmp/* /var/lib/apt/lists/*
 
 COPY assets/docker-entrypoint.sh /docker-entrypoint.sh
 COPY assets/build "${OPENCAST_BUILD_ASSETS}/"
