@@ -63,6 +63,8 @@ RUN apt-get update \
       sox synfig \
       nfs-common netcat-openbsd \
   \
+ && sudo ln -s /usr/local/openjdk-8/bin/* /usr/local/bin/ \
+  \
  && git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
  && cd /tmp/su-exec \
  && make \
