@@ -51,7 +51,7 @@ ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      sudo \
+      sudo firefox-esr \
       tar gzip bzip2 xz-utils git \
       ca-certificates openssl \
       make gcc g++ libc-dev \
