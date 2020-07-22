@@ -1,6 +1,6 @@
 # [Opencast Docker images](https://quay.io/organization/opencast)
 
-[![Build Status](https://travis-ci.org/opencast/opencast-docker.svg?branch=master)](https://travis-ci.org/opencast/opencast-docker) [![Docker Repository on Quay](https://quay.io/repository/opencast/allinone/status "Docker Repository on Quay")](https://quay.io/repository/opencast/allinone)
+[![Docker Repository on Quay](https://quay.io/repository/opencast/allinone/status "Docker Repository on Quay")](https://quay.io/repository/opencast/allinone)
 
 -   [Introduction](#introduction)
 -   [Installation](#installation)

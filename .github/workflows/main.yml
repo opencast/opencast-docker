@@ -1,0 +1,60 @@
+name: main
+
+on:
+  push:
+    branches:
+      - master
+      - '[0-9]+.[0-9]+'
+  pull_request:
+    branches:
+      - master
+      - '[0-9]+.[0-9]+'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: install
+        run: |
+         sudo apt-get install shellcheck
+         shellcheck --version
+      - name: lint
+        run: |
+         make lint
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: install
+        run: |
+          git clone https://github.com/bats-core/bats-core.git /tmp/bats
+          sudo /tmp/bats/install.sh /usr/local
+          bats --version
+      - name: test
+        run: |
+         make test
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        distribution:
+          - admin
+          - adminpresentation
+          - allinone
+          - build
+          - ingest
+          - presentation
+          - worker
+    env:
+      DOCKER_BUILDKIT: 1
+    steps:
+      - uses: actions/checkout@v2
+      - name: install
+        run: |
+          docker info
+      - name: build Docker image
+        run: |
+          make "build-${{ matrix.distribution }}"

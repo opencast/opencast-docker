@@ -88,17 +88,9 @@ build-build:
 		Dockerfiles/build
 .PHONY: build build-allinone build-admin build-adminpresentation build-ingest build-presentation build-worker build-build
 
-test: test-common test-allinone test-admin test-adminpresentation test-ingest test-presentation test-worker test-build
-test-common:
+test:
 	bats test
-test-allinone: build-allinone
-test-admin: build-admin
-test-adminpresentation: build-adminpresentation
-test-ingest: build-ingest
-test-presentation: build-presentation
-test-worker: build-worker
-test-build: build-build
-.PHONY: test test-common test-allinone test-admin test-adminpresentation test-ingest test-presentation test-worker test-build
+.PHONY: test
 
 clean:
 	-docker rmi $(DOCKER_IMAGE_BASE)/allinone
