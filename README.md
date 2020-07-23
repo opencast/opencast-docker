@@ -198,5 +198,5 @@ Opencast makes use of [Tesseract](https://github.com/tesseract-ocr/tesseract) to
 # References
 
 -   [Project site](https://github.com/opencast/opencast-docker)
--   [Opencast documentation](https://docs.opencast.org/latest/admin/)
+-   [Opencast documentation](https://docs.opencast.org/develop/admin/)
 -   [Images on Quay](https://quay.io/organization/opencast)
