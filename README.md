@@ -45,7 +45,7 @@ $ docker pull "quay.io/opencast/<distribution>:<version>"
 If you want to build the images yourself, there is a `Makefile` with the necessary `docker build` commands for all distributions. Running `make` in the root directory will create these images. To customize the build you can override these variables:
 
 -   `DOCKER_IMAGE_BASE`<br>
-    The fist part of the image name. It defaults to `opencast` and will be extended by the name of the Opencast distribution.
+    The first part of the image name. It defaults to `opencast` and will be extended by the name of the Opencast distribution.
 -   `DOCKER_TAG`<br>
     The tag of the image. Defaults to the content of `VERSION`.
 -   `REPO`<br>
@@ -69,11 +69,11 @@ In the `./docker-compose` directory there are also compose files for more produc
 
 # Images
 
-Opencast comes in different distributions. For each of the official distributions there is a specific Docker image. Each version is tagged. For example the full image name containing the `admin` distribution at version `8.5` is `quay.io/opencast/admin:8.5`. Leaving the version out will install the latest one.
+Opencast comes in different distributions. For each of the official distributions, there is a specific Docker image. Each version is tagged. For example, the full image name containing the `admin` distribution at version `8.5` is `quay.io/opencast/admin:8.5`. Leaving the version out will install the latest one.
 
 ## `allinone`
 
-This image contains all Opencast modules necessary to run a full Opencast installation. It's useful for small and local test setups. If you however want to run Opencast in a distributed fashion, you probably should use a combination of `admin`, `worker` and `presentation` containers.
+This image contains all Opencast modules necessary to run a full Opencast installation. It's useful for small and local test setups. If you, however, want to run Opencast in a distributed fashion, you probably should use a combination of `admin`, `worker` and `presentation` containers.
 
 ## `admin`, `adminpresentation`, `ingest`, `presentation` and `worker`,
 
@@ -81,7 +81,7 @@ These images contain the Opencast modules of the corresponding Opencast distribu
 
 ## `build`
 
-This images helps you set up a development environment for Opencast. For more information see [here](Dockerfiles/build/README.md).
+This image helps you set up a development environment for Opencast. For more information see [here](Dockerfiles/build/README.md).
 
 # Usage
 
@@ -163,9 +163,9 @@ For an installation with multiple nodes you can also set:
 ## Database
 
 -   `ORG_OPENCASTPROJECT_DB_VENDOR` Optional<br>
-    The type of database to use. Currently you can set this to either `H2` or `MySQL`. The default is `H2`.
+    The type of database to use. Currently, you can set this to either `H2` or `MySQL`. The default is `H2`.
 -   `ORG_OPENCASTPROJECT_DB_DDL_GENERATION` Optional<br>
-    Specifies whether Opencast should create the database tables or not. It defaults to `false`. In case of `H2` it is always set to `true`.
+    Specifies whether Opencast should create the database tables or not. It defaults to `false`. In the case of `H2`, it is always set to `true`.
 -   `NUMER_OF_TIMES_TRYING_TO_CONNECT_TO_DB` Optional<br>
     Specifies how often Opencast is going to try to connect to the specified database before giving up. The waiting time between tries is 5 seconds. The default number of tries is 25. This configuration only applies if the database is not H2.
 
@@ -185,7 +185,7 @@ There are no additional environment variables you can set if you are using the H
 ## Miscellaneous
 
 -   `TIMEZONE` Optional<br>
-    Set the timezone within the container. Valid timezones are represented by files in `/usr/share/zoneinfo/`, for example `Europe/Berlin`. The default is `UTC`.
+    Set the timezone within the container. Valid timezones are represented by files in `/usr/share/zoneinfo/`, for example, `Europe/Berlin`. The default is `UTC`.
 
 # Data
 
