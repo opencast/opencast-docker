@@ -31,7 +31,7 @@ services:
       - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
   opencast:
-    image: quay.io/opencast/build:7.7
+    image: quay.io/opencast/build:7.8
     tty: true
     stdin_open: true
     environment:
