@@ -1,0 +1,91 @@
+# Copyright 2016 The WWU eLectures Team All rights reserved.
+#
+# Licensed under the Educational Community License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License. You may obtain a copy of the License at
+#
+#     http://opensource.org/licenses/ECL-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+version: "3"
+
+volumes:
+  data: {}
+  pyca: {}
+
+services:
+  activemq:
+    image: webcenter/activemq:5.14.3
+    environment:
+      - ACTIVEMQ_MIN_MEMORY=128
+      - ACTIVEMQ_MAX_MEMORY=1024
+      - ACTIVEMQ_ENABLED_SCHEDULER=true
+      - ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT=true
+      - ACTIVEMQ_OWNER_LOGIN=admin
+      - ACTIVEMQ_OWNER_PASSWORD=password
+    volumes:
+      - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
+
+  opencast:
+    image: quay.io/opencast/allinone:8.6
+    environment:
+      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast:8080
+      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://localhost:8080/static
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
+      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
+      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
+      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
+      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
+      - ACTIVEMQ_BROKER_USERNAME=admin
+      - ACTIVEMQ_BROKER_PASSWORD=password
+    ports:
+      - "8080:8080"
+    volumes:
+      - data:/data
+
+  pyca-schedule:
+    command: schedule
+    image: quay.io/opencast/pyca
+    restart: always
+    volumes:
+      - ./assets/pyca.conf:/etc/pyca/pyca.conf:ro
+      - pyca:/var/lib/pyca
+
+  pyca-ingest:
+    command: ingest
+    image: quay.io/opencast/pyca
+    restart: always
+    volumes:
+      - ./assets/pyca.conf:/etc/pyca/pyca.conf:ro
+      - pyca:/var/lib/pyca
+
+  pyca-capture:
+    command: capture
+    image: quay.io/opencast/pyca
+    restart: always
+    volumes:
+      - ./assets/pyca.conf:/etc/pyca/pyca.conf:ro
+      - pyca:/var/lib/pyca
+
+  pyca-agentstate:
+    command: agentstate
+    image: quay.io/opencast/pyca
+    restart: always
+    volumes:
+      - ./assets/pyca.conf:/etc/pyca/pyca.conf:ro
+      - pyca:/var/lib/pyca
+
+  pyca-ui:
+    entrypoint: ["gunicorn", "--config=/etc/pyca/gunicorn.conf.py", "pyca.ui:app"]
+    image: quay.io/opencast/pyca
+    restart: always
+    volumes:
+      - ./assets/pyca.conf:/etc/pyca/pyca.conf:ro
+      - pyca:/var/lib/pyca
+    ports:
+      - "8000:8000"
