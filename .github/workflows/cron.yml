@@ -32,9 +32,9 @@ jobs:
           - day_of_week: '4'
             opencast_version: 8.3
           - day_of_week: '5'
-            opencast_version: 7.7
+            opencast_version: 7.8
           - day_of_week: '6'
-            opencast_version: 7.6
+            opencast_version: 7.7
     steps:
       - uses: actions/checkout@v2
       - name: trigger
