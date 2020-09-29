@@ -15,7 +15,7 @@
 FROM maven:3.6-jdk-8-slim AS build
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="8.6"
+ARG branch="8.7"
 
 ENV OPENCAST_DISTRIBUTION="worker" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -70,17 +70,17 @@ RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
 FROM openjdk:8-jdk-slim-stretch
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="8.6" \
+      org.label-schema.version="8.7" \
       org.label-schema.name="opencast-worker" \
       org.label-schema.description="Docker image for the Opencast worker distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/8.6/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/8.7/README.md" \
       org.label-schema.url="http://www.opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/worker:8.6 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/worker:8.7 app:help"
 
-ENV OPENCAST_VERSION="8.6" \
+ENV OPENCAST_VERSION="8.7" \
     OPENCAST_DISTRIBUTION="worker" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
