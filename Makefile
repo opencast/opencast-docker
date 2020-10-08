@@ -20,6 +20,8 @@ BRANCH=$(shell sed -n -e 's/^ARG branch="\(.*\)"/\1/p' Dockerfiles/allinone/Dock
 
 CUSTOM_DOCKER_BUILD_ARGS=
 
+export DOCKER_BUILDKIT=1
+
 all: lint build test
 
 build: build-allinone build-admin build-adminpresentation build-ingest build-presentation build-worker build-build
