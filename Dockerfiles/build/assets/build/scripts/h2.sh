@@ -18,30 +18,18 @@ set -e
 
 opencast_h2_check() {
   echo "Run opencast_h2_check"
-
-  export ORG_OPENCASTPROJECT_DB_DDL_GENERATION="true"
 }
 
 opencast_h2_configure() {
   echo "Run opencast_h2_configure"
 
-  export ORG_OPENCASTPROJECT_DB_DDL_GENERATION="true"
-
   opencast_helper_deleteinfile "etc/custom.properties" \
-    "ORG_OPENCASTPROJECT_DB_VENDOR" \
     "ORG_OPENCASTPROJECT_DB_JDBC_DRIVER" \
     "ORG_OPENCASTPROJECT_DB_JDBC_URL" \
     "ORG_OPENCASTPROJECT_DB_JDBC_USER" \
     "ORG_OPENCASTPROJECT_DB_JDBC_PASS"
-
-  opencast_helper_replaceinfile "etc/custom.properties" \
-    "ORG_OPENCASTPROJECT_DB_DDL_GENERATION"
 }
 
 opencast_h2_trytoconnect() {
   echo "Run opencast_h2_trytoconnect"
-}
-
-opencast_h2_printddl() {
-  echo "-- Database for H2 is created automatically"
 }

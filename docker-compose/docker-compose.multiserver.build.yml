@@ -15,56 +15,64 @@
 version: "3"
 
 volumes:
-  data: {}
   db: {}
+  elastic: {}
+  data: {}
 
 services:
   mariadb:
     image: mariadb:10.0
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=opencast
-      - MYSQL_USER=opencast
-      - MYSQL_PASSWORD=opencast
-    command: '--wait_timeout=28800'
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: opencast
+      MYSQL_USER: opencast
+      MYSQL_PASSWORD: opencast
+    command: "--wait_timeout=28800"
     volumes:
-      - ./assets/opencast-ddl.sql:/docker-entrypoint-initdb.d/opencast-ddl.sql:ro
       - db:/var/lib/mysql
 
   activemq:
     image: webcenter/activemq:5.14.3
     environment:
-      - ACTIVEMQ_MIN_MEMORY=128
-      - ACTIVEMQ_MAX_MEMORY=1024
-      - ACTIVEMQ_ENABLED_SCHEDULER=true
-      - ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT=true
-      - ACTIVEMQ_OWNER_LOGIN=admin
-      - ACTIVEMQ_OWNER_PASSWORD=password
+      ACTIVEMQ_MIN_MEMORY: 128
+      ACTIVEMQ_MAX_MEMORY: 1024
+      ACTIVEMQ_ENABLED_SCHEDULER: "true"
+      ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT: "true"
+      ACTIVEMQ_OWNER_LOGIN: admin
+      ACTIVEMQ_OWNER_PASSWORD: password
     volumes:
       - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
+  elasticsearch:
+    image: elasticsearch:7.9.2
+    environment:
+      discovery.type: single-node
+    volumes:
+      - elastic:/usr/share/elasticsearch/data
+
   opencast-admin:
-    image: quay.io/opencast/build:8.7
+    image: quay.io/opencast/build:next
     tty: true
     stdin_open: true
     environment:
-      - OPENCAST_BUILD_USER_UID=${OPENCAST_BUILD_USER_UID:-1000}
-      - OPENCAST_BUILD_USER_GID=${OPENCAST_BUILD_USER_GID:-1000}
-      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast-admin:8080
-      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://localhost:8080/static
-      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
-      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
-      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
-      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
-      - ORG_OPENCASTPROJECT_DB_VENDOR=MySQL
-      - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
-      - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
-      - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
-      - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://localhost:8080
-      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://localhost:8081
-      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
-      - ACTIVEMQ_BROKER_USERNAME=admin
-      - ACTIVEMQ_BROKER_PASSWORD=password
+      OPENCAST_BUILD_USER_UID: ${OPENCAST_BUILD_USER_UID:-1000}
+      OPENCAST_BUILD_USER_GID: ${OPENCAST_BUILD_USER_GID:-1000}
+      ORG_OPENCASTPROJECT_SERVER_URL: http://opencast-admin:8080
+      ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8080/static
+      ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER: admin
+      ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS: opencast
+      ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast_system_account
+      ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS: CHANGE_ME
+      ORG_OPENCASTPROJECT_DB_VENDOR: MariaDB
+      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:mysql://mariadb/opencast
+      ORG_OPENCASTPROJECT_DB_JDBC_USER: opencast
+      ORG_OPENCASTPROJECT_DB_JDBC_PASS: opencast
+      PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL: http://localhost:8080
+      PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL: http://localhost:8081
+      ACTIVEMQ_BROKER_URL: failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
+      ACTIVEMQ_BROKER_USERNAME: admin
+      ACTIVEMQ_BROKER_PASSWORD: password
+      ELASTICSEARCH_SERVER_HOST: elasticsearch
     ports:
       - "8080:8080"
       - "5005:5005"
@@ -74,27 +82,28 @@ services:
       - "${OPENCAST_SRC}:/usr/src/opencast"
 
   opencast-presentation:
-    image: quay.io/opencast/build:8.7
+    image: quay.io/opencast/build:next
     tty: true
     stdin_open: true
     environment:
-      - OPENCAST_BUILD_USER_UID=${OPENCAST_BUILD_USER_UID:-1000}
-      - OPENCAST_BUILD_USER_GID=${OPENCAST_BUILD_USER_GID:-1000}
-      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast-presentation:8080
-      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://localhost:8080/static
-      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
-      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
-      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
-      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
-      - ORG_OPENCASTPROJECT_DB_VENDOR=MySQL
-      - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
-      - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
-      - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
-      - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://localhost:8080
-      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://localhost:8081
-      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
-      - ACTIVEMQ_BROKER_USERNAME=admin
-      - ACTIVEMQ_BROKER_PASSWORD=password
+      OPENCAST_BUILD_USER_UID: ${OPENCAST_BUILD_USER_UID:-1000}
+      OPENCAST_BUILD_USER_GID: ${OPENCAST_BUILD_USER_GID:-1000}
+      ORG_OPENCASTPROJECT_SERVER_URL: http://opencast-presentation:8080
+      ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8080/static
+      ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER: admin
+      ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS: opencast
+      ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast_system_account
+      ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS: CHANGE_ME
+      ORG_OPENCASTPROJECT_DB_VENDOR: MariaDB
+      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:mysql://mariadb/opencast
+      ORG_OPENCASTPROJECT_DB_JDBC_USER: opencast
+      ORG_OPENCASTPROJECT_DB_JDBC_PASS: opencast
+      PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL: http://localhost:8080
+      PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL: http://localhost:8081
+      ACTIVEMQ_BROKER_URL: failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
+      ACTIVEMQ_BROKER_USERNAME: admin
+      ACTIVEMQ_BROKER_PASSWORD: password
+      ELASTICSEARCH_SERVER_HOST: elasticsearch
     ports:
       - "8081:8080"
       - "5006:5005"
@@ -104,27 +113,28 @@ services:
       - "${OPENCAST_SRC}:/usr/src/opencast"
 
   opencast-worker:
-    image: quay.io/opencast/build:8.7
+    image: quay.io/opencast/build:next
     tty: true
     stdin_open: true
     environment:
-      - OPENCAST_BUILD_USER_UID=${OPENCAST_BUILD_USER_UID:-1000}
-      - OPENCAST_BUILD_USER_GID=${OPENCAST_BUILD_USER_GID:-1000}
-      - ORG_OPENCASTPROJECT_SERVER_URL=http://opencast-worker:8080
-      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://localhost:8080/static
-      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
-      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
-      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
-      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
-      - ORG_OPENCASTPROJECT_DB_VENDOR=MySQL
-      - ORG_OPENCASTPROJECT_DB_JDBC_URL=jdbc:mysql://mariadb/opencast
-      - ORG_OPENCASTPROJECT_DB_JDBC_USER=opencast
-      - ORG_OPENCASTPROJECT_DB_JDBC_PASS=opencast
-      - PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL=http://localhost:8080
-      - PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL=http://localhost:8081
-      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
-      - ACTIVEMQ_BROKER_USERNAME=admin
-      - ACTIVEMQ_BROKER_PASSWORD=password
+      OPENCAST_BUILD_USER_UID: ${OPENCAST_BUILD_USER_UID:-1000}
+      OPENCAST_BUILD_USER_GID: ${OPENCAST_BUILD_USER_GID:-1000}
+      ORG_OPENCASTPROJECT_SERVER_URL: http://opencast-worker:8080
+      ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8080/static
+      ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER: admin
+      ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS: opencast
+      ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast_system_account
+      ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS: CHANGE_ME
+      ORG_OPENCASTPROJECT_DB_VENDOR: MariaDB
+      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:mysql://mariadb/opencast
+      ORG_OPENCASTPROJECT_DB_JDBC_USER: opencast
+      ORG_OPENCASTPROJECT_DB_JDBC_PASS: opencast
+      PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL: http://localhost:8080
+      PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL: http://localhost:8081
+      ACTIVEMQ_BROKER_URL: failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
+      ACTIVEMQ_BROKER_USERNAME: admin
+      ACTIVEMQ_BROKER_PASSWORD: password
+      ELASTICSEARCH_SERVER_HOST: elasticsearch
     ports:
       - "8082:8080"
       - "5007:5005"

@@ -26,8 +26,12 @@ opencast_db_check() {
     H2)
       opencast_h2_check
       ;;
-    MySQL)
-      opencast_mysql_check
+    MariaDB)
+      opencast_mariadb_check
+      opencast_jdbc_check
+      ;;
+    PostgreSQL)
+      opencast_postgresql_check
       opencast_jdbc_check
       ;;
     *)
@@ -44,8 +48,12 @@ opencast_db_configure() {
     H2)
       opencast_h2_configure
       ;;
-    MySQL)
-      opencast_mysql_configure
+    MariaDB)
+      opencast_mariadb_configure
+      opencast_jdbc_configure
+      ;;
+    PostgreSQL)
+      opencast_postgresql_configure
       opencast_jdbc_configure
       ;;
     *)
@@ -62,25 +70,8 @@ opencast_db_trytoconnect() {
     H2)
       opencast_h2_trytoconnect
       ;;
-    MySQL)
+    MariaDB|PostgreSQL)
       opencast_jdbc_trytoconnect
-      ;;
-    *)
-      echo >&2 "error: ${ORG_OPENCASTPROJECT_DB_VENDOR} is currently not supported as database vendor"
-      exit 1
-      ;;
-  esac
-}
-
-opencast_db_printddl() {
-  echo "-- Created with Opencast version ${OPENCAST_VERSION}"
-  echo
-  case "$ORG_OPENCASTPROJECT_DB_VENDOR" in
-    H2)
-      opencast_h2_printddl
-      ;;
-    MySQL)
-      opencast_mysql_printddl
       ;;
     *)
       echo >&2 "error: ${ORG_OPENCASTPROJECT_DB_VENDOR} is currently not supported as database vendor"

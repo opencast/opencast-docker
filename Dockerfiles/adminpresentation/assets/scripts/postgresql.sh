@@ -16,18 +16,14 @@
 
 set -e
 
-opencast_mysql_check() {
-  echo "Run opencast_mysql_check"
+opencast_postgresql_check() {
+  echo "Run opencast_postgresql_check"
 
-  export ORG_OPENCASTPROJECT_DB_JDBC_DRIVER="com.mysql.jdbc.Driver"
+  export ORG_OPENCASTPROJECT_DB_JDBC_DRIVER="org.postgresql.Driver"
 }
 
-opencast_mysql_configure() {
-  echo "Run opencast_mysql_configure"
+opencast_postgresql_configure() {
+  echo "Run opencast_postgresql_configure"
 
-  export ORG_OPENCASTPROJECT_DB_JDBC_DRIVER="com.mysql.jdbc.Driver"
-}
-
-opencast_mysql_printddl() {
-  cat /opencast/docs/scripts/ddl/mysql5.sql
+  export ORG_OPENCASTPROJECT_DB_JDBC_DRIVER="org.postgresql.Driver"
 }

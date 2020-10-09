@@ -19,10 +19,7 @@ set -e
 opencast_jdbc_check() {
   echo "Run opencast_jdbc_check"
 
-  export ORG_OPENCASTPROJECT_DB_DDL_GENERATION="${ORG_OPENCASTPROJECT_DB_DDL_GENERATION:-false}"
-
   opencast_helper_checkforvariables \
-    "ORG_OPENCASTPROJECT_DB_DDL_GENERATION" \
     "ORG_OPENCASTPROJECT_DB_JDBC_DRIVER" \
     "ORG_OPENCASTPROJECT_DB_JDBC_URL" \
     "ORG_OPENCASTPROJECT_DB_JDBC_USER" \
@@ -32,11 +29,7 @@ opencast_jdbc_check() {
 opencast_jdbc_configure() {
   echo "Run opencast_jdbc_configure"
 
-  export ORG_OPENCASTPROJECT_DB_DDL_GENERATION="${ORG_OPENCASTPROJECT_DB_DDL_GENERATION:-false}"
-
   opencast_helper_replaceinfile "etc/custom.properties" \
-    "ORG_OPENCASTPROJECT_DB_VENDOR" \
-    "ORG_OPENCASTPROJECT_DB_DDL_GENERATION" \
     "ORG_OPENCASTPROJECT_DB_JDBC_DRIVER" \
     "ORG_OPENCASTPROJECT_DB_JDBC_URL" \
     "ORG_OPENCASTPROJECT_DB_JDBC_USER" \

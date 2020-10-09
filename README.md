@@ -16,7 +16,7 @@
     -   [ActiveMQ](#activemq)
     -   [Database](#database)
         -   [H2](#h2)
-        -   [MySQL](#mysql)
+        -   [MariaDB and PostgreSQL](#mariadb-and-postgresql)
     -   [Miscellaneous](#miscellaneous)
 -   [Data](#data)
 -   [Languages](#languages)
@@ -65,11 +65,11 @@ $ docker-compose -p opencast-allinone -f docker-compose/docker-compose.allinone.
 
 This will run Opencast using the `allinone` distribution configured to use the bundled [H2 Database Engine](http://www.h2database.com/html/main.html).
 
-In the `./docker-compose` directory there are also compose files for more production-like setups. `docker-compose.allinone.mariadb.yml` uses a MySQL database instead of H2, while `docker-compose.multiserver.mariadb.yml` demonstrates how to connect the different distributions. Replace the compose file in the command above if you want to use them instead. You can find more information about the compose files [here](docker-compose/README.md).
+In the `./docker-compose` directory there are also compose files for more production-like setups. `docker-compose.allinone.mariadb.yml` and `docker-compose.allinone.postgresql.yml` uses the MariaDB and PostgreSQL databases, respectively, while `docker-compose.multiserver.mariadb.yml` and `docker-compose.multiserver.postgresql.yml` demonstrate how to connect the different distributions. Replace the compose file in the command above if you want to use them instead. You can find more information about the compose files [here](docker-compose/README.md).
 
 # Images
 
-Opencast comes in different distributions. For each of the official distributions, there is a specific Docker image. Each version is tagged. For example, the full image name containing the `admin` distribution at version `8.7` is `quay.io/opencast/admin:8.7`. Leaving the version out will install the latest one.
+Opencast comes in different distributions. For each of the official distributions, there is a specific Docker image. Each version is tagged. For example, the full image name containing the `admin` distribution at version `next` is `quay.io/opencast/admin:next`. Leaving the version out will install the latest one.
 
 ## `allinone`
 
@@ -163,9 +163,7 @@ For an installation with multiple nodes you can also set:
 ## Database
 
 -   `ORG_OPENCASTPROJECT_DB_VENDOR` Optional<br>
-    The type of database to use. Currently, you can set this to either `H2` or `MySQL`. The default is `H2`.
--   `ORG_OPENCASTPROJECT_DB_DDL_GENERATION` Optional<br>
-    Specifies whether Opencast should create the database tables or not. It defaults to `false`. In the case of `H2`, it is always set to `true`.
+    The type of database to use. Currently, you can set this to either `H2`, `MariaDB`, or `PostgreSQL`. The default is `H2`.
 -   `NUMER_OF_TIMES_TRYING_TO_CONNECT_TO_DB` Optional<br>
     Specifies how often Opencast is going to try to connect to the specified database before giving up. The waiting time between tries is 5 seconds. The default number of tries is 25. This configuration only applies if the database is not H2.
 
@@ -173,7 +171,7 @@ For an installation with multiple nodes you can also set:
 
 There are no additional environment variables you can set if you are using the H2 database.
 
-### MySQL
+### MariaDB and PostgreSQL
 
 -   `ORG_OPENCASTPROJECT_DB_JDBC_URL` **Required**<br>
     [JDBC](http://www.oracle.com/technetwork/java/javase/jdbc/index.html) connection string.
