@@ -1,4 +1,4 @@
--- Created with Opencast version 7.8
+-- Created with Opencast version 7.9
 
 CREATE TABLE SEQUENCE (
   SEQ_NAME VARCHAR(50) NOT NULL,
