@@ -24,11 +24,11 @@ jobs:
           - day_of_week: '0'
             opencast_version: master
           - day_of_week: '1'
-            opencast_version: 8.9
+            opencast_version: 8.10
           - day_of_week: '2'
-            opencast_version: 8.9
+            opencast_version: 8.10
           - day_of_week: '3'
-            opencast_version: 8.9
+            opencast_version: 8.10
           - day_of_week: '4'
             opencast_version: 8.9
           - day_of_week: '5'
