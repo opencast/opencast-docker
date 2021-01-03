@@ -30,9 +30,17 @@ ENV OPENCAST_DISTRIBUTION="worker" \
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      tar gzip bzip2 xz-utils git \
-      ca-certificates openssl \
-      make gcc g++ libc-dev \
+      bzip2 \
+      ca-certificates \
+      g++ \
+      gcc \
+      git \
+      gzip \
+      libc-dev \
+      make \
+      openssl \
+      tar \
+      xz-utils \
   \
  && git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
  && cd /tmp/su-exec \
@@ -74,7 +82,7 @@ LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.name="opencast-worker" \
       org.label-schema.description="Docker image for the Opencast worker distribution" \
       org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/8.9/README.md" \
-      org.label-schema.url="http://www.opencast.org/" \
+      org.label-schema.url="https://opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
@@ -100,24 +108,44 @@ RUN groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && mkdir -p "${OPENCAST_DATA}" \
  && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_DATA}"
 
-COPY --from=build /usr/local/sbin/su-exec /usr/local/sbin/su-exec
-COPY --from=build /usr/local/bin/ff* /usr/local/sbin/
-COPY --chown=opencast:opencast --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
-COPY --chown=opencast:opencast assets/scripts "${OPENCAST_SCRIPTS}"
-COPY --chown=opencast:opencast assets/support "${OPENCAST_SUPPORT}"
-COPY --chown=opencast:opencast assets/etc/* "${OPENCAST_CONFIG}/"
-COPY assets/docker-entrypoint.sh assets/docker-healthcheck.sh /
-
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      ca-certificates openssl tzdata curl jq \
-      fontconfig fonts-dejavu fonts-freefont-ttf fonts-liberation fonts-linuxlibertine \
-      hunspell hunspell-en-au hunspell-en-ca hunspell-en-gb hunspell-en-us hunspell-en-za \
-      tesseract-ocr tesseract-ocr-eng \
-      sox synfig \
-      nfs-common netcat-openbsd \
+      ca-certificates \
+      curl \
+      fontconfig \
+      fonts-dejavu \
+      fonts-freefont-ttf \
+      fonts-liberation \
+      fonts-linuxlibertine \
+      hunspell \
+      hunspell-en-au \
+      hunspell-en-ca \
+      hunspell-en-gb \
+      hunspell-en-us \
+      hunspell-en-za \
+      jq \
+      netcat-openbsd \
+      nfs-common \
+      openssl \
+      sox \
+      synfig \
+      tesseract-ocr \
+      tesseract-ocr-eng \
+      tzdata \
+ && rm -rf /var/lib/apt/lists/*
+
+COPY rootfs /
+COPY --from=build /usr/local/sbin/su-exec /usr/local/bin/ff* /usr/local/sbin/
+COPY --from=build --chown=opencast:opencast "${OPENCAST_HOME}" "${OPENCAST_HOME}"
+
+RUN chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" \
+      "${OPENCAST_SCRIPTS}" \
+      "${OPENCAST_SUPPORT}" \
+      "${OPENCAST_CONFIG}" \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
- && rm -rf /tmp/* /var/lib/apt/lists/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
+ && rm -rf \
+      /tmp/* \
+      "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
 WORKDIR "${OPENCAST_HOME}"
 
