@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#
 # Copyright 2018 The WWU eLectures Team All rights reserved.
 #
 # Licensed under the Educational Community License, Version 2.0

@@ -26,15 +26,15 @@ jobs:
           - day_of_week: '1'
             opencast_version: 8.9
           - day_of_week: '2'
-            opencast_version: 8.8
+            opencast_version: 8.9
           - day_of_week: '3'
-            opencast_version: 8.7
+            opencast_version: 8.9
           - day_of_week: '4'
-            opencast_version: 8.6
+            opencast_version: 8.9
           - day_of_week: '5'
-            opencast_version: 7.9
+            opencast_version: 8.9
           - day_of_week: '6'
-            opencast_version: 7.8
+            opencast_version: 8.9
     steps:
       - uses: actions/checkout@v2
       - name: trigger
