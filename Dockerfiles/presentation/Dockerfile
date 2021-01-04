@@ -140,10 +140,7 @@ COPY rootfs /
 
 RUN mv "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-tmp" "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg" \
  && mv "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg-tmp" "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg" \
- && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" \
-      "${OPENCAST_SCRIPTS}" \
-      "${OPENCAST_SUPPORT}" \
-      "${OPENCAST_CONFIG}" \
+ && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
  && rm -rf /tmp/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
