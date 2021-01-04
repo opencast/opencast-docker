@@ -21,7 +21,7 @@ volumes:
 
 services:
   postgresql:
-    image: 13-alpine
+    image: postgres:13-alpine
     environment:
       POSTGRES_DB: opencast
       POSTGRES_USER: opencast
