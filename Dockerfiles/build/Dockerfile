@@ -15,24 +15,24 @@
 FROM maven:3.6-jdk-8-slim
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="8.10" \
+      org.label-schema.version="9.0" \
       org.label-schema.name="opencast-build" \
       org.label-schema.description="Image that provides an Opencast build and development environment" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/8.10/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/9.0/README.md" \
       org.label-schema.url="https://opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER bash"
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="8.10"
+ARG branch="9.0"
 
 ENV ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER="admin" \
     ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS="opencast" \
     ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER="opencast_system_account" \
     ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS="CHANGE_ME" \
     \
-    OPENCAST_VERSION="8.10" \
+    OPENCAST_VERSION="9.0" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
@@ -42,7 +42,7 @@ ENV ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER="admin" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_BUILD_ASSETS="/docker" \
-    FFMPEG_VERSION="20200316042902-N-96975-gc467328f07"
+    FFMPEG_VERSION="20210104040504-N-100553-g6c24f2bf41"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
     OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
