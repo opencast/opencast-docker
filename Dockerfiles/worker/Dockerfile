@@ -134,18 +134,18 @@ RUN apt-get update \
       tzdata \
  && rm -rf /var/lib/apt/lists/*
 
-COPY rootfs /
 COPY --from=build /usr/local/sbin/su-exec /usr/local/bin/ff* /usr/local/sbin/
 COPY --from=build --chown=opencast:opencast "${OPENCAST_HOME}" "${OPENCAST_HOME}"
+COPY rootfs /
 
-RUN chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" \
+RUN mv "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-tmp" "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg" \
+ && mv "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg-tmp" "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg" \
+ && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" \
       "${OPENCAST_SCRIPTS}" \
       "${OPENCAST_SUPPORT}" \
       "${OPENCAST_CONFIG}" \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
- && rm -rf \
-      /tmp/* \
-      "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
+ && rm -rf /tmp/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
 WORKDIR "${OPENCAST_HOME}"
 
