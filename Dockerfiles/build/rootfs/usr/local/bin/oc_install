@@ -63,12 +63,18 @@ case "$dist" in
     sudo mv -f "${OPENCAST_CONFIG}/org.ops4j.pax.logging.cfg-develop" "${OPENCAST_CONFIG}/org.ops4j.pax.logging.cfg"
     ;&
   allinone)
-    sudo rm -f "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg"
+    sudo rm -f "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-tmp"
     ;&
   admin|adminpresentation)
-    sudo rm -f "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg"
+    sudo rm -f "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg-tmp"
+    ;;
+  *)
+    sudo mv -f "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-tmp" "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg"
+    sudo mv -f "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg-tmp" "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg"
     ;;
 esac
+
+
 sudo rm -f "${OPENCAST_CONFIG}/org.ops4j.pax.logging.cfg-develop"
 
 log "oc_install" "Write environment file"
