@@ -16,20 +16,23 @@
 
 set -e
 
-opencast_h2_check() {
-  echo "Run opencast_h2_check"
+export ELASTICSEARCH_SERVER_SCHEME="${ELASTICSEARCH_SERVER_SCHEME:-http}"
+export ELASTICSEARCH_SERVER_PORT="${ELASTICSEARCH_SERVER_PORT:-9200}"
+
+opencast_elasticsearch_check() {
+  echo "Run opencast_elasticsearch_check"
+
+  opencast_helper_checkforvariables \
+    "ELASTICSEARCH_SERVER_HOST" \
+    "ELASTICSEARCH_SERVER_SCHEME" \
+    "ELASTICSEARCH_SERVER_PORT"
 }
 
-opencast_h2_configure() {
-  echo "Run opencast_h2_configure"
+opencast_elasticsearch_configure() {
+  echo "Run opencast_elasticsearch_configure"
 
-  opencast_helper_deleteinfile "etc/custom.properties" \
-    "ORG_OPENCASTPROJECT_DB_JDBC_DRIVER" \
-    "ORG_OPENCASTPROJECT_DB_JDBC_URL" \
-    "ORG_OPENCASTPROJECT_DB_JDBC_USER" \
-    "ORG_OPENCASTPROJECT_DB_JDBC_PASS"
-}
-
-opencast_h2_trytoconnect() {
-  echo "Run opencast_h2_trytoconnect"
+  opencast_helper_replaceinfile "etc/custom.properties" \
+    "ELASTICSEARCH_SERVER_HOST" \
+    "ELASTICSEARCH_SERVER_SCHEME" \
+    "ELASTICSEARCH_SERVER_PORT"
 }

@@ -24,14 +24,18 @@ set -e
 . "${OPENCAST_SCRIPTS}/opencast.sh"
 # shellcheck source=./opencast/docker/scripts/activemq.sh
 . "${OPENCAST_SCRIPTS}/activemq.sh"
+# shellcheck source=./opencast/docker/scripts/elasticsearch.sh
+. "${OPENCAST_SCRIPTS}/elasticsearch.sh"
 # shellcheck source=./opencast/docker/scripts/db.sh
 . "${OPENCAST_SCRIPTS}/db.sh"
 # shellcheck source=./opencast/docker/scripts/h2.sh
 . "${OPENCAST_SCRIPTS}/h2.sh"
 # shellcheck source=./opencast/docker/scripts/jdbc.sh
 . "${OPENCAST_SCRIPTS}/jdbc.sh"
-# shellcheck source=./opencast/docker/scripts/mysql.sh
-. "${OPENCAST_SCRIPTS}/mysql.sh"
+# shellcheck source=./opencast/docker/scripts/mariadb.sh
+. "${OPENCAST_SCRIPTS}/mariadb.sh"
+# shellcheck source=./opencast/docker/scripts/postgresql.sh
+. "${OPENCAST_SCRIPTS}/postgresql.sh"
 
 
 opencast_main_check() {
@@ -39,6 +43,7 @@ opencast_main_check() {
 
   opencast_opencast_check
   opencast_activemq_check
+  opencast_elasticsearch_check
   opencast_db_check
 }
 
@@ -47,6 +52,7 @@ opencast_main_configure() {
 
   opencast_opencast_configure
   opencast_activemq_configure
+  opencast_elasticsearch_configure
   opencast_db_configure
 }
 
@@ -123,13 +129,9 @@ case ${1} in
   app:print:activemq.xml)
     opencast_activemq_printactivemqxml
     ;;
-  app:print:ddl)
-    opencast_db_printddl
-    ;;
   app:help)
     echo "Usage:"
     echo "  app:help                Prints the usage information"
-    echo "  app:print:ddl           Prints SQL commands to set up the database"
     echo "  app:print:activemq.xml  Prints the configuration for ActiveMQ"
     echo "  app:init                Checks and configures Opencast but does not run it"
     echo "  app:start               Starts Opencast"

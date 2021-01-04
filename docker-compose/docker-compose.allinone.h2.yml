@@ -15,33 +15,42 @@
 version: "3"
 
 volumes:
+  elastic: {}
   data: {}
 
 services:
   activemq:
     image: webcenter/activemq:5.14.3
     environment:
-      - ACTIVEMQ_MIN_MEMORY=128
-      - ACTIVEMQ_MAX_MEMORY=1024
-      - ACTIVEMQ_ENABLED_SCHEDULER=true
-      - ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT=true
-      - ACTIVEMQ_OWNER_LOGIN=admin
-      - ACTIVEMQ_OWNER_PASSWORD=password
+      ACTIVEMQ_MIN_MEMORY: 128
+      ACTIVEMQ_MAX_MEMORY: 1024
+      ACTIVEMQ_ENABLED_SCHEDULER: "true"
+      ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT: "true"
+      ACTIVEMQ_OWNER_LOGIN: admin
+      ACTIVEMQ_OWNER_PASSWORD: password
     volumes:
       - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
 
-  opencast:
-    image: quay.io/opencast/allinone:8.10
+  elasticsearch:
+    image: elasticsearch:7.9.3
     environment:
-      - ORG_OPENCASTPROJECT_SERVER_URL=http://localhost:8080
-      - ORG_OPENCASTPROJECT_DOWNLOAD_URL=http://localhost:8080/static
-      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER=admin
-      - ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS=opencast
-      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER=opencast_system_account
-      - ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS=CHANGE_ME
-      - ACTIVEMQ_BROKER_URL=failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
-      - ACTIVEMQ_BROKER_USERNAME=admin
-      - ACTIVEMQ_BROKER_PASSWORD=password
+      discovery.type: single-node
+    volumes:
+      - elastic:/usr/share/elasticsearch/data
+
+  opencast:
+    image: quay.io/opencast/allinone:9.0
+    environment:
+      ORG_OPENCASTPROJECT_SERVER_URL: http://localhost:8080
+      ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8080/static
+      ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER: admin
+      ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS: opencast
+      ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast_system_account
+      ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS: CHANGE_ME
+      ACTIVEMQ_BROKER_URL: failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
+      ACTIVEMQ_BROKER_USERNAME: admin
+      ACTIVEMQ_BROKER_PASSWORD: password
+      ELASTICSEARCH_SERVER_HOST: elasticsearch
     ports:
       - "8080:8080"
     volumes:

@@ -16,20 +16,14 @@
 
 set -e
 
-opencast_h2_check() {
-  echo "Run opencast_h2_check"
+opencast_mariadb_check() {
+  echo "Run opencast_mariadb_check"
+
+  export ORG_OPENCASTPROJECT_DB_JDBC_DRIVER="org.mariadb.jdbc.Driver"
 }
 
-opencast_h2_configure() {
-  echo "Run opencast_h2_configure"
+opencast_mariadb_configure() {
+  echo "Run opencast_mariadb_configure"
 
-  opencast_helper_deleteinfile "etc/custom.properties" \
-    "ORG_OPENCASTPROJECT_DB_JDBC_DRIVER" \
-    "ORG_OPENCASTPROJECT_DB_JDBC_URL" \
-    "ORG_OPENCASTPROJECT_DB_JDBC_USER" \
-    "ORG_OPENCASTPROJECT_DB_JDBC_PASS"
-}
-
-opencast_h2_trytoconnect() {
-  echo "Run opencast_h2_trytoconnect"
+  export ORG_OPENCASTPROJECT_DB_JDBC_DRIVER="org.mariadb.jdbc.Driver"
 }
