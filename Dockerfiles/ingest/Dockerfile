@@ -134,7 +134,8 @@ RUN apt-get update \
       tzdata \
  && rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /usr/local/sbin/su-exec /usr/local/bin/ff* /usr/local/sbin/
+COPY --from=build /usr/local/sbin/su-exec /usr/local/sbin/
+COPY --from=build /usr/local/bin/ff* /usr/local/bin/
 COPY --from=build --chown=opencast:opencast "${OPENCAST_HOME}" "${OPENCAST_HOME}"
 COPY rootfs /
 
