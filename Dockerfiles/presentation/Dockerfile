@@ -139,8 +139,14 @@ COPY --from=build /usr/local/bin/ff* /usr/local/bin/
 COPY --from=build --chown=opencast:opencast "${OPENCAST_HOME}" "${OPENCAST_HOME}"
 COPY rootfs /
 
-RUN mv "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-tmp" "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg" \
- && mv "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg-tmp" "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg" \
+RUN if [ "${distribution}" = "allinone" ]; then \
+      rm -f "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-clustered"; \
+    fi \
+ && if [ "${distribution}" = "allinone" ] || [ "${distribution}" = "admin" ] || [ "${distribution}" = "adminpresentation" ]; then \
+      rm -f "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg-nonadmin"; \
+    fi \
+ && mv "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-clustered" "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg" || true \
+ && mv "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg-nonadmin" "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg" || true \
  && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
  && rm -rf /tmp/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
