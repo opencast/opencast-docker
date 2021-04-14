@@ -139,10 +139,10 @@ COPY --from=build /usr/local/bin/ff* /usr/local/bin/
 COPY --from=build --chown=opencast:opencast "${OPENCAST_HOME}" "${OPENCAST_HOME}"
 COPY rootfs /
 
-RUN if [ "${distribution}" = "allinone" ]; then \
+RUN if [ "${OPENCAST_DISTRIBUTION}" = "allinone" ]; then \
       rm -f "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-clustered"; \
     fi \
- && if [ "${distribution}" = "allinone" ] || [ "${distribution}" = "admin" ] || [ "${distribution}" = "adminpresentation" ]; then \
+ && if [ "${OPENCAST_DISTRIBUTION}" = "allinone" ] || [ "${OPENCAST_DISTRIBUTION}" = "admin" ] || [ "${OPENCAST_DISTRIBUTION}" = "adminpresentation" ]; then \
       rm -f "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg-nonadmin"; \
     fi \
  && mv "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-clustered" "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg" || true \
