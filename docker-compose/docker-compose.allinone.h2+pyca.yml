@@ -40,7 +40,7 @@ services:
       - elastic:/usr/share/elasticsearch/data
 
   opencast:
-    image: quay.io/opencast/allinone:9.3
+    image: quay.io/opencast/allinone:9.4
     environment:
       ORG_OPENCASTPROJECT_SERVER_URL: http://opencast:8080
       ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8080/static
