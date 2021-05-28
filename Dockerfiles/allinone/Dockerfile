@@ -26,7 +26,7 @@ ENV OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_GROUP="opencast" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}" \
-    FFMPEG_VERSION="20201019044643-N-99631-g9018257751"
+    FFMPEG_VERSION="20210527041447-N-102608-g7a879cce37"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -49,7 +49,7 @@ RUN apt-get update \
   \
  && mkdir -p /tmp/ffmpeg \
  && cd /tmp/ffmpeg \
- && curl -sSL "https://pkg.opencast.org/bin/ffmpeg/ffmpeg-${FFMPEG_VERSION}.tar.xz" \
+ && curl -sSL "https://s3.opencast.org/opencast-ffmpeg-static/ffmpeg-${FFMPEG_VERSION}.tar.xz" \
      | tar xJf - --strip-components 1 --wildcards '*/ffmpeg' '*/ffprobe' \
  && chown root:root ff* \
  && mv ff* /usr/local/bin \

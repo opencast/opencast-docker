@@ -42,7 +42,7 @@ ENV ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER="admin" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_BUILD_ASSETS="/docker" \
-    FFMPEG_VERSION="20201019044643-N-99631-g9018257751"
+    FFMPEG_VERSION="20210527041447-N-102608-g7a879cce37"
 ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
     OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
@@ -97,7 +97,7 @@ RUN apt-get update \
   \
  && mkdir -p /tmp/ffmpeg \
  && cd /tmp/ffmpeg \
- && curl -sSL "https://pkg.opencast.org/bin/ffmpeg/ffmpeg-${FFMPEG_VERSION}.tar.xz" \
+ && curl -sSL "https://s3.opencast.org/opencast-ffmpeg-static/ffmpeg-${FFMPEG_VERSION}.tar.xz" \
      | tar xJf - --strip-components 1 --wildcards '*/ffmpeg' '*/ffprobe' \
  && chown root:root ff* \
  && mv ff* /usr/local/bin \
