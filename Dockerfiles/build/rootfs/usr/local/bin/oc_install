@@ -64,13 +64,9 @@ case "$dist" in
     ;&
   allinone)
     sudo rm -f "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-clustered"
-    ;&
-  admin|adminpresentation)
-    sudo rm -f "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg-nonadmin"
     ;;
   *)
     sudo mv -f "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-clustered" "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg"
-    sudo mv -f "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg-nonadmin" "${OPENCAST_CONFIG}/org.opencastproject.serviceregistry.impl.ServiceRegistryJpaImpl.cfg"
     ;;
 esac
 sudo rm -f "${OPENCAST_CONFIG}/org.ops4j.pax.logging.cfg-develop"
