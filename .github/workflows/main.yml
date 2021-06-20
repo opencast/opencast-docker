@@ -73,4 +73,9 @@ jobs:
       - name: push container image
         if: ${{ github.event_name == 'push' }}
         run: |
-          docker push "quay.io/opencast/${{ matrix.distribution }}:$(cat VERSION)"
+          if [ "${{ github.ref }}" == "refs/heads/master" ]; then
+            docker tag "quay.io/opencast/${{ matrix.distribution }}:$(cat VERSION)" "quay.io/opencast/${{ matrix.distribution }}:latest"
+            docker push "quay.io/opencast/${{ matrix.distribution }}:latest"
+          else
+            docker push "quay.io/opencast/${{ matrix.distribution }}:$(cat VERSION)"
+          fi
