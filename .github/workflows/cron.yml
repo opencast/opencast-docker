@@ -58,4 +58,4 @@ jobs:
           fi
 
           make "build-${{ matrix.distribution }}"
-          docker push "quay.io/opencast/${{ matrix.distribution }}:${{ matrix.opencast_version }}"
+          docker push "quay.io/opencast/${{ matrix.distribution }}:$(cat VERSION)"
