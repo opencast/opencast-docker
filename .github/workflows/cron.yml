@@ -57,11 +57,11 @@ jobs:
             fi
           fi
 
-          make "build-${{ matrix.distribution }}"
+          make "build-${{ matrix.opencast_distribution }}"
 
           if [ "${{ matrix.opencast_version }}" == "master" ]; then
-            docker tag "quay.io/opencast/${{ matrix.distribution }}:$(cat VERSION)" "quay.io/opencast/${{ matrix.distribution }}:latest"
-            docker push "quay.io/opencast/${{ matrix.distribution }}:latest"
+            docker tag "quay.io/opencast/${{ matrix.opencast_distribution }}:$(cat VERSION)" "quay.io/opencast/${{ matrix.opencast_distribution }}:latest"
+            docker push "quay.io/opencast/${{ matrix.opencast_distribution }}:latest"
           else
-            docker push "quay.io/opencast/${{ matrix.distribution }}:$(cat VERSION)"
+            docker push "quay.io/opencast/${{ matrix.opencast_distribution }}:$(cat VERSION)"
           fi
