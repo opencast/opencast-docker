@@ -54,7 +54,7 @@ services:
     image: quay.io/opencast/admin:10.0
     environment:
       ORG_OPENCASTPROJECT_SERVER_URL: http://opencast-admin:8080
-      ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8080/static
+      ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8081/static
       ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER: admin
       ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS: opencast
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast_system_account
@@ -78,7 +78,7 @@ services:
     image: quay.io/opencast/presentation:10.0
     environment:
       ORG_OPENCASTPROJECT_SERVER_URL: http://opencast-presentation:8080
-      ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8080/static
+      ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8081/static
       ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER: admin
       ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS: opencast
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast_system_account
@@ -102,7 +102,7 @@ services:
     image: quay.io/opencast/worker:10.0
     environment:
       ORG_OPENCASTPROJECT_SERVER_URL: http://opencast-worker:8080
-      ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8080/static
+      ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8081/static
       ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER: admin
       ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS: opencast
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast_system_account
