@@ -71,14 +71,37 @@ opencast_main_init() {
 
   if opencast_helper_customconfig; then
     echo "Found custom config in ${OPENCAST_CUSTOM_CONFIG}"
-    echo "Run opencast_helper_copycustomconfig"
-    opencast_helper_copycustomconfig
+    opencast_main_sync_config
   else
     echo "No custom config found"
     opencast_main_check
+    opencast_main_configure
   fi
+}
 
-  opencast_main_configure
+opencast_main_sync_config() {
+  echo "Run opencast_main_sync_config"
+
+  # Create new staged output directory
+  rm -rf "${OPENCAST_STAGE_OUT_HOME}"
+  mkdir -p "${OPENCAST_STAGE_OUT_HOME}"
+
+  # Order is important:
+  #  1. stage base (config)
+  #  2. stage custom config
+  #  3. configure staged config
+  #  4. deploy staged config
+  opencast_helper_stage_base
+  opencast_helper_stage_customconfig
+  OPENCAST_HOME="${OPENCAST_STAGE_OUT_HOME}" opencast_main_configure
+  opencast_helper_deploy_staged_config
+}
+
+opencast_main_watch_customconfig_job() {
+  while true; do
+    opencast_helper_customconfig_wait_for_change
+    opencast_main_sync_config
+  done
 }
 
 opencast_main_start() {
@@ -94,6 +117,9 @@ opencast_main_start() {
     export DEFAULT_JAVA_DEBUG_OPTS="${DEFAULT_JAVA_DEBUG_OPTS:--Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005}"
     exec su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast debug
   fi
+
+  opencast_main_watch_customconfig_job &
+  export OC_WATCH_CUSTOM_CONFIG_PID=$!
 
   su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast daemon &
   OC_PID=$!
@@ -115,6 +141,7 @@ opencast_main_stop() {
   echo "Run opencast_main_stop"
 
   bin/stop-opencast &
+  kill "$OC_WATCH_CUSTOM_CONFIG_PID"
 }
 
 case ${1} in

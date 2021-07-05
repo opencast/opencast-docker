@@ -100,9 +100,11 @@ ENV OPENCAST_VERSION="10.0" \
     OPENCAST_GID="800" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}"
-ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
+ENV OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
+    OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
-    OPENCAST_CONFIG="${OPENCAST_HOME}/etc"
+    OPENCAST_STAGE_BASE_HOME="${OPENCAST_HOME}/docker/stage/base" \
+    OPENCAST_STAGE_OUT_HOME="${OPENCAST_HOME}/docker/stage/out"
 
 RUN groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
@@ -124,10 +126,12 @@ RUN apt-get update \
       hunspell-en-gb \
       hunspell-en-us \
       hunspell-en-za \
+      inotify-tools \
       jq \
       netcat-openbsd \
       nfs-common \
       openssl \
+      rsync \
       sox \
       synfig \
       tesseract-ocr \
@@ -144,7 +148,11 @@ RUN if [ "${OPENCAST_DISTRIBUTION}" = "allinone" ]; then \
       rm -f "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-clustered"; \
     fi \
  && mv "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-clustered" "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg" || true \
- && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" \
+ && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_CONFIG}" \
+  \
+ && mkdir -p "${OPENCAST_STAGE_BASE_HOME}" \
+ && rsync -vrl --chown=0:0 "${OPENCAST_CONFIG}" "${OPENCAST_STAGE_BASE_HOME}" \
+  \
  && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
  && rm -rf /tmp/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 

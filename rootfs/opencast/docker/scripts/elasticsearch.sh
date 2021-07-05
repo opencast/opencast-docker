@@ -31,7 +31,7 @@ opencast_elasticsearch_check() {
 opencast_elasticsearch_configure() {
   echo "Run opencast_elasticsearch_configure"
 
-  opencast_helper_replaceinfile "etc/custom.properties" \
+  opencast_helper_replaceinfile "${OPENCAST_HOME}/etc/custom.properties" \
     "ELASTICSEARCH_SERVER_HOST" \
     "ELASTICSEARCH_SERVER_SCHEME" \
     "ELASTICSEARCH_SERVER_PORT"

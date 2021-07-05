@@ -23,7 +23,7 @@ opencast_h2_check() {
 opencast_h2_configure() {
   echo "Run opencast_h2_configure"
 
-  opencast_helper_deleteinfile "etc/custom.properties" \
+  opencast_helper_deleteinfile "${OPENCAST_HOME}/etc/custom.properties" \
     "ORG_OPENCASTPROJECT_DB_JDBC_DRIVER" \
     "ORG_OPENCASTPROJECT_DB_JDBC_URL" \
     "ORG_OPENCASTPROJECT_DB_JDBC_USER" \
