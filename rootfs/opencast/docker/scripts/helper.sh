@@ -28,9 +28,25 @@ opencast_helper_customconfig() {
   test -d "${OPENCAST_CUSTOM_CONFIG}"
 }
 
-opencast_helper_copycustomconfig() {
-  cp -RL "${OPENCAST_CUSTOM_CONFIG}"/* "${OPENCAST_CONFIG}"
-  chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_CONFIG}"
+opencast_helper_customconfig_wait_for_change() {
+  inotifywait -q -r -e modify,attrib,close_write,create,move,delete "${OPENCAST_CUSTOM_CONFIG}"
+
+  # One change seldom comes alone. Wait for good measure.
+  sleep 2
+}
+
+opencast_helper_stage_base() {
+  rsync -qcrl --chown=0:0 "${OPENCAST_STAGE_BASE_HOME}/" "${OPENCAST_STAGE_OUT_HOME}"
+}
+
+opencast_helper_stage_customconfig() {
+  # Kubernetes will create symlinked files to folders to change out mounted configuration simultaneously. The folder
+  # names start with two dots. Let's ignore them and dereference the symbolic links.
+  rsync -qcrLK --chown=0:0 --exclude="..*" "${OPENCAST_CUSTOM_CONFIG}/" "${OPENCAST_STAGE_OUT_HOME}/etc"
+}
+
+opencast_helper_deploy_staged_config() {
+  rsync -qcrl --chown="${OPENCAST_UID}:${OPENCAST_GID}" --delete "${OPENCAST_STAGE_OUT_HOME}/etc/" "${OPENCAST_CONFIG}"
 }
 
 opencast_helper_checkforvariables() {
