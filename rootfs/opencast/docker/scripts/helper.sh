@@ -29,7 +29,7 @@ opencast_helper_customconfig() {
 }
 
 opencast_helper_customconfig_wait_for_change() {
-  inotifywait -q -r -e modify,attrib,close_write,create,move,delete "${OPENCAST_CUSTOM_CONFIG}"
+  inotifywait -q -r -e modify,close_write,create,move,delete "${OPENCAST_CUSTOM_CONFIG}"
 
   # One change seldom comes alone. Wait for good measure.
   sleep 2
