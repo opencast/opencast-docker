@@ -17,7 +17,6 @@ limitations under the License.
 ## Included third-party dependencies
 
 docker-compose/assets/activemq.xml
-docker-compose/assets/opencast-ddl.sql
   Opencast
   (c) 2016 The Apereo Foundation
   http://opencast.org/

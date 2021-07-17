@@ -15,24 +15,24 @@
 FROM maven:3-jdk-11-slim
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="10.0" \
+      org.label-schema.version="10.1" \
       org.label-schema.name="opencast-build" \
       org.label-schema.description="Image that provides an Opencast build and development environment" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/10.0/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/10.1/README.md" \
       org.label-schema.url="https://opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER bash"
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="10.0"
+ARG branch="10.1"
 
 ENV ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER="admin" \
     ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS="opencast" \
     ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER="opencast_system_account" \
     ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS="CHANGE_ME" \
     \
-    OPENCAST_VERSION="10.0" \
+    OPENCAST_VERSION="10.1" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
