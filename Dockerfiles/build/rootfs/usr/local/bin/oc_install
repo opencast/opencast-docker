@@ -77,6 +77,7 @@ log "oc_install" "Write environment file"
 echo "export OPENCAST_DISTRIBUTION=$dist" | sudo tee "${OPENCAST_SCRIPTS}/env" > /dev/null
 
 log "oc_install" "Set permissions"
-sudo chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}"
+sudo chown "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_CONFIG}"
+sudo chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}/data"
 
 log "oc_install" "End installation"

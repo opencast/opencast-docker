@@ -141,14 +141,15 @@ RUN apt-get update \
 
 COPY --from=build /usr/local/sbin/su-exec /usr/local/sbin/
 COPY --from=build /usr/local/bin/ff* /usr/local/bin/
-COPY --from=build --chown=opencast:opencast "${OPENCAST_HOME}" "${OPENCAST_HOME}"
+COPY --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
 COPY rootfs /
 
 RUN if [ "${OPENCAST_DISTRIBUTION}" = "allinone" ]; then \
       rm -f "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-clustered"; \
     fi \
  && mv "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-clustered" "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg" || true \
- && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_CONFIG}" \
+ && chown "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_CONFIG}" \
+ && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}/data" \
   \
  && mkdir -p "${OPENCAST_STAGE_BASE_HOME}" \
  && rsync -vrl --chown=0:0 "${OPENCAST_CONFIG}" "${OPENCAST_STAGE_BASE_HOME}" \
