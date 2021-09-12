@@ -14,6 +14,7 @@
 -   [Configuration](#configuration)
     -   [Opencast](#opencast)
     -   [ActiveMQ](#activemq)
+    -   [Elasticsearch](#elasticsearch)
     -   [Database](#database)
         -   [H2](#h2)
         -   [MariaDB and PostgreSQL](#mariadb-and-postgresql)
@@ -158,6 +159,19 @@ For an installation with multiple nodes you can also set:
     ActiveMQ username.
 -   `ACTIVEMQ_BROKER_PASSWORD` **Required**<br>
     Password of the ActiveMQ user. You may alternatively set `ACTIVEMQ_BROKER_PASSWORD_FILE` to the location of a file within the container that contains the password.
+
+## Elasticsearch
+
+-   `ELASTICSEARCH_SERVER_HOST` **Required**<br>
+    Hostname to Elasticsearch.
+-   `ELASTICSEARCH_SERVER_SCHEME` Optional<br>
+    Protocol to use when accessing Elasticsearch. Either `http` or `https`. The default is `http`.
+-   `ELASTICSEARCH_SERVER_PORT` Optional<br>
+    Port number of Elasticsearch. The default is `9200`.
+-   `ELASTICSEARCH_USERNAME` Optional<br>
+    Username to use when accessing Elasticsearch. The default is none.
+-   `ELASTICSEARCH_PASSWORD` Optional<br>
+    Password to use when accessing Elasticsearch. The default is none.
 
 ## Database
 

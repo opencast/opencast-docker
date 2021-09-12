@@ -34,5 +34,13 @@ opencast_elasticsearch_configure() {
   opencast_helper_replaceinfile "${OPENCAST_HOME}/etc/custom.properties" \
     "ELASTICSEARCH_SERVER_HOST" \
     "ELASTICSEARCH_SERVER_SCHEME" \
-    "ELASTICSEARCH_SERVER_PORT"
+    "ELASTICSEARCH_SERVER_PORT" \
+    "ELASTICSEARCH_USERNAME" \
+    "ELASTICSEARCH_PASSWORD"
+
+  [ -n "$ELASTICSEARCH_USERNAME" ] ||
+    opencast_helper_deleteinfile "${OPENCAST_HOME}/etc/custom.properties" "ELASTICSEARCH_USERNAME"
+
+  [ -n "$ELASTICSEARCH_PASSWORD" ] ||
+    opencast_helper_deleteinfile "${OPENCAST_HOME}/etc/custom.properties" "ELASTICSEARCH_PASSWORD"
 }
