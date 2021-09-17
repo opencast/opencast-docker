@@ -93,7 +93,7 @@ RUN apt-get update \
       tesseract-ocr-eng \
       tzdata \
   \
- && sudo ln -s /usr/local/openjdk-8/bin/* /usr/local/bin/ \
+ && sudo ln -s /usr/local/openjdk*/bin/* /usr/local/bin/ \
   \
  && git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
  && cd /tmp/su-exec \
