@@ -114,7 +114,6 @@ opencast_main_start() {
   rm -rf /opencast/data/pid /opencast/instances/instance.properties
 
   if opencast_helper_dist_develop; then
-    export DEFAULT_JAVA_DEBUG_OPTS="${DEFAULT_JAVA_DEBUG_OPTS:--Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005}"
     exec su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast debug
   fi
 
