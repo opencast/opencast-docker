@@ -25,17 +25,17 @@ jobs:
           - day_of_week: '0'
             opencast_version: 'master'
           - day_of_week: '1'
-            opencast_version: '10.6'
+            opencast_version: '11.0'
           - day_of_week: '2'
-            opencast_version: '10.5'
+            opencast_version: '10.6'
           - day_of_week: '3'
-            opencast_version: '10.4'
+            opencast_version: '10.5'
           - day_of_week: '4'
             opencast_version: '9.10'
           - day_of_week: '5'
-            opencast_version: '9.9'
+            opencast_version: '9.10'
           - day_of_week: '6'
-            opencast_version: '9.8'
+            opencast_version: '9.9'
 
     steps:
       - uses: actions/checkout@v2
