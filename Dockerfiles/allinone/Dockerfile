@@ -26,7 +26,7 @@ ENV OPENCAST_DISTRIBUTION="allinone" \
     OPENCAST_GROUP="opencast" \
     OPENCAST_REPO="${repo}" \
     OPENCAST_BRANCH="${branch}" \
-    FFMPEG_VERSION="20210620044626-N-102774-g2cf95f2dd9"
+    FFMPEG_VERSION="20211115053315-N-104552-g23a1f11d02"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
