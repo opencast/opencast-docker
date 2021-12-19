@@ -15,7 +15,7 @@
 FROM maven:3-jdk-11-slim AS build
 
 ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="10.7"
+ARG branch="10.8"
 
 ENV OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_SRC="/usr/src/opencast" \
@@ -79,17 +79,17 @@ RUN git clone --recursive "${OPENCAST_REPO}" "${OPENCAST_SRC}" \
 FROM openjdk:11-jdk-slim
 LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.version="10.7" \
+      org.label-schema.version="10.8" \
       org.label-schema.name="opencast-admin" \
       org.label-schema.description="Docker image for the Opencast admin distribution" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/10.7/README.md" \
+      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/10.8/README.md" \
       org.label-schema.url="https://opencast.org/" \
       org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
       org.label-schema.vendor="University of Münster" \
       org.label-schema.docker.debug="docker exec -it $CONTAINER sh" \
-      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/admin:10.7 app:help"
+      org.label-schema.docker.cmd.help="docker run --rm quay.io/opencast/admin:10.8 app:help"
 
-ENV OPENCAST_VERSION="10.7" \
+ENV OPENCAST_VERSION="10.8" \
     OPENCAST_DISTRIBUTION="admin" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
