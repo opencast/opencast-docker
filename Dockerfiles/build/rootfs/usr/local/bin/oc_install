@@ -71,7 +71,7 @@ case "$dist" in
 esac
 sudo rm -f "${OPENCAST_CONFIG}/org.ops4j.pax.logging.cfg-develop"
 sudo mkdir -p "${OPENCAST_STAGE_BASE_HOME}"
-sudo rsync -vrl --chown=0:0 "${OPENCAST_CONFIG}" "${OPENCAST_STAGE_BASE_HOME}"
+sudo rsync -vrlog --chown=0:0 "${OPENCAST_CONFIG}" "${OPENCAST_STAGE_BASE_HOME}"
 
 log "oc_install" "Write environment file"
 echo "export OPENCAST_DISTRIBUTION=$dist" | sudo tee "${OPENCAST_SCRIPTS}/env" > /dev/null
