@@ -31,11 +31,11 @@ jobs:
           - day_of_week: '3'
             opencast_version: '11.4'
           - day_of_week: '4'
-            opencast_version: '10.12'
+            opencast_version: '10.13'
           - day_of_week: '5'
-            opencast_version: '10.11'
+            opencast_version: '10.12'
           - day_of_week: '6'
-            opencast_version: '10.10'
+            opencast_version: '10.11'
 
     steps:
       - uses: actions/checkout@v2
