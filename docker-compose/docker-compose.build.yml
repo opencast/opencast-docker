@@ -40,7 +40,7 @@ services:
       - elastic:/usr/share/elasticsearch/data
 
   opencast:
-    image: quay.io/opencast/build:11.6
+    image: quay.io/opencast/build:11.7
     tty: true
     stdin_open: true
     environment:
