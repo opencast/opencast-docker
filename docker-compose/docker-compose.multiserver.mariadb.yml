@@ -31,18 +31,6 @@ services:
     volumes:
       - db:/var/lib/mysql
 
-  activemq:
-    image: webcenter/activemq:5.14.3
-    environment:
-      ACTIVEMQ_MIN_MEMORY: 128
-      ACTIVEMQ_MAX_MEMORY: 1024
-      ACTIVEMQ_ENABLED_SCHEDULER: "true"
-      ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT: "true"
-      ACTIVEMQ_OWNER_LOGIN: admin
-      ACTIVEMQ_OWNER_PASSWORD: password
-    volumes:
-      - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
-
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
     environment:
@@ -52,7 +40,7 @@ services:
       - elastic:/usr/share/elasticsearch/data
 
   opencast-admin:
-    image: quay.io/opencast/admin:11.8
+    image: quay.io/opencast/admin:12.0
     environment:
       ORG_OPENCASTPROJECT_SERVER_URL: http://opencast-admin:8080
       ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8081/static
@@ -61,14 +49,11 @@ services:
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast_system_account
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS: CHANGE_ME
       ORG_OPENCASTPROJECT_DB_VENDOR: MariaDB
-      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:mysql://mariadb/opencast?useMysqlMetadata=true
+      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:mariadb://mariadb/opencast?useMysqlMetadata=true
       ORG_OPENCASTPROJECT_DB_JDBC_USER: opencast
       ORG_OPENCASTPROJECT_DB_JDBC_PASS: opencast
       PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL: http://localhost:8080
       PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL: http://localhost:8081
-      ACTIVEMQ_BROKER_URL: failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
-      ACTIVEMQ_BROKER_USERNAME: admin
-      ACTIVEMQ_BROKER_PASSWORD: password
       ELASTICSEARCH_SERVER_HOST: elasticsearch
     ports:
       - "8080:8080"
@@ -76,7 +61,7 @@ services:
       - data:/data
 
   opencast-presentation:
-    image: quay.io/opencast/presentation:11.8
+    image: quay.io/opencast/presentation:12.0
     environment:
       ORG_OPENCASTPROJECT_SERVER_URL: http://opencast-presentation:8080
       ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8081/static
@@ -85,14 +70,11 @@ services:
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast_system_account
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS: CHANGE_ME
       ORG_OPENCASTPROJECT_DB_VENDOR: MariaDB
-      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:mysql://mariadb/opencast?useMysqlMetadata=true
+      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:mariadb://mariadb/opencast?useMysqlMetadata=true
       ORG_OPENCASTPROJECT_DB_JDBC_USER: opencast
       ORG_OPENCASTPROJECT_DB_JDBC_PASS: opencast
       PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL: http://localhost:8080
       PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL: http://localhost:8081
-      ACTIVEMQ_BROKER_URL: failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
-      ACTIVEMQ_BROKER_USERNAME: admin
-      ACTIVEMQ_BROKER_PASSWORD: password
       ELASTICSEARCH_SERVER_HOST: elasticsearch
     ports:
       - "8081:8080"
@@ -100,7 +82,7 @@ services:
       - data:/data
 
   opencast-worker:
-    image: quay.io/opencast/worker:11.8
+    image: quay.io/opencast/worker:12.0
     environment:
       ORG_OPENCASTPROJECT_SERVER_URL: http://opencast-worker:8080
       ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8081/static
@@ -109,14 +91,11 @@ services:
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER: opencast_system_account
       ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS: CHANGE_ME
       ORG_OPENCASTPROJECT_DB_VENDOR: MariaDB
-      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:mysql://mariadb/opencast?useMysqlMetadata=true
+      ORG_OPENCASTPROJECT_DB_JDBC_URL: jdbc:mariadb://mariadb/opencast?useMysqlMetadata=true
       ORG_OPENCASTPROJECT_DB_JDBC_USER: opencast
       ORG_OPENCASTPROJECT_DB_JDBC_PASS: opencast
       PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL: http://localhost:8080
       PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL: http://localhost:8081
-      ACTIVEMQ_BROKER_URL: failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
-      ACTIVEMQ_BROKER_USERNAME: admin
-      ACTIVEMQ_BROKER_PASSWORD: password
       ELASTICSEARCH_SERVER_HOST: elasticsearch
     volumes:
       - data:/data

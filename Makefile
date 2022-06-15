@@ -12,112 +12,73 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-DOCKER_IMAGE_BASE=quay.io/opencast
-DOCKER_TAG=$(shell cat VERSION)
+# user configurable variables
 
-REPO=$(shell sed -n -e 's/^ARG repo="\(.*\)"/\1/p' Dockerfiles/allinone/Dockerfile)
-BRANCH=$(shell sed -n -e 's/^ARG branch="\(.*\)"/\1/p' Dockerfiles/allinone/Dockerfile)
+OPENCAST_REPO     ?= https://github.com/opencast/opencast.git
+OPENCAST_VERSION  ?= $(shell cat VERSION_OPENCAST)
 
-CUSTOM_DOCKER_BUILD_ARGS=
+FFMPEG_VERSION    ?= $(shell cat VERSION_FFMPEG)
 
-export DOCKER_BUILDKIT=1
+IMAGE_REGISTRY    ?= quay.io/opencast
+IMAGE_TAG         ?= $(shell cat VERSION)
+DOCKER_BUILD_ARGS ?=
 
-all: lint build test
+GIT_COMMIT        ?= $(shell git rev-parse --short HEAD || echo "unknown")
+BUILD_DATE        ?= $(shell date -u +"%Y-%m-%dT%TZ")
 
-build: build-allinone build-admin build-adminpresentation build-ingest build-presentation build-worker build-build
-build-allinone:
+# build variables (do not change)
+
+export DOCKER_BUILDKIT = 1
+OPENCAST_DISTRIBUTIONS = \
+	admin \
+	adminpresentation \
+	allinone \
+	ingest \
+	presentation \
+	worker
+
+# targets
+
+all: lint build
+
+.PHONY: build
+build: $(addprefix build-, $(OPENCAST_DISTRIBUTIONS)) build-build
+build-%:
 	docker build \
 		--pull \
-		--build-arg repo=$(REPO) \
-		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/allinone \
-		-t $(DOCKER_IMAGE_BASE)/allinone:$(DOCKER_TAG) \
-		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		-f Dockerfiles/allinone/Dockerfile \
+		--build-arg OPENCAST_REPO="$(OPENCAST_REPO)" \
+		--build-arg OPENCAST_VERSION="$(OPENCAST_VERSION)" \
+		--build-arg OPENCAST_DISTRIBUTION="$*" \
+		--build-arg BUILD_DATE="$(BUILD_DATE)" \
+		--build-arg GIT_COMMIT="$(GIT_COMMIT)" \
+		--build-arg VERSION="$(IMAGE_TAG)" \
+		-t "$(IMAGE_REGISTRY)/$*:latest" \
+		-t "$(IMAGE_REGISTRY)/$*:$(IMAGE_TAG)" \
+		$(DOCKER_BUILD_ARGS) \
+		-f Dockerfile \
 		.
-build-admin:
-	docker build \
-		--pull \
-		--build-arg repo=$(REPO) \
-		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/admin \
-		-t $(DOCKER_IMAGE_BASE)/admin:$(DOCKER_TAG) \
-		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		-f Dockerfiles/admin/Dockerfile \
-		.
-build-adminpresentation:
-	docker build \
-		--pull \
-		--build-arg repo=$(REPO) \
-		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/adminpresentation \
-		-t $(DOCKER_IMAGE_BASE)/adminpresentation:$(DOCKER_TAG) \
-		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		-f Dockerfiles/adminpresentation/Dockerfile \
-		.
-build-ingest:
-	docker build \
-		--pull \
-		--build-arg repo=$(REPO) \
-		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/ingest \
-		-t $(DOCKER_IMAGE_BASE)/ingest:$(DOCKER_TAG) \
-		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		-f Dockerfiles/ingest/Dockerfile \
-		.
-build-presentation:
-	docker build \
-		--pull \
-		--build-arg repo=$(REPO) \
-		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/presentation \
-		-t $(DOCKER_IMAGE_BASE)/presentation:$(DOCKER_TAG) \
-		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		-f Dockerfiles/presentation/Dockerfile \
-		.
-build-worker:
-	docker build \
-		--pull \
-		--build-arg repo=$(REPO) \
-		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/worker \
-		-t $(DOCKER_IMAGE_BASE)/worker:$(DOCKER_TAG) \
-		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		-f Dockerfiles/worker/Dockerfile \
-		.
+
 build-build:
 	docker build \
 		--pull \
-		--build-arg repo=$(REPO) \
-		--build-arg branch=$(BRANCH) \
-		-t $(DOCKER_IMAGE_BASE)/build \
-		-t $(DOCKER_IMAGE_BASE)/build:$(DOCKER_TAG) \
-		$(CUSTOM_DOCKER_BUILD_ARGS) \
-		-f Dockerfiles/build/Dockerfile \
+		--build-arg OPENCAST_REPO="$(OPENCAST_REPO)" \
+		--build-arg OPENCAST_VERSION="$(OPENCAST_VERSION)" \
+		--build-arg BUILD_DATE="$(BUILD_DATE)" \
+		--build-arg GIT_COMMIT="$(GIT_COMMIT)" \
+		--build-arg VERSION="$(IMAGE_TAG)" \
+		-t "$(IMAGE_REGISTRY)/build:latest" \
+		-t "$(IMAGE_REGISTRY)/build:$(IMAGE_TAG)" \
+		$(DOCKER_BUILD_ARGS) \
+		-f Dockerfile-build \
 		.
-.PHONY: build build-allinone build-admin build-adminpresentation build-ingest build-presentation build-worker build-build
 
-test:
-	bats test
-.PHONY: test
-
-clean:
-	-docker rmi $(DOCKER_IMAGE_BASE)/allinone
-	-docker rmi $(DOCKER_IMAGE_BASE)/admin
-	-docker rmi $(DOCKER_IMAGE_BASE)/ingest
-	-docker rmi $(DOCKER_IMAGE_BASE)/presentation
-	-docker rmi $(DOCKER_IMAGE_BASE)/worker
-	-docker rmi $(DOCKER_IMAGE_BASE)/build
-	-docker rmi $(DOCKER_IMAGE_BASE)/allinone:$(DOCKER_TAG)
-	-docker rmi $(DOCKER_IMAGE_BASE)/admin:$(DOCKER_TAG)
-	-docker rmi $(DOCKER_IMAGE_BASE)/adminpresentation:$(DOCKER_TAG)
-	-docker rmi $(DOCKER_IMAGE_BASE)/ingest:$(DOCKER_TAG)
-	-docker rmi $(DOCKER_IMAGE_BASE)/presentation:$(DOCKER_TAG)
-	-docker rmi $(DOCKER_IMAGE_BASE)/worker:$(DOCKER_TAG)
-	-docker rmi $(DOCKER_IMAGE_BASE)/build:$(DOCKER_TAG)
 .PHONY: clean
+clean: $(addprefix clean-, $(OPENCAST_DISTRIBUTIONS)) clean-build
+clean-%:
+	-docker rmi $(IMAGE_REGISTRY)/$*
+	-docker rmi $(IMAGE_REGISTRY)/$*:$(IMAGE_TAG)
 
 lint:
-	cd rootfs && shellcheck --external-sources *.sh ./opencast/docker/scripts/*.sh
-	cd Dockerfiles/build/rootfs/usr/local/bin && shellcheck --external-sources *
+	cd rootfs                     && shellcheck --external-sources *.sh ./opencast/docker/scripts/*.sh
+	cd rootfs-build/usr/local/bin && shellcheck --external-sources *
 .PHONY: lint

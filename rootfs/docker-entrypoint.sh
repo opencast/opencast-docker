@@ -22,8 +22,6 @@ set -e
 . "${OPENCAST_SCRIPTS}/tz.sh"
 # shellcheck source=./opencast/docker/scripts/opencast.sh
 . "${OPENCAST_SCRIPTS}/opencast.sh"
-# shellcheck source=./opencast/docker/scripts/activemq.sh
-. "${OPENCAST_SCRIPTS}/activemq.sh"
 # shellcheck source=./opencast/docker/scripts/elasticsearch.sh
 . "${OPENCAST_SCRIPTS}/elasticsearch.sh"
 # shellcheck source=./opencast/docker/scripts/db.sh
@@ -42,7 +40,6 @@ opencast_main_check() {
   echo "Run opencast_main_check"
 
   opencast_opencast_check
-  opencast_activemq_check
   opencast_elasticsearch_check
   opencast_db_check
 }
@@ -51,7 +48,6 @@ opencast_main_configure() {
   echo "Run opencast_main_configure"
 
   opencast_opencast_configure
-  opencast_activemq_configure
   opencast_elasticsearch_configure
   opencast_db_configure
 }
@@ -60,7 +56,6 @@ opencast_file_env() {
   file_env ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS
   file_env ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS
   file_env ORG_OPENCASTPROJECT_DB_JDBC_PASS
-  file_env ACTIVEMQ_BROKER_PASSWORD
 }
 
 opencast_main_init() {
@@ -152,16 +147,12 @@ case ${1} in
     opencast_db_trytoconnect
     opencast_main_start
     ;;
-  app:print:activemq.xml)
-    opencast_activemq_printactivemqxml
-    ;;
   app:help)
     echo "Usage:"
-    echo "  app:help                Prints the usage information"
-    echo "  app:print:activemq.xml  Prints the configuration for ActiveMQ"
-    echo "  app:init                Checks and configures Opencast but does not run it"
-    echo "  app:start               Starts Opencast"
-    echo "  [cmd] [args...]         Runs [cmd] with given arguments"
+    echo "  app:help         Prints the usage information"
+    echo "  app:init         Checks and configures Opencast but does not run it"
+    echo "  app:start        Starts Opencast"
+    echo "  [cmd] [args...]  Runs [cmd] with given arguments"
     ;;
   *)
     exec "$@"

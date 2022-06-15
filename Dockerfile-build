@@ -12,27 +12,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM maven:3-jdk-11-slim
-LABEL maintainer="WWU eLectures team <electures.dev@uni-muenster.de>" \
-      org.label-schema.schema-version="1.0" \
-      org.label-schema.version="11.8" \
-      org.label-schema.name="opencast-build" \
-      org.label-schema.description="Image that provides an Opencast build and development environment" \
-      org.label-schema.usage="https://github.com/opencast/opencast-docker/blob/11.8/README.md" \
-      org.label-schema.url="https://opencast.org/" \
-      org.label-schema.vcs-url="https://github.com/opencast/opencast-docker" \
-      org.label-schema.vendor="University of Münster" \
-      org.label-schema.docker.debug="docker exec -it $CONTAINER bash"
+FROM docker.io/maven:3-jdk-11-slim
+LABEL org.opencontainers.image.base.name="docker.io/maven:3-jdk-11-slim"
 
-ARG repo="https://github.com/opencast/opencast.git"
-ARG branch="11.8"
+ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
+ARG OPENCAST_VERSION="develop"
+ARG FFMPEG_VERSION="latest"
+ARG VERSION=unkown
+ARG BUILD_DATE=unkown
+ARG GIT_COMMIT=unkown
 
-ENV ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER="admin" \
-    ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS="opencast" \
-    ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER="opencast_system_account" \
-    ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS="CHANGE_ME" \
-    \
-    OPENCAST_VERSION="11.8" \
+LABEL maintainer="educast.nrw <info@educast.nrw>" \
+      org.opencontainers.image.title="opencast-build" \
+      org.opencontainers.image.description="container image that provides an Opencast build and development environment" \
+      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.vendor="Opencast" \
+      org.opencontainers.image.authors="educast.nrw <info@educast.nrw>" \
+      org.opencontainers.image.licenses="ECL-2.0" \
+      org.opencontainers.image.url="https://github.com/opencast/opencast-docker/blob/${VERSION}/README.md" \
+      org.opencontainers.image.documentation="https://github.com/opencast/opencast-docker/blob/${VERSION}/README.md" \
+      org.opencontainers.image.source="https://github.com/opencast/opencast-docker" \
+      org.opencontainers.image.created="${BUILD_DATE}" \
+      org.opencontainers.image.revision="${GIT_COMMIT}"
+
+ENV OPENCAST_REPO="${OPENCAST_REPO}" \
+    OPENCAST_VERSION="${OPENCAST_VERSION}" \
+    OPENCAST_DISTRIBUTION="${OPENCAST_DISTRIBUTION}" \
     OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
@@ -41,16 +46,16 @@ ENV ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER="admin" \
     OPENCAST_GROUP="opencast" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
-    OPENCAST_BUILD_ASSETS="/docker" \
-    FFMPEG_VERSION="20210620044626-N-102774-g2cf95f2dd9"
-
+    OPENCAST_BUILD_ASSETS="/docker"
 ENV OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
     OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_SUPPORT="${OPENCAST_HOME}/docker/support" \
     OPENCAST_STAGE_BASE_HOME="${OPENCAST_HOME}/docker/stage/base" \
-    OPENCAST_STAGE_OUT_HOME="${OPENCAST_HOME}/docker/stage/out" \
-    OPENCAST_REPO="${repo}" \
-    OPENCAST_BRANCH="${branch}"
+    OPENCAST_STAGE_OUT_HOME="${OPENCAST_HOME}/docker/stage/out"
+ENV ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER="admin" \
+    ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS="opencast" \
+    ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER="opencast_system_account" \
+    ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS="CHANGE_ME"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -113,11 +118,11 @@ RUN apt-get update \
  && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" \
  && echo "opencast-builder ALL = NOPASSWD: ALL" > /etc/sudoers.d/opencast-builder \
   \
- && cd \
+ && cd / \
  && rm -rf /tmp/* /var/lib/apt/lists/*
 
-COPY rootfs "${OPENCAST_BUILD_ASSETS}/"
-COPY Dockerfiles/build/rootfs /
+COPY rootfs       "${OPENCAST_BUILD_ASSETS}/"
+COPY rootfs-build /
 
 WORKDIR "${OPENCAST_SRC}"
 

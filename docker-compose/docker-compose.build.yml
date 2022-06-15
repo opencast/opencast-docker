@@ -19,18 +19,6 @@ volumes:
   data: {}
 
 services:
-  activemq:
-    image: webcenter/activemq:5.14.3
-    environment:
-      ACTIVEMQ_MIN_MEMORY: 128
-      ACTIVEMQ_MAX_MEMORY: 1024
-      ACTIVEMQ_ENABLED_SCHEDULER: "true"
-      ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT: "true"
-      ACTIVEMQ_OWNER_LOGIN: admin
-      ACTIVEMQ_OWNER_PASSWORD: password
-    volumes:
-      - ./assets/activemq.xml:/opt/activemq/conf/activemq.xml:ro
-
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
     environment:
@@ -40,7 +28,7 @@ services:
       - elastic:/usr/share/elasticsearch/data
 
   opencast:
-    image: quay.io/opencast/build:11.8
+    image: quay.io/opencast/build:12.0
     tty: true
     stdin_open: true
     environment:
@@ -48,9 +36,6 @@ services:
       OPENCAST_BUILD_USER_GID: ${OPENCAST_BUILD_USER_GID:-1000}
       ORG_OPENCASTPROJECT_SERVER_URL: http://localhost:8080
       ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8080/static
-      ACTIVEMQ_BROKER_URL: failover://(tcp://activemq:61616)?initialReconnectDelay=2000&maxReconnectDelay=60000
-      ACTIVEMQ_BROKER_USERNAME: admin
-      ACTIVEMQ_BROKER_PASSWORD: password
       ELASTICSEARCH_SERVER_HOST: elasticsearch
     ports:
       - "8080:8080"
