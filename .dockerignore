@@ -1,0 +1,11 @@
+.dockerignore
+.git/
+.github/
+docker-compose/
+LICENSE
+Makefile
+NOTICE
+README.md
+VERSION
+VERSION_FFMPEG
+VERSION_OPENCAST

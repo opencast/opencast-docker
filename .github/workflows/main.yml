@@ -58,9 +58,9 @@ jobs:
                 ingest \
                 presentation \
                 worker; do
-          if [ "${{ github.ref }}" == "refs/heads/master" ]; then
-            docker push "quay.io/opencast/${distribution}:latest"
-          else
-            docker push "quay.io/opencast/${distribution}:$(cat VERSION)"
-          fi
+            if [ "${{ github.ref }}" == "refs/heads/master" ]; then
+              docker push "quay.io/opencast/${distribution}:latest"
+            else
+              docker push "quay.io/opencast/${distribution}:$(cat VERSION)"
+            fi
           done
