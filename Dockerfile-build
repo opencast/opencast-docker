@@ -44,6 +44,7 @@ ENV OPENCAST_REPO="${OPENCAST_REPO}" \
     OPENCAST_CUSTOM_CONFIG="/etc/opencast" \
     OPENCAST_USER="opencast" \
     OPENCAST_GROUP="opencast" \
+    OPENCAST_UHOME="/home/opencast" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_BUILD_ASSETS="/docker"
@@ -113,9 +114,9 @@ RUN apt-get update \
  && mv ff* /usr/local/bin \
   \
  && groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
- && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
- && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" "${OPENCAST_BUILD_ASSETS}" \
- && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_DATA}" \
+ && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_UHOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
+ && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_UHOME}" "${OPENCAST_DATA}" "${OPENCAST_BUILD_ASSETS}" \
+ && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_HOME}" "${OPENCAST_UHOME}" "${OPENCAST_DATA}" \
  && echo "opencast-builder ALL = NOPASSWD: ALL" > /etc/sudoers.d/opencast-builder \
   \
  && cd / \

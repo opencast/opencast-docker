@@ -20,6 +20,7 @@ ARG FFMPEG_VERSION="latest"
 
 ENV OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
+    OPENCAST_UHOME="/home/opencast" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_USER="opencast" \
@@ -53,9 +54,9 @@ RUN mkdir -p /tmp/ffmpeg \
  && mv ff* /usr/local/bin
 
 RUN groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
- && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
- && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" \
- && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_SRC}" "${OPENCAST_HOME}"
+ && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_UHOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
+ && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_UHOME}" \
+ && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_UHOME}"
 
 USER "${OPENCAST_USER}"
 WORKDIR "${OPENCAST_SRC}"
@@ -81,6 +82,7 @@ ENV OPENCAST_HOME="/opencast" \
     OPENCAST_CUSTOM_CONFIG="/etc/opencast" \
     OPENCAST_USER="opencast" \
     OPENCAST_GROUP="opencast" \
+    OPENCAST_UHOME="/home/opencast" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800"
 ENV OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
@@ -90,9 +92,9 @@ ENV OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
     OPENCAST_STAGE_OUT_HOME="${OPENCAST_HOME}/docker/stage/out"
 
 RUN groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
- && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_HOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
- && mkdir -p "${OPENCAST_DATA}" \
- && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_DATA}"
+ && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_UHOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
+ && mkdir -p "${OPENCAST_DATA}" "${OPENCAST_UHOME}" \
+ && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_DATA}" "${OPENCAST_UHOME}"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
