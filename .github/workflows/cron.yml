@@ -11,14 +11,6 @@ jobs:
     strategy:
       matrix:
         day_of_week: ['*', '0', '1', '2', '3', '4', '5', '6']
-        opencast_distribution:
-          - admin
-          - adminpresentation
-          - allinone
-          - build
-          - ingest
-          - presentation
-          - worker
         include:
           - day_of_week: '*'
             opencast_version: 'next'
@@ -57,11 +49,19 @@ jobs:
             fi
           fi
 
-          make "build-${{ matrix.opencast_distribution }}"
+          make build
 
+          for distribution in \
+                admin \
+                adminpresentation \
+                allinone \
+                build \
+                ingest \
+                presentation \
+                worker; do
           if [ "${{ matrix.opencast_version }}" == "master" ]; then
-            docker tag "quay.io/opencast/${{ matrix.opencast_distribution }}:$(cat VERSION)" "quay.io/opencast/${{ matrix.opencast_distribution }}:latest"
-            docker push "quay.io/opencast/${{ matrix.opencast_distribution }}:latest"
+            docker push "quay.io/opencast/${distribution}:latest"
           else
-            docker push "quay.io/opencast/${{ matrix.opencast_distribution }}:$(cat VERSION)"
+            docker push "quay.io/opencast/${distribution}:$(cat VERSION)"
           fi
+          done
