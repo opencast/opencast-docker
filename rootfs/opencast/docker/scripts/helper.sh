@@ -24,6 +24,10 @@ opencast_helper_dist_develop() {
   test "${OPENCAST_DISTRIBUTION}" = "develop"
 }
 
+opencast_helper_dist_admin() {
+  test "${OPENCAST_DISTRIBUTION}" = "admin"
+}
+
 opencast_helper_customconfig() {
   test -d "${OPENCAST_CUSTOM_CONFIG}"
 }

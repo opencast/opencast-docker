@@ -149,7 +149,9 @@ case ${1} in
   app:start)
     opencast_main_init
     opencast_db_trytoconnect
-    opencast_elasticsearch_trytoconnect
+    if opencast_helper_dist_allinone || opencast_helper_dist_develop || opencast_helper_dist_admin; then
+      opencast_elasticsearch_trytoconnect
+    fi
     opencast_main_start
     ;;
   app:help)
