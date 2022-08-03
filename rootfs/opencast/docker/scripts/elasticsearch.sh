@@ -62,7 +62,7 @@ opencast_elasticsearch_trytoconnect() {
 
   i=1
   while [ "$i" -le "$NUMBER_OF_TIMES_TRYING_TO_CONNECT_TO_ELASTICSEARCH" ]; do
-    printf "Try to connect to Elasticsearch (%s/%s/) " "$i" "$NUMBER_OF_TIMES_TRYING_TO_CONNECT_TO_ELASTICSEARCH"
+    printf "Try to connect to Elasticsearch (%s/%s) " "$i" "$NUMBER_OF_TIMES_TRYING_TO_CONNECT_TO_ELASTICSEARCH"
 
     # We only check if a TCP connection can be established since we don't know what permissions the configured
     # Elasticsearch user has and thus what requests are allowed.
