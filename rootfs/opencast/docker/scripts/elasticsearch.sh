@@ -39,6 +39,7 @@ opencast_elasticsearch_configure() {
     "ELASTICSEARCH_USERNAME" \
     "ELASTICSEARCH_PASSWORD"
 
+  # shellcheck disable=SC2153
   [ -n "$ELASTICSEARCH_SERVER_HOST" ] ||
     opencast_helper_deleteinfile "${OPENCAST_HOME}/etc/custom.properties" "ELASTICSEARCH_SERVER_HOST"
 
