@@ -183,7 +183,7 @@ For an installation with multiple nodes you can also set:
 -   `ORG_OPENCASTPROJECT_DB_VENDOR` Optional<br>
     The type of database to use. Currently, you can set this to either `H2`, `MariaDB`, or `PostgreSQL`. The default is `H2`.
 -   `NUMBER_OF_TIMES_TRYING_TO_CONNECT_TO_DB` Optional<br>
-    Specifies how often Opencast is going to try to connect to the specified database before giving up. The waiting time between tries is 5 seconds. The default number of tries is 25. This configuration only applies if the database is not H2.
+    Specifies how often Opencast is going to try to connect to the specified database before giving up. The waiting time between tries is 5 seconds. The default number of tries is 25. This configuration only applies if the database is not H2. Setting this to 0 skips the check.
 
 #### H2
 

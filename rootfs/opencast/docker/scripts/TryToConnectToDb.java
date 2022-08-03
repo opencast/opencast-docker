@@ -36,6 +36,11 @@ public class TryToConnectToDb {
         password = args[3];
     final int numberOfTries = Integer.parseInt(args[4]);
 
+    if (numberOfTries == 0) {
+      System.out.println("Skip DB connection check");
+      System.exit(0);
+    }
+
     // 1. Check if driver is available
     try {
       Class.forName(driver);
