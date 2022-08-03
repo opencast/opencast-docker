@@ -40,7 +40,9 @@ opencast_main_check() {
   echo "Run opencast_main_check"
 
   opencast_opencast_check
-  opencast_elasticsearch_check
+  if opencast_helper_dist_allinone || opencast_helper_dist_develop || opencast_helper_dist_admin; then
+    opencast_elasticsearch_check
+  fi
   opencast_db_check
 }
 

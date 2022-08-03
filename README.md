@@ -167,7 +167,7 @@ For an installation with multiple nodes you can also set:
 
 ### Elasticsearch
 
--   `ELASTICSEARCH_SERVER_HOST` **Required**<br>
+-   `ELASTICSEARCH_SERVER_HOST` **Required for `allinone`, `develop` and `admin`**<br>
     Hostname to Elasticsearch.
 -   `ELASTICSEARCH_SERVER_SCHEME` Optional<br>
     Protocol to use when accessing Elasticsearch. Either `http` or `https`. The default is `http`.
