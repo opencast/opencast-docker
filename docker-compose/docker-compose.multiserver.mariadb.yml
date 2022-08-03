@@ -16,7 +16,7 @@ version: "3"
 
 volumes:
   db: {}
-  elastic: {}
+  opensearch: {}
   data: {}
 
 services:
@@ -31,13 +31,16 @@ services:
     volumes:
       - db:/var/lib/mysql
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+  opensearch:
+    image: opensearchproject/opensearch:1
     environment:
       discovery.type: single-node
-      ES_JAVA_OPTS: '-Dlog4j2.formatMsgNoLookups=true'
+      bootstrap.memory_lock: true
+      OPENSEARCH_JAVA_OPTS: -Xms128m -Xmx512m
+      DISABLE_INSTALL_DEMO_CONFIG: true
+      DISABLE_SECURITY_PLUGIN: true
     volumes:
-      - elastic:/usr/share/elasticsearch/data
+      - opensearch:/usr/share/opensearch/data
 
   opencast-admin:
     image: quay.io/opencast/admin:12.0
@@ -54,7 +57,7 @@ services:
       ORG_OPENCASTPROJECT_DB_JDBC_PASS: opencast
       PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL: http://localhost:8080
       PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL: http://localhost:8081
-      ELASTICSEARCH_SERVER_HOST: elasticsearch
+      ELASTICSEARCH_SERVER_HOST: opensearch
     ports:
       - "8080:8080"
     volumes:
@@ -75,7 +78,7 @@ services:
       ORG_OPENCASTPROJECT_DB_JDBC_PASS: opencast
       PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL: http://localhost:8080
       PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL: http://localhost:8081
-      ELASTICSEARCH_SERVER_HOST: elasticsearch
+      ELASTICSEARCH_SERVER_HOST: opensearch
     ports:
       - "8081:8080"
     volumes:
@@ -96,6 +99,6 @@ services:
       ORG_OPENCASTPROJECT_DB_JDBC_PASS: opencast
       PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL: http://localhost:8080
       PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL: http://localhost:8081
-      ELASTICSEARCH_SERVER_HOST: elasticsearch
+      ELASTICSEARCH_SERVER_HOST: opensearch
     volumes:
       - data:/data
