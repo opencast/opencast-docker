@@ -94,8 +94,12 @@ opencast_main_sync_config() {
 
 opencast_main_watch_customconfig_job() {
   while true; do
-    opencast_helper_customconfig_wait_for_change
-    opencast_main_sync_config
+    if opencast_helper_customconfig; then
+      opencast_helper_customconfig_wait_for_change
+      opencast_main_sync_config
+    else
+      sleep 60
+    fi
   done
 }
 
