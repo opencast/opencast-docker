@@ -145,6 +145,7 @@ case ${1} in
   app:start)
     opencast_main_init
     opencast_db_trytoconnect
+    opencast_elasticsearch_trytoconnect
     opencast_main_start
     ;;
   app:help)

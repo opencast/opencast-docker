@@ -18,6 +18,7 @@ set -e
 
 export ELASTICSEARCH_SERVER_SCHEME="${ELASTICSEARCH_SERVER_SCHEME:-http}"
 export ELASTICSEARCH_SERVER_PORT="${ELASTICSEARCH_SERVER_PORT:-9200}"
+export NUMBER_OF_TIMES_TRYING_TO_CONNECT_TO_ELASTICSEARCH="${NUMBER_OF_TIMES_TRYING_TO_CONNECT_TO_ELASTICSEARCH:-25}"
 
 opencast_elasticsearch_check() {
   echo "Run opencast_elasticsearch_check"
@@ -43,4 +44,36 @@ opencast_elasticsearch_configure() {
 
   [ -n "$ELASTICSEARCH_PASSWORD" ] ||
     opencast_helper_deleteinfile "${OPENCAST_HOME}/etc/custom.properties" "ELASTICSEARCH_PASSWORD"
+}
+
+opencast_elasticsearch_trytoconnect() {
+  echo "Run opencast_elasticsearch_trytoconnect"
+
+  if [ "$NUMBER_OF_TIMES_TRYING_TO_CONNECT_TO_ELASTICSEARCH" -eq 0 ]; then
+    echo "Skip Elasticsearch connection check"
+    return
+  fi
+
+  server_host=$( grep "^org.opencastproject.elasticsearch.server.hostname" "${OPENCAST_HOME}/etc/custom.properties" | tr -d ' ' | cut -d '=' -f 2- )
+  server_port=$( grep "^org.opencastproject.elasticsearch.server.port"     "${OPENCAST_HOME}/etc/custom.properties" | tr -d ' ' | cut -d '=' -f 2- )
+
+  i=1
+  while [ "$i" -le "$NUMBER_OF_TIMES_TRYING_TO_CONNECT_TO_ELASTICSEARCH" ]; do
+    printf "Try to connect to Elasticsearch ($i/$NUMBER_OF_TIMES_TRYING_TO_CONNECT_TO_ELASTICSEARCH) "
+
+    # We only check if a TCP connection can be established since we don't know what permissions the configured
+    # Elasticsearch user has and thus what requests are allowed.
+
+    if nc -z -w 2 "$server_host" "$server_port"; then
+      echo "SUCCEEDED"
+      return
+    else
+      echo "FAILED"
+      sleep 5
+    fi
+    i="$(( i + 1 ))"
+  done
+
+  echo "Could not connect to Elasticsearch"
+  return 1
 }
