@@ -113,7 +113,6 @@ RUN apt-get update \
       inotify-tools \
       jq \
       netcat-openbsd \
-      nfs-common \
       openssl \
       rsync \
       sox \
