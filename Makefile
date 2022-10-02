@@ -49,6 +49,7 @@ build-%:
 		--build-arg OPENCAST_REPO="$(OPENCAST_REPO)" \
 		--build-arg OPENCAST_VERSION="$(OPENCAST_VERSION)" \
 		--build-arg OPENCAST_DISTRIBUTION="$*" \
+		--build-arg FFMPEG_VERSION="$(FFMPEG_VERSION)" \
 		--build-arg BUILD_DATE="$(BUILD_DATE)" \
 		--build-arg GIT_COMMIT="$(GIT_COMMIT)" \
 		--build-arg VERSION="$(IMAGE_TAG)" \
@@ -63,6 +64,7 @@ build-build:
 		--pull \
 		--build-arg OPENCAST_REPO="$(OPENCAST_REPO)" \
 		--build-arg OPENCAST_VERSION="$(OPENCAST_VERSION)" \
+		--build-arg FFMPEG_VERSION="$(FFMPEG_VERSION)" \
 		--build-arg BUILD_DATE="$(BUILD_DATE)" \
 		--build-arg GIT_COMMIT="$(GIT_COMMIT)" \
 		--build-arg VERSION="$(IMAGE_TAG)" \
