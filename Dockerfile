@@ -102,8 +102,6 @@ RUN apt-get update \
       fontconfig \
       fonts-dejavu \
       fonts-freefont-ttf \
-      python3 \
-      python3-pip \
       fonts-liberation \
       fonts-linuxlibertine \
       hunspell \
@@ -116,6 +114,8 @@ RUN apt-get update \
       jq \
       netcat-openbsd \
       openssl \
+      python3 \
+      python3-pip \
       rsync \
       sox \
       synfig \
