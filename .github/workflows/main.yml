@@ -62,5 +62,6 @@ jobs:
               docker push "quay.io/opencast/${distribution}:latest"
             else
               docker push "quay.io/opencast/${distribution}:$(cat VERSION)"
+              docker push "quay.io/opencast/${distribution}:$(cat VERSION_MAJOR)"
             fi
           done
