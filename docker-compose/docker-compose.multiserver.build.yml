@@ -52,7 +52,7 @@ services:
       - elastic:/usr/share/elasticsearch/data
 
   opencast-admin:
-    image: quay.io/opencast/build:11.10
+    image: quay.io/opencast/build:11.11
     tty: true
     stdin_open: true
     environment:
@@ -83,7 +83,7 @@ services:
       - "${OPENCAST_SRC}:/usr/src/opencast"
 
   opencast-presentation:
-    image: quay.io/opencast/build:11.10
+    image: quay.io/opencast/build:11.11
     tty: true
     stdin_open: true
     environment:
@@ -114,7 +114,7 @@ services:
       - "${OPENCAST_SRC}:/usr/src/opencast"
 
   opencast-worker:
-    image: quay.io/opencast/build:11.10
+    image: quay.io/opencast/build:11.11
     tty: true
     stdin_open: true
     environment:
