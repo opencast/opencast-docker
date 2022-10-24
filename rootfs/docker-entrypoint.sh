@@ -114,12 +114,12 @@ opencast_main_start() {
   # processes are running. We therefore can just clean up the old pid file.
   rm -rf /opencast/data/pid /opencast/instances/instance.properties
 
+  opencast_main_watch_customconfig_job &
+  export OC_WATCH_CUSTOM_CONFIG_PID=$!
+
   if opencast_helper_dist_develop; then
     exec su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast debug
   fi
-
-  opencast_main_watch_customconfig_job &
-  export OC_WATCH_CUSTOM_CONFIG_PID=$!
 
   su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast daemon &
   OC_PID=$!
