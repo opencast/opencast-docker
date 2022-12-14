@@ -185,6 +185,11 @@ prop.adminui.user.external_role_display=false
 # Default: /paella/ui/watch.html?id=#{id}
 #prop.player=/paella/ui/watch.html?id=#{id}
 
+# Set this to true to redirect theodul users to a placeholder warning about Theodul's impending removal
+# Leaving this false will automatically redirect theodul links to the current default defined above
+#
+#prop.really.want.theodul=false
+
 # Shortcut definitions for admin UI video player
 # Format: prop.admin.shortcut.player<action>=<key>
 prop.admin.shortcut.player.play_pause=space
@@ -217,6 +222,11 @@ prop.admin.shortcut.general.remove_filters=r
 prop.admin.shortcut.general.select_next_dashboard_filter=f
 prop.admin.shortcut.general.select_previous_dashboard_filter=F
 prop.admin.shortcut.general.main_menu=m
+
+# Shortcut definitions for admin UI add-event and add-series modals
+# Format: prop.admin.shortcut.add_media.<action>=<key(s)>
+prop.admin.shortcut.add_media.next_tab=alt+enter
+prop.admin.shortcut.add_media.previous_tab=alt+backspace
 
 # Default values for fields in the tab Source of the Add Event wizard
 #
