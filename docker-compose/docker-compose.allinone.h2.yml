@@ -31,7 +31,7 @@ services:
       - opensearch:/usr/share/opensearch/data
 
   opencast:
-    image: quay.io/opencast/allinone:13.0
+    image: quay.io/opencast/allinone:13.1
     environment:
       ORG_OPENCASTPROJECT_SERVER_URL: http://localhost:8080
       ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8080/static
