@@ -65,7 +65,7 @@ RUN git clone --recursive "${OPENCAST_REPO}" . \
  && git checkout "${OPENCAST_VERSION}" \
  && sed -i "s#https://mvn.opencast.org/#https://radosgw.public.os.wwu.de/mvn.opencast.org/#" pom.xml
 RUN mvn --batch-mode install \
-      -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
+      -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
       -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
       -DskipTests=true \
       -Dcheckstyle.skip=true \
