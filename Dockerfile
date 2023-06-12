@@ -74,8 +74,8 @@ ARG OPENCAST_DISTRIBUTION
 RUN tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}"
 
 
-FROM docker.io/openjdk:11-jdk-slim
-LABEL org.opencontainers.image.base.name="docker.io/openjdk:11-jdk-slim"
+FROM docker.io/eclipse-temurin:11-jdk
+LABEL org.opencontainers.image.base.name="docker.io/eclipse-temurin:11-jdk"
 
 ENV OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
