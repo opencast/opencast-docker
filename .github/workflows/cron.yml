@@ -28,13 +28,13 @@ jobs:
             opencast_version: '13.5'
             push_major: 'false'
           - day_of_week: '4'
-            opencast_version: '12.11'
+            opencast_version: '12.12'
             push_major: 'false'
           - day_of_week: '5'
-            opencast_version: '12.10'
+            opencast_version: '12.11'
             push_major: 'false'
           - day_of_week: '6'
-            opencast_version: '12.9'
+            opencast_version: '12.10'
             push_major: 'false'
 
     steps:
