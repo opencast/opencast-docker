@@ -16,7 +16,8 @@ FROM docker.io/maven:3-jdk-11-slim AS build
 
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
 ARG OPENCAST_VERSION="develop"
-ARG FFMPEG_VERSION="latest"
+ARG FFMPEG_VERSION="release"
+ARG ARCH="amd64"
 
 ENV OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
@@ -24,8 +25,7 @@ ENV OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_USER="opencast" \
-    OPENCAST_GROUP="opencast" \
-    FFMPEG_VERSION="${FFMPEG_VERSION}"
+    OPENCAST_GROUP="opencast"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -48,7 +48,7 @@ RUN git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
 
 RUN mkdir -p /tmp/ffmpeg \
  && cd /tmp/ffmpeg \
- && curl -sSL "https://s3.opencast.org/opencast-ffmpeg-static/ffmpeg-${FFMPEG_VERSION}.tar.xz" \
+ && curl -sSL "https://s3.opencast.org/opencast-ffmpeg-static/ffmpeg-${FFMPEG_VERSION}-${ARCH}-static.tar.xz" \
      | tar xJf - --strip-components 1 --wildcards '*/ffmpeg' '*/ffprobe' \
  && chown root:root ff* \
  && mv ff* /usr/local/bin
