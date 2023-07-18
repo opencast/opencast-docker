@@ -14,18 +14,20 @@
 
 # user configurable variables
 
+VERSION           ?= $(shell cat VERSION)
+VERSION_MAJOR     ?= $(shell cat VERSION_MAJOR)
 OPENCAST_REPO     ?= https://github.com/opencast/opencast.git
 OPENCAST_VERSION  ?= $(shell cat VERSION_OPENCAST)
-
 FFMPEG_VERSION    ?= $(shell cat VERSION_FFMPEG)
 
-IMAGE_REGISTRY    ?= quay.io/opencast
-IMAGE_TAG         ?= $(shell cat VERSION)
-IMAGE_TAG_MAJOR   ?= $(shell cat VERSION_MAJOR)
-DOCKER_BUILD_ARGS ?=
+IMAGE_REGISTRY           ?= quay.io/opencast
+IMAGE_TAGS               ?= latest $(VERSION) $(VERSION_MAJOR)
+DOCKER_BUILDX_PLATFORM   ?= linux/amd64
+DOCKER_BUILDX_OUTPUT     ?= --load
+DOCKER_BUILDX_EXTRA_ARGS ?=
 
-GIT_COMMIT        ?= $(shell git rev-parse --short HEAD || echo "unknown")
-BUILD_DATE        ?= $(shell date -u +"%Y-%m-%dT%TZ")
+GIT_COMMIT        := $(shell git rev-parse --short HEAD || echo "unknown")
+BUILD_DATE        := $(shell date -u +"%Y-%m-%dT%TZ"; sleep 10)
 
 # build variables (do not change)
 
@@ -45,8 +47,13 @@ all: lint build
 .PHONY: build
 build: $(addprefix build-, $(OPENCAST_DISTRIBUTIONS)) build-build
 build-%:
-	docker build \
+	docker buildx build -f Dockerfile \
 		--pull \
+		--platform "$(DOCKER_BUILDX_PLATFORM)" \
+		$(DOCKER_BUILDX_OUTPUT) \
+		$(addprefix -t $(IMAGE_REGISTRY)/$*:, $(IMAGE_TAGS)) \
+		$(DOCKER_BUILDX_EXTRA_ARGS) \
+		\
 		--build-arg OPENCAST_REPO="$(OPENCAST_REPO)" \
 		--build-arg OPENCAST_VERSION="$(OPENCAST_VERSION)" \
 		--build-arg OPENCAST_DISTRIBUTION="$*" \
@@ -54,27 +61,22 @@ build-%:
 		--build-arg BUILD_DATE="$(BUILD_DATE)" \
 		--build-arg GIT_COMMIT="$(GIT_COMMIT)" \
 		--build-arg VERSION="$(IMAGE_TAG)" \
-		-t "$(IMAGE_REGISTRY)/$*:latest" \
-		-t "$(IMAGE_REGISTRY)/$*:$(IMAGE_TAG)" \
-		-t "$(IMAGE_REGISTRY)/$*:$(IMAGE_TAG_MAJOR)" \
-		$(DOCKER_BUILD_ARGS) \
-		-f Dockerfile \
 		.
 
 build-build:
-	docker build \
+	docker buildx build -f Dockerfile-build \
 		--pull \
+		--platform "$(DOCKER_BUILDX_PLATFORM)" \
+		$(DOCKER_BUILDX_OUTPUT) \
+		$(addprefix -t $(IMAGE_REGISTRY)/build:, $(IMAGE_TAGS)) \
+		$(DOCKER_BUILDX_EXTRA_ARGS) \
+		\
 		--build-arg OPENCAST_REPO="$(OPENCAST_REPO)" \
 		--build-arg OPENCAST_VERSION="$(OPENCAST_VERSION)" \
 		--build-arg FFMPEG_VERSION="$(FFMPEG_VERSION)" \
 		--build-arg BUILD_DATE="$(BUILD_DATE)" \
 		--build-arg GIT_COMMIT="$(GIT_COMMIT)" \
 		--build-arg VERSION="$(IMAGE_TAG)" \
-		-t "$(IMAGE_REGISTRY)/build:latest" \
-		-t "$(IMAGE_REGISTRY)/build:$(IMAGE_TAG)" \
-		-t "$(IMAGE_REGISTRY)/build:$(IMAGE_TAG_MAJOR)" \
-		$(DOCKER_BUILD_ARGS) \
-		-f Dockerfile-build \
 		.
 
 .PHONY: clean
