@@ -12,12 +12,38 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM docker.io/maven:3-jdk-11-slim AS build
+FROM --platform=${BUILDPLATFORM} docker.io/alpine:edge AS build-ffmpeg
+ARG TARGETARCH
+ARG FFMPEG_VERSION="release"
+RUN apk add --no-cache \
+      curl \
+      tar \
+      xz \
+ && mkdir -p /tmp/ffmpeg \
+ && cd /tmp/ffmpeg \
+ && curl -sSL "https://s3.opencast.org/opencast-ffmpeg-static/ffmpeg-${FFMPEG_VERSION}-${TARGETARCH}-static.tar.xz" \
+     | tar xJf - --strip-components 1 --wildcards '*/ffmpeg' '*/ffprobe' \
+ && chown root:root ff* \
+ && mv ff* /usr/local/bin
+
+
+FROM docker.io/eclipse-temurin:11-jdk AS build-su-exec
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      gcc \
+      git \
+      libc-dev \
+      make
+RUN git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
+ && cd /tmp/su-exec \
+ && make \
+ && cp su-exec /usr/local/sbin
+
+
+FROM --platform=${BUILDPLATFORM} docker.io/maven:3-jdk-11-slim AS build-opencast
 
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
 ARG OPENCAST_VERSION="develop"
-ARG FFMPEG_VERSION="release"
-ARG ARCH="amd64"
 
 ENV OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_HOME="/opencast" \
@@ -29,29 +55,10 @@ ENV OPENCAST_SRC="/usr/src/opencast" \
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      bzip2 \
       ca-certificates \
-      g++ \
-      gcc \
       git \
       gzip \
-      libc-dev \
-      make \
-      openssl \
-      tar \
-      xz-utils
-
-RUN git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
- && cd /tmp/su-exec \
- && make \
- && cp su-exec /usr/local/sbin
-
-RUN mkdir -p /tmp/ffmpeg \
- && cd /tmp/ffmpeg \
- && curl -sSL "https://s3.opencast.org/opencast-ffmpeg-static/ffmpeg-${FFMPEG_VERSION}-${ARCH}-static.tar.xz" \
-     | tar xJf - --strip-components 1 --wildcards '*/ffmpeg' '*/ffprobe' \
- && chown root:root ff* \
- && mv ff* /usr/local/bin
+      tar
 
 RUN groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_UHOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
@@ -126,9 +133,9 @@ RUN apt-get update \
       vosk-cli \
  && rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /usr/local/sbin/su-exec /usr/local/sbin/
-COPY --from=build /usr/local/bin/ff* /usr/local/bin/
-COPY --from=build "${OPENCAST_HOME}" "${OPENCAST_HOME}"
+COPY --from=build-su-exec   /usr/local/sbin/su-exec  /usr/local/sbin/
+COPY --from=build-ffmpeg    /usr/local/bin/ff*       /usr/local/bin/
+COPY --from=build-opencast  "${OPENCAST_HOME}"       "${OPENCAST_HOME}"
 COPY rootfs /
 
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
