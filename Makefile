@@ -60,7 +60,7 @@ build-%:
 		--build-arg FFMPEG_VERSION="$(FFMPEG_VERSION)" \
 		--build-arg BUILD_DATE="$(BUILD_DATE)" \
 		--build-arg GIT_COMMIT="$(GIT_COMMIT)" \
-		--build-arg VERSION="$(IMAGE_TAG)" \
+		--build-arg VERSION="$(VERSION)" \
 		.
 
 build-build:
@@ -76,15 +76,15 @@ build-build:
 		--build-arg FFMPEG_VERSION="$(FFMPEG_VERSION)" \
 		--build-arg BUILD_DATE="$(BUILD_DATE)" \
 		--build-arg GIT_COMMIT="$(GIT_COMMIT)" \
-		--build-arg VERSION="$(IMAGE_TAG)" \
+		--build-arg VERSION="$(VERSION)" \
 		.
 
 .PHONY: clean
 clean: $(addprefix clean-, $(OPENCAST_DISTRIBUTIONS)) clean-build
 clean-%:
 	-docker rmi $(IMAGE_REGISTRY)/$*
-	-docker rmi $(IMAGE_REGISTRY)/$*:$(IMAGE_TAG)
-	-docker rmi $(IMAGE_REGISTRY)/$*:$(IMAGE_TAG_MAJOR)
+	-docker rmi $(IMAGE_REGISTRY)/$*:$(VERSION)
+	-docker rmi $(IMAGE_REGISTRY)/$*:$(VERSION_MAJOR)
 
 lint:
 	cd rootfs                     && shellcheck --external-sources *.sh ./opencast/docker/scripts/*.sh
