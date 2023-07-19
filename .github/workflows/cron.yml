@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DOCKER_BUILDX_OUTPUT: push
+      DOCKER_BUILDX_OUTPUT: --push
       DOCKER_BUILDX_PLATFORM: linux/amd64,linux/arm64
 
     strategy:

@@ -51,7 +51,7 @@ jobs:
       - name: build and push container images
         run: |
           case "${{ github.event_name }}" in
-            push)  DOCKER_BUILDX_OUTPUT='push' ;;
+            push)  DOCKER_BUILDX_OUTPUT='--push' ;;
                *)  DOCKER_BUILDX_OUTPUT=''     ;;
           esac
 
