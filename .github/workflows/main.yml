@@ -57,7 +57,7 @@ jobs:
 
           case "${{ github.ref }}" in
             refs/heads/master)  IMAGE_TAGS='latest'         ;;
-                            *)  IMAGE_TAGS='$(cat VERSION)' ;;
+                            *)  IMAGE_TAGS="$(cat VERSION)" ;;
           esac
 
           make \
