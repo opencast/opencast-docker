@@ -41,7 +41,7 @@ jobs:
         run: |
           docker info
 
-      - uses: docker/login-action@v1
+      - uses: docker/login-action@v2
         if: ${{ github.event_name == 'push' }}
         with:
           registry: quay.io
