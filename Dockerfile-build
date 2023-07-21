@@ -12,13 +12,39 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM docker.io/maven:3-jdk-11-slim
-LABEL org.opencontainers.image.base.name="docker.io/maven:3-jdk-11-slim"
+FROM --platform=${BUILDPLATFORM} docker.io/alpine:edge AS build-ffmpeg
+ARG TARGETARCH
+ARG FFMPEG_VERSION="release"
+RUN apk add --no-cache \
+      curl \
+      tar \
+      xz \
+ && mkdir -p /tmp/ffmpeg \
+ && cd /tmp/ffmpeg \
+ && curl -sSL "https://s3.opencast.org/opencast-ffmpeg-static/ffmpeg-${FFMPEG_VERSION}-${TARGETARCH}-static.tar.xz" \
+     | tar xJf - --strip-components 1 --wildcards '*/ffmpeg' '*/ffprobe' \
+ && chown root:root ff* \
+ && mv ff* /usr/local/bin
+
+
+FROM docker.io/maven:3-eclipse-temurin-11 AS build-su-exec
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      gcc \
+      git \
+      libc-dev \
+      make
+RUN git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
+ && cd /tmp/su-exec \
+ && make \
+ && cp su-exec /usr/local/sbin
+
+
+FROM docker.io/maven:3-eclipse-temurin-11
+LABEL org.opencontainers.image.base.name="docker.io/maven:3-eclipse-temurin-11"
 
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
 ARG OPENCAST_VERSION="develop"
-ARG FFMPEG_VERSION="release"
-ARG ARCH="amd64"
 ARG VERSION=unkown
 ARG BUILD_DATE=unkown
 ARG GIT_COMMIT=unkown
@@ -59,6 +85,10 @@ ENV ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER="admin" \
     ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS="CHANGE_ME"
 
 RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      software-properties-common gnupg \
+ && add-apt-repository -y ppa:mozillateam/ppa \
+ && apt-get update \
  && apt-get install -y --no-install-recommends \
       bzip2 \
       ca-certificates \
@@ -104,18 +134,6 @@ RUN apt-get update \
   \
  && sudo ln -s /usr/local/openjdk*/bin/* /usr/local/bin/ \
   \
- && git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
- && cd /tmp/su-exec \
- && make \
- && cp su-exec /usr/local/sbin \
-  \
- && mkdir -p /tmp/ffmpeg \
- && cd /tmp/ffmpeg \
- && curl -sSL "https://s3.opencast.org/opencast-ffmpeg-static/ffmpeg-${FFMPEG_VERSION}-${ARCH}-static.tar.xz" \
-     | tar xJf - --strip-components 1 --wildcards '*/ffmpeg' '*/ffprobe' \
- && chown root:root ff* \
- && mv ff* /usr/local/bin \
-  \
  && groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_UHOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
  && mkdir -p "${OPENCAST_SRC}" "${OPENCAST_HOME}" "${OPENCAST_UHOME}" "${OPENCAST_DATA}" "${OPENCAST_BUILD_ASSETS}" \
@@ -125,6 +143,8 @@ RUN apt-get update \
  && cd / \
  && rm -rf /tmp/* /var/lib/apt/lists/*
 
+COPY --from=build-su-exec  /usr/local/sbin/su-exec  /usr/local/sbin/
+COPY --from=build-ffmpeg   /usr/local/bin/ff*       /usr/local/bin/
 COPY rootfs       "${OPENCAST_BUILD_ASSETS}/"
 COPY rootfs-build /
 
