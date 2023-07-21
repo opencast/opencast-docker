@@ -16,7 +16,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: install
         run: |
          sudo apt-get install shellcheck
@@ -25,43 +25,43 @@ jobs:
         run: |
          make lint
 
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
     env:
-      DOCKER_BUILDKIT: 1
+      DOCKER_BUILDX_PLATFORM: linux/amd64,linux/arm64
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: install
+      - name: set up Docker buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          platforms: linux/amd64,linux/arm64
+
+      - name: info
         run: |
           docker info
 
-      - name: build container image
-        run: |
-          make build
-
-      - uses: docker/login-action@v1
+      - uses: docker/login-action@v2
         if: ${{ github.event_name == 'push' }}
         with:
           registry: quay.io
           username: ${{ secrets.QUAY_ROBOT_USERNAME }}
           password: ${{ secrets.QUAY_ROBOT_PASSWORD }}
 
-      - name: push container image
-        if: ${{ github.event_name == 'push' }}
+      - name: build and push container images
         run: |
-          for distribution in \
-                admin \
-                adminpresentation \
-                allinone \
-                build \
-                ingest \
-                presentation \
-                worker; do
-            if [ "${{ github.ref }}" == "refs/heads/master" ]; then
-              docker push "quay.io/opencast/${distribution}:latest"
-            else
-              docker push "quay.io/opencast/${distribution}:$(cat VERSION)"
-              docker push "quay.io/opencast/${distribution}:$(cat VERSION_MAJOR)"
-            fi
-          done
+          case "${{ github.event_name }}" in
+            push)  DOCKER_BUILDX_OUTPUT='--push' ;;
+               *)  DOCKER_BUILDX_OUTPUT=''     ;;
+          esac
+
+          case "${{ github.ref }}" in
+            refs/heads/master)  IMAGE_TAGS='latest'         ;;
+                            *)  IMAGE_TAGS="$(cat VERSION)" ;;
+          esac
+
+          make \
+            IMAGE_TAGS="${IMAGE_TAGS}" \
+            DOCKER_BUILDX_PLATFORM="${DOCKER_BUILDX_PLATFORM}" \
+            DOCKER_BUILDX_OUTPUT="${DOCKER_BUILDX_OUTPUT}" \
+            build
