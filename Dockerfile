@@ -40,7 +40,7 @@ RUN git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
  && cp su-exec /usr/local/sbin
 
 
-FROM --platform=${BUILDPLATFORM} docker.io/maven:3-jdk-11-slim AS build-opencast
+FROM --platform=${BUILDPLATFORM} docker.io/maven:3-eclipse-temurin-11 AS build-opencast
 
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
 ARG OPENCAST_VERSION="develop"
