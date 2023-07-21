@@ -16,9 +16,12 @@ jobs:
       matrix:
         day_of_week: ['*', '0', '1', '2', '3', '4', '5', '6']
         include:
+          # next
           - day_of_week: '*'
             opencast_version: 'next'
             push_major: 'false'
+
+          # stable
           - day_of_week: '0'
             opencast_version: 'master'
             push_major: 'false'
@@ -26,20 +29,22 @@ jobs:
             opencast_version: '14.1'
             push_major: 'true'
           - day_of_week: '2'
-            opencast_version: '14.0'
+            opencast_version: '14.1'
             push_major: 'false'
           - day_of_week: '3'
+            opencast_version: '14.0'
+            push_major: 'false'
+
+          # legacy
+          - day_of_week: '4'
             opencast_version: '13.7'
             push_major: 'true'
-          - day_of_week: '4'
+          - day_of_week: '5'
             opencast_version: '13.6'
             push_major: 'false'
-          - day_of_week: '5'
+          - day_of_week: '6'
             opencast_version: '13.5'
             push_major: 'false'
-          - day_of_week: '6'
-            opencast_version: '12.12'
-            push_major: 'true'
 
     steps:
       - uses: actions/checkout@v3
