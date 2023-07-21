@@ -51,8 +51,7 @@ ENV OPENCAST_SRC="/usr/src/opencast" \
     OPENCAST_UID="800" \
     OPENCAST_GID="800" \
     OPENCAST_USER="opencast" \
-    OPENCAST_GROUP="opencast" \
-    FFMPEG_VERSION="${FFMPEG_VERSION}"
+    OPENCAST_GROUP="opencast"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
