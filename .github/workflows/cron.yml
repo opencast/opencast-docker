@@ -23,13 +23,13 @@ jobs:
             opencast_version: 'master'
             push_major: 'false'
           - day_of_week: '1'
-            opencast_version: '13.7'
+            opencast_version: '13.8'
             push_major: 'true'
           - day_of_week: '2'
-            opencast_version: '13.6'
+            opencast_version: '13.7'
             push_major: 'false'
           - day_of_week: '3'
-            opencast_version: '13.5'
+            opencast_version: '13.6'
             push_major: 'false'
           - day_of_week: '4'
             opencast_version: '12.12'
@@ -67,11 +67,11 @@ jobs:
           fi
 
           if [ "${{ matrix.opencast_version }}" == "master" ]; then
-            IMAGE_TAGS='latest'
+            IMAGE_TAGS="latest"
           else
             IMAGE_TAGS='$(cat VERSION)'
             if [ "${{ matrix.push_major }}" == 'true' ]; then
-              IMAGE_TAGS='${IMAGE_TAGS} $(cat VERSION_MAJOR)'
+              IMAGE_TAGS="${IMAGE_TAGS} $(cat VERSION_MAJOR)"
             fi
           fi
 
