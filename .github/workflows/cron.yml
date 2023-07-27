@@ -74,9 +74,9 @@ jobs:
           if [ "${{ matrix.opencast_version }}" == "master" ]; then
             IMAGE_TAGS='latest'
           else
-            IMAGE_TAGS='$(cat VERSION)'
+            IMAGE_TAGS="$(cat VERSION)"
             if [ "${{ matrix.push_major }}" == 'true' ]; then
-              IMAGE_TAGS='${IMAGE_TAGS} $(cat VERSION_MAJOR)'
+              IMAGE_TAGS="${IMAGE_TAGS} $(cat VERSION_MAJOR)"
             fi
           fi
 
