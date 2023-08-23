@@ -37,13 +37,13 @@ jobs:
 
           # legacy
           - day_of_week: '4'
-            opencast_version: '13.9'
+            opencast_version: '13.10'
             push_major: 'true'
           - day_of_week: '5'
-            opencast_version: '13.8'
+            opencast_version: '13.9'
             push_major: 'false'
           - day_of_week: '6'
-            opencast_version: '13.7'
+            opencast_version: '13.8'
             push_major: 'false'
 
     steps:
