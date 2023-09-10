@@ -1,4 +1,4 @@
-# Copyright 2016 The WWU eLectures Team All rights reserved.
+# Copyright 2016 The University of Münster eLectures Team All rights reserved.
 #
 # Licensed under the Educational Community License, Version 2.0
 # (the "License"); you may not use this file except in compliance with
@@ -167,12 +167,12 @@ WORKDIR "${OPENCAST_HOME}"
 EXPOSE 8080
 VOLUME [ "${OPENCAST_DATA}" ]
 
-LABEL maintainer="educast.nrw <info@educast.nrw>" \
+LABEL maintainer="University of Münster eLectures Team <electures.dev@uni-muenster.de>" \
       org.opencontainers.image.title="opencast-${OPENCAST_DISTRIBUTION}" \
       org.opencontainers.image.description="container image for the Opencast ${OPENCAST_DISTRIBUTION} distribution" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.vendor="Opencast" \
-      org.opencontainers.image.authors="educast.nrw <info@educast.nrw>" \
+      org.opencontainers.image.authors="University of Münster eLectures Team <electures.dev@uni-muenster.de>" \
       org.opencontainers.image.licenses="ECL-2.0" \
       org.opencontainers.image.url="https://github.com/opencast/opencast-docker/blob/${VERSION}/README.md" \
       org.opencontainers.image.documentation="https://github.com/opencast/opencast-docker/blob/${VERSION}/README.md" \

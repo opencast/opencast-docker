@@ -1,4 +1,4 @@
-# Copyright 2016 The WWU eLectures Team All rights reserved.
+# Copyright 2016 The University of Münster eLectures Team All rights reserved.
 #
 # Licensed under the Educational Community License, Version 2.0
 # (the "License"); you may not use this file except in compliance with
