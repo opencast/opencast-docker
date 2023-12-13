@@ -115,16 +115,12 @@ RUN apt-get update \
       jq \
       netcat-openbsd \
       openssl \
-      python3 \
-      python3-pip \
       rsync \
       sox \
       synfig \
       tesseract-ocr \
       tesseract-ocr-eng \
       tzdata \
- && pip install \
-      vosk-cli \
   \
  && sudo ln -s /usr/local/openjdk*/bin/* /usr/local/bin/ \
   \
