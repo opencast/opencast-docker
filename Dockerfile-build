@@ -117,7 +117,6 @@ RUN apt-get update \
       openssl \
       rsync \
       sox \
-      synfig \
       tesseract-ocr \
       tesseract-ocr-eng \
       tzdata \
