@@ -211,7 +211,7 @@ The data directory is located at `/data`. Use [Docker Volumes](https://docs.dock
 
 ## Languages
 
-Opencast makes use of [Tesseract](https://github.com/tesseract-ocr/tesseract) to recognize text in videos (ORC) and [Hunspell](https://hunspell.github.io/) to identify spelling mistakes. Both need additional files namely [traningsdata](https://github.com/tesseract-ocr/tessdata) and [dictionaries](http://download.services.openoffice.org/contrib/dictionaries) respectively. These images come with files for the English language. If you need other or more languages you can use Docker Volumes to mount them in the appropriate directories `/usr/share/tessdata` and `/usr/share/hunspell`.
+Opencast makes use of [Tesseract](https://github.com/tesseract-ocr/tesseract) to recognize text in videos (ORC). For this, [training data files](https://github.com/tesseract-ocr/tessdata) are needed. These images come with files for the English language. If you need other or more languages you can extend these images or use Docker Volumes to mount them in the appropriate directories `/usr/share/tessdata`.
 
 ## References
 

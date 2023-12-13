@@ -111,12 +111,6 @@ RUN apt-get update \
       fonts-freefont-ttf \
       fonts-liberation \
       fonts-linuxlibertine \
-      hunspell \
-      hunspell-en-au \
-      hunspell-en-ca \
-      hunspell-en-gb \
-      hunspell-en-us \
-      hunspell-en-za \
       inotify-tools \
       jq \
       netcat-openbsd \
