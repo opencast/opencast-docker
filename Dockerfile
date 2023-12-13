@@ -116,7 +116,6 @@ RUN apt-get update \
       netcat-openbsd \
       openssl \
       rsync \
-      sox \
       tesseract-ocr \
       tesseract-ocr-eng \
       tzdata \
