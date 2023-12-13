@@ -27,7 +27,7 @@ RUN apk add --no-cache \
  && mv ff* /usr/local/bin
 
 
-FROM docker.io/eclipse-temurin:11-jdk AS build-su-exec
+FROM docker.io/eclipse-temurin:17-jdk AS build-su-exec
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       gcc \
@@ -40,7 +40,7 @@ RUN git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
  && cp su-exec /usr/local/sbin
 
 
-FROM --platform=${BUILDPLATFORM} docker.io/maven:3-eclipse-temurin-11 AS build-opencast
+FROM --platform=${BUILDPLATFORM} docker.io/maven:3-eclipse-temurin-17 AS build-opencast
 
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
 ARG OPENCAST_VERSION="develop"
@@ -81,8 +81,8 @@ ARG OPENCAST_DISTRIBUTION
 RUN tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}"
 
 
-FROM docker.io/eclipse-temurin:11-jdk
-LABEL org.opencontainers.image.base.name="docker.io/eclipse-temurin:11-jdk"
+FROM docker.io/eclipse-temurin:17-jdk
+LABEL org.opencontainers.image.base.name="docker.io/eclipse-temurin:17-jdk"
 
 ENV OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
