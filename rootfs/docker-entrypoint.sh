@@ -34,6 +34,8 @@ set -e
 . "${OPENCAST_SCRIPTS}/mariadb.sh"
 # shellcheck source=./opencast/docker/scripts/postgresql.sh
 . "${OPENCAST_SCRIPTS}/postgresql.sh"
+# shellcheck source=./opencast/docker/scripts/whisper.sh
+. "${OPENCAST_SCRIPTS}/whisper.sh"
 
 
 opencast_main_check() {
@@ -65,6 +67,7 @@ opencast_main_init() {
 
   opencast_file_env
   opencast_tz_set
+  opencast_whisper_init
 
   if opencast_helper_customconfig; then
     echo "Found custom config in ${OPENCAST_CUSTOM_CONFIG}"

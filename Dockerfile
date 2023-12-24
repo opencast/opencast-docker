@@ -27,6 +27,28 @@ RUN apk add --no-cache \
  && mv ff* /usr/local/bin
 
 
+FROM docker.io/eclipse-temurin:17-jdk AS build-whisper-cpp
+ARG WHISPER_CPP_VERSION="master"
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      g++ \
+      gcc \
+      git \
+      libc-dev \
+      make
+RUN mkdir -p /tmp/whisper.cpp
+WORKDIR /tmp/whisper.cpp
+RUN git clone https://github.com/ggerganov/whisper.cpp.git . \
+ && git checkout "$WHISPER_CPP_VERSION"
+RUN make -j \
+ && sed -i 's#models_path=.*$#models_path=/usr/share/whisper.cpp/models/#' models/download-ggml-model.sh
+RUN mkdir -p out \
+ && mv main out/whisper.cpp \
+ && mv quantize out/whisper.cpp-quantize \
+ && mv server out/whisper.cpp-server \
+ && mv models/download-ggml-model.sh out/whisper.cpp-model-download
+
+
 FROM --platform=${BUILDPLATFORM} docker.io/maven:3-eclipse-temurin-17 AS build-opencast
 
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
@@ -78,7 +100,8 @@ ENV OPENCAST_HOME="/opencast" \
     OPENCAST_GROUP="opencast" \
     OPENCAST_UHOME="/home/opencast" \
     OPENCAST_UID="800" \
-    OPENCAST_GID="800"
+    OPENCAST_GID="800" \
+    WHISPER_CPP_MODELS="/usr/share/whisper.cpp/models"
 ENV OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
     OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
     OPENCAST_STAGE_BASE_HOME="${OPENCAST_HOME}/docker/stage/base" \
@@ -86,8 +109,8 @@ ENV OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
 
 RUN groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_UHOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
- && mkdir -p "${OPENCAST_DATA}" "${OPENCAST_UHOME}" \
- && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_DATA}" "${OPENCAST_UHOME}"
+ && mkdir -p "${OPENCAST_DATA}" "${OPENCAST_UHOME}" "${WHISPER_CPP_MODELS}" \
+ && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_DATA}" "${OPENCAST_UHOME}" "${WHISPER_CPP_MODELS}"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -109,8 +132,9 @@ RUN apt-get update \
       tzdata \
  && rm -rf /var/lib/apt/lists/*
 
-COPY --from=build-ffmpeg    /usr/local/bin/ff*  /usr/local/bin/
-COPY --from=build-opencast  "${OPENCAST_HOME}"  "${OPENCAST_HOME}"
+COPY --from=build-ffmpeg       /usr/local/bin/ff*      /usr/local/bin/
+COPY --from=build-whisper-cpp  /tmp/whisper.cpp/out/*  /usr/local/bin/
+COPY --from=build-opencast     "${OPENCAST_HOME}"      "${OPENCAST_HOME}"
 COPY rootfs /
 
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"

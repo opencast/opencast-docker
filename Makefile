@@ -14,11 +14,12 @@
 
 # user configurable variables
 
-VERSION           ?= $(shell cat VERSION)
-VERSION_MAJOR     ?= $(shell cat VERSION_MAJOR)
-OPENCAST_REPO     ?= https://github.com/opencast/opencast.git
-OPENCAST_VERSION  ?= $(shell cat VERSION_OPENCAST)
-FFMPEG_VERSION    ?= $(shell cat VERSION_FFMPEG)
+VERSION             ?= $(shell cat VERSION)
+VERSION_MAJOR       ?= $(shell cat VERSION_MAJOR)
+OPENCAST_REPO       ?= https://github.com/opencast/opencast.git
+OPENCAST_VERSION    ?= $(shell cat VERSION_OPENCAST)
+FFMPEG_VERSION      ?= $(shell cat VERSION_FFMPEG)
+WHISPER_CPP_VERSION ?= $(shell cat VERSION_WHISPER_CPP)
 
 IMAGE_REGISTRY           ?= quay.io/opencast
 IMAGE_TAGS               ?= latest $(VERSION) $(VERSION_MAJOR)
@@ -58,6 +59,7 @@ build-%:
 		--build-arg OPENCAST_VERSION="$(OPENCAST_VERSION)" \
 		--build-arg OPENCAST_DISTRIBUTION="$*" \
 		--build-arg FFMPEG_VERSION="$(FFMPEG_VERSION)" \
+		--build-arg WHISPER_CPP_VERSION="$(WHISPER_CPP_VERSION)" \
 		--build-arg BUILD_DATE="$(BUILD_DATE)" \
 		--build-arg GIT_COMMIT="$(GIT_COMMIT)" \
 		--build-arg VERSION="$(VERSION)" \
@@ -74,6 +76,7 @@ build-build:
 		--build-arg OPENCAST_REPO="$(OPENCAST_REPO)" \
 		--build-arg OPENCAST_VERSION="$(OPENCAST_VERSION)" \
 		--build-arg FFMPEG_VERSION="$(FFMPEG_VERSION)" \
+		--build-arg WHISPER_CPP_VERSION="$(WHISPER_CPP_VERSION)" \
 		--build-arg BUILD_DATE="$(BUILD_DATE)" \
 		--build-arg GIT_COMMIT="$(GIT_COMMIT)" \
 		--build-arg VERSION="$(VERSION)" \
