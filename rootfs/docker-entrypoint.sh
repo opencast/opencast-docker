@@ -118,10 +118,10 @@ opencast_main_start() {
   export OC_WATCH_CUSTOM_CONFIG_PID=$!
 
   if opencast_helper_dist_develop; then
-    exec su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast debug
+    exec gosu "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast debug
   fi
 
-  su-exec "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast daemon &
+  gosu "${OPENCAST_USER}":"${OPENCAST_GROUP}" bin/start-opencast daemon &
   OC_PID=$!
   trap opencast_main_stop TERM INT
 

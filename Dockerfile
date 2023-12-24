@@ -27,19 +27,6 @@ RUN apk add --no-cache \
  && mv ff* /usr/local/bin
 
 
-FROM docker.io/eclipse-temurin:17-jdk AS build-su-exec
-RUN apt-get update \
- && apt-get install -y --no-install-recommends \
-      gcc \
-      git \
-      libc-dev \
-      make
-RUN git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
- && cd /tmp/su-exec \
- && make \
- && cp su-exec /usr/local/sbin
-
-
 FROM --platform=${BUILDPLATFORM} docker.io/maven:3-eclipse-temurin-17 AS build-opencast
 
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
@@ -111,6 +98,7 @@ RUN apt-get update \
       fonts-freefont-ttf \
       fonts-liberation \
       fonts-linuxlibertine \
+      gosu \
       inotify-tools \
       jq \
       netcat-openbsd \
@@ -121,9 +109,8 @@ RUN apt-get update \
       tzdata \
  && rm -rf /var/lib/apt/lists/*
 
-COPY --from=build-su-exec   /usr/local/sbin/su-exec  /usr/local/sbin/
-COPY --from=build-ffmpeg    /usr/local/bin/ff*       /usr/local/bin/
-COPY --from=build-opencast  "${OPENCAST_HOME}"       "${OPENCAST_HOME}"
+COPY --from=build-ffmpeg    /usr/local/bin/ff*  /usr/local/bin/
+COPY --from=build-opencast  "${OPENCAST_HOME}"  "${OPENCAST_HOME}"
 COPY rootfs /
 
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"

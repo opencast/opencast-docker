@@ -27,19 +27,6 @@ RUN apk add --no-cache \
  && mv ff* /usr/local/bin
 
 
-FROM docker.io/maven:3-eclipse-temurin-17 AS build-su-exec
-RUN apt-get update \
- && apt-get install -y --no-install-recommends \
-      gcc \
-      git \
-      libc-dev \
-      make
-RUN git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
- && cd /tmp/su-exec \
- && make \
- && cp su-exec /usr/local/sbin
-
-
 FROM docker.io/maven:3-eclipse-temurin-17
 LABEL org.opencontainers.image.base.name="docker.io/maven:3-eclipse-temurin-17"
 
@@ -111,6 +98,7 @@ RUN apt-get update \
       fonts-freefont-ttf \
       fonts-liberation \
       fonts-linuxlibertine \
+      gosu \
       inotify-tools \
       jq \
       netcat-openbsd \
@@ -131,7 +119,6 @@ RUN apt-get update \
  && cd / \
  && rm -rf /tmp/* /var/lib/apt/lists/*
 
-COPY --from=build-su-exec  /usr/local/sbin/su-exec  /usr/local/sbin/
 COPY --from=build-ffmpeg   /usr/local/bin/ff*       /usr/local/bin/
 COPY rootfs       "${OPENCAST_BUILD_ASSETS}/"
 COPY rootfs-build /
