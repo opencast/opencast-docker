@@ -44,4 +44,4 @@ if test "${SET_PERM}" = "true"; then
   chown -R "${OPENCAST_BUILD_USER_UID}:${OPENCAST_BUILD_USER_GID}" "${OPENCAST_SRC}" /home/opencast-builder
 fi
 
-su-exec "${OPENCAST_BUILD_USER_UID}:${OPENCAST_BUILD_USER_GID}" "$@"
+gosu "${OPENCAST_BUILD_USER_UID}:${OPENCAST_BUILD_USER_GID}" "$@"
