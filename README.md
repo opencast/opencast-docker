@@ -17,6 +17,7 @@
     -   [Database](#database)
         -   [H2](#h2)
         -   [MariaDB and PostgreSQL](#mariadb-and-postgresql)
+    -   [whisper.cpp](#whisper.cpp)
     -   [Miscellaneous](#miscellaneous)
 -   [Data](#data)
 -   [Languages](#languages)
@@ -50,6 +51,8 @@ If you want to build the images yourself, there is a `Makefile` with the necessa
      The name of the Git branch, tag or commit hash to check out. Defaults to the content of the `VERSION_OPENCAST` file.
 -   `FFMPEG_VERSION`<br>
      The version of the Opencast FFmpeg build. Defaults to the content of the `VERSION_FFMPEG` file.
+-   `WHISPER_CPP_VERSION`<br>
+     The version of whisper.cpp. Defaults to the content of the `VERSION_WHISPER_CPP` file.
 -   `IMAGE_REGISTRY`<br>
      The first part of the image name. It defaults to `quay.io/opencast` and will be extended by the name of the Opencast distribution.
 -   `IMAGE_TAG`<br>
@@ -199,6 +202,11 @@ There are no additional environment variables you can set if you are using the H
     Database username.
 -   `ORG_OPENCASTPROJECT_DB_JDBC_PASS` **Required**<br>
     Password of the database user. You may alternatively set `ORG_OPENCASTPROJECT_DB_JDBC_PASS_FILE` to the location of a file within the container that contains the password.
+
+### whisper.cpp
+
+-   `WHISPER_CPP_DOWNLOAD_MODEL` Optional<br>
+    Download the specified whisper.cpp model. Note that models are downloaded in parallel to the startup of Opencast. Not waiting for model downloads greatly improves the Opencast startup time. However, transcription operations may fail if models are not available yet. The default is an empty string, i.e. no model is downloaded.
 
 ### Miscellaneous
 
