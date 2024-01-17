@@ -43,7 +43,7 @@ services:
       - opensearch:/usr/share/opensearch/data
 
   opencast-admin:
-    image: quay.io/opencast/admin:15.0
+    image: quay.io/opencast/admin:15.1
     environment:
       ORG_OPENCASTPROJECT_SERVER_URL: http://opencast-admin:8080
       ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8081/static
@@ -64,7 +64,7 @@ services:
       - data:/data
 
   opencast-presentation:
-    image: quay.io/opencast/presentation:15.0
+    image: quay.io/opencast/presentation:15.1
     environment:
       ORG_OPENCASTPROJECT_SERVER_URL: http://opencast-presentation:8080
       ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8081/static
@@ -84,7 +84,7 @@ services:
       - data:/data
 
   opencast-worker:
-    image: quay.io/opencast/worker:15.0
+    image: quay.io/opencast/worker:15.1
     environment:
       ORG_OPENCASTPROJECT_SERVER_URL: http://opencast-worker:8080
       ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8081/static
