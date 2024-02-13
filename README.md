@@ -75,7 +75,7 @@ In the `./docker-compose` directory there are also compose files for more produc
 
 ## Images
 
-Opencast comes in different distributions. For each of the official distributions, there is a specific container image. Each version is tagged. For example, the full image name containing the `admin` distribution at version `14.8` is `quay.io/opencast/admin:14.8`. Leaving the version out will install the latest one.
+Opencast comes in different distributions. For each of the official distributions, there is a specific container image. Each version is tagged. For example, the full image name containing the `admin` distribution at version `14.9` is `quay.io/opencast/admin:14.9`. Leaving the version out will install the latest one.
 
 ### `allinone`
 

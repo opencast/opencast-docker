@@ -26,13 +26,13 @@ jobs:
             opencast_version: 'master'
             push_major: 'false'
           - day_of_week: '1'
-            opencast_version: '14.8'
+            opencast_version: '14.9'
             push_major: 'true'
           - day_of_week: '2'
-            opencast_version: '14.7'
+            opencast_version: '14.8'
             push_major: 'false'
           - day_of_week: '3'
-            opencast_version: '14.6'
+            opencast_version: '14.7'
             push_major: 'false'
 
           # legacy
