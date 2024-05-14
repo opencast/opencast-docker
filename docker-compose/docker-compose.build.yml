@@ -31,7 +31,7 @@ services:
       - opensearch:/usr/share/opensearch/data
 
   opencast:
-    image: quay.io/opencast/build:14.11
+    image: quay.io/opencast/build:14.12
     tty: true
     stdin_open: true
     environment:
