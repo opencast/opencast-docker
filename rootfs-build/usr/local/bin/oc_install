@@ -49,7 +49,7 @@ sudo mkdir -p "${OPENCAST_CONFIG}" "${OPENCAST_SCRIPTS}"
 log "oc_install" "Copy Docker scripts"
 # shellcheck disable=SC2086
 sudo cp -R ${OPENCAST_BUILD_ASSETS}${OPENCAST_SCRIPTS}/* "${OPENCAST_SCRIPTS}/"
-sudo javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
+sudo env "PATH=$PATH" javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
 log "oc_install" "Copy configuration"
 # shellcheck disable=SC2086

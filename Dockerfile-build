@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM --platform=${BUILDPLATFORM} docker.io/alpine:edge AS build-ffmpeg
+FROM --platform=${BUILDPLATFORM} docker.io/library/alpine:edge AS build-ffmpeg
 ARG TARGETARCH
 ARG FFMPEG_VERSION="release"
 RUN apk add --no-cache \
@@ -27,7 +27,7 @@ RUN apk add --no-cache \
  && mv ff* /usr/local/bin
 
 
-FROM docker.io/eclipse-temurin:17-jdk AS build-whisper-cpp
+FROM docker.io/library/eclipse-temurin:17-jdk AS build-whisper-cpp
 ARG WHISPER_CPP_VERSION="master"
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -49,7 +49,7 @@ RUN mkdir -p out \
  && mv models/download-ggml-model.sh out/whisper.cpp-model-download
 
 
-FROM docker.io/maven:3-eclipse-temurin-17
+FROM docker.io/library/eclipse-temurin:17-jdk
 LABEL org.opencontainers.image.base.name="docker.io/maven:3-eclipse-temurin-17"
 
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
@@ -94,15 +94,31 @@ ENV ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER="admin" \
     ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER="opencast_system_account" \
     ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS="CHANGE_ME"
 
+# Install Firefox from PPA
+COPY <<EOF /etc/apt/preferences.d/mozillateam
+Package: *
+Pin: release o=LP-PPA-mozillateam
+Pin-Priority: 100
+
+Package: firefox*
+Pin: release o=LP-PPA-mozillateam
+Pin-Priority: 1001
+
+Package: firefox*
+Pin: release o=Ubuntu
+Pin-Priority: -1
+EOF
+
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      software-properties-common gnupg \
+      gnupg \
+      software-properties-common \
  && add-apt-repository -y ppa:mozillateam/ppa \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
       bzip2 \
       ca-certificates \
-      firefox-esr \
+      firefox \
       g++ \
       gcc \
       git \

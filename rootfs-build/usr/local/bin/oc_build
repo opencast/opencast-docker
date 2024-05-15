@@ -26,6 +26,6 @@ fi
 
 cd "${OPENCAST_SRC}"
 # shellcheck disable=SC2086
-mvn install $opts
+./mvnw install $opts
 
 log "oc_build" "End building Opencast"
