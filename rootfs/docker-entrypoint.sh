@@ -62,11 +62,19 @@ opencast_file_env() {
   file_env ORG_OPENCASTPROJECT_DB_JDBC_PASS
 }
 
+opencast_main_update_ca() {
+  echo "Run opencast_main_update_ca"
+
+  update-ca-certificates
+  trust extract --overwrite --format=java-cacerts --filter=ca-anchors --purpose=server-auth "$JAVA_HOME/lib/security/cacerts"
+}
+
 opencast_main_init() {
   echo "Run opencast_main_init"
 
   opencast_file_env
   opencast_tz_set
+  opencast_main_update_ca
   opencast_whisper_init
 
   if opencast_helper_customconfig; then
