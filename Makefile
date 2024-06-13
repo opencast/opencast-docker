@@ -28,7 +28,7 @@ DOCKER_BUILDX_OUTPUT     ?= --load
 DOCKER_BUILDX_EXTRA_ARGS ?=
 
 GIT_COMMIT        := $(shell git rev-parse --short HEAD || echo "unknown")
-BUILD_DATE        := $(shell date -u +"%Y-%m-%dT%TZ"; sleep 10)
+BUILD_DATE        := $(shell date -u +"%Y-%m-%dT%TZ")
 
 # build variables (do not change)
 
