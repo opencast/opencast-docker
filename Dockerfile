@@ -91,7 +91,7 @@ RUN tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C 
 
 
 FROM docker.io/library/eclipse-temurin:17-jdk
-LABEL org.opencontainers.image.base.name="docker.io/eclipse-temurin:17-jdk"
+LABEL org.opencontainers.image.base.name="docker.io/library/eclipse-temurin:17-jdk"
 
 ENV OPENCAST_HOME="/opencast" \
     OPENCAST_DATA="/data" \
