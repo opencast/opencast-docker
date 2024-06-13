@@ -17,7 +17,7 @@
 set -e
 
 export ORG_OPENCASTPROJECT_SERVER_URL="${ORG_OPENCASTPROJECT_SERVER_URL:-http://$(hostname -f):8080}"
-export ORG_OPENCASTPROJECT_ADMIN_EMAIL="${ORG_OPENCASTPROJECT_ADMIN_EMAIL:-admin@localhost}"
+export ORG_OPENCASTPROJECT_ADMIN_EMAIL="${ORG_OPENCASTPROJECT_ADMIN_EMAIL:-example@opencast.org}"
 export ORG_OPENCASTPROJECT_DOWNLOAD_URL="${ORG_OPENCASTPROJECT_DOWNLOAD_URL:-\$\{org.opencastproject.server.url\}/static}"
 
 if opencast_helper_dist_allinone || opencast_helper_dist_develop; then
