@@ -35,7 +35,7 @@ jobs:
       - name: set up Docker buildx
         uses: docker/setup-buildx-action@v2
         with:
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ env.DOCKER_BUILDX_PLATFORM }}
 
       - name: info
         run: |
