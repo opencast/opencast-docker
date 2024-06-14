@@ -10,7 +10,7 @@ Within this directory you simply can run these commands to startup an Opencast
 system:
 
 ```sh
-$ docker-compose -f <docker-compose-file>.yml up
+$ docker compose -f <docker-compose-file>.yml up
 ```
 
 There are multiple compose files you can choose from, showcasing the different
