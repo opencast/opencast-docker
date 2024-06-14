@@ -66,10 +66,10 @@ If you want to build the images yourself, there is a `Makefile` with the necessa
 
 ## Quick Start
 
-A quick local test system can be started using [`docker-compose`](https://github.com/docker/compose). After cloning this repository you can run this command from the root directory:
+A quick local test system can be started using [`docker compose`](https://docs.docker.com/compose/). After cloning this repository you can run this command from the root directory:
 
 ```sh
-$ docker-compose -p opencast-allinone -f docker-compose/docker-compose.allinone.h2.yml up
+$ docker compose -p opencast-allinone -f docker-compose/docker-compose.allinone.h2.yml up
 ```
 
 This will run Opencast using the `allinone` distribution configured to use the bundled [H2 Database Engine](http://www.h2database.com/html/main.html).
@@ -97,8 +97,8 @@ $ export OPENCAST_SRC=</path/to/my/opencast/code>
 $ export OPENCAST_BUILD_USER_UID=$(id -u)
 $ export OPENCAST_BUILD_USER_GID=$(id -g)
 
-$ docker-compose -p opencast-build -f docker-compose/docker-compose.build.yml up -d
-$ docker-compose -p opencast-build -f docker-compose/docker-compose.build.yml exec --user opencast-builder opencast bash
+$ docker compose -p opencast-build -f docker-compose/docker-compose.build.yml up -d
+$ docker compose -p opencast-build -f docker-compose/docker-compose.build.yml exec --user opencast-builder opencast bash
 ```
 
 After attaching you can press enter to force the shell to output a prompt.
