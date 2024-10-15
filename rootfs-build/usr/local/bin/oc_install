@@ -40,7 +40,7 @@ if test "$dist" = "develop"; then
   sudo cp -R build/opencast-dist-develop-*/. "${OPENCAST_HOME}"
 else
   log "oc_install" "Extract archive"
-  sudo tar -xzf build/opencast-dist-$dist-*.tar.gz --strip 1 -C "${OPENCAST_HOME}"
+  sudo tar -xzf "build/opencast-dist-$dist-*.tar.gz" --strip 1 -C "${OPENCAST_HOME}"
 fi
 
 log "oc_install" "Create folders"
