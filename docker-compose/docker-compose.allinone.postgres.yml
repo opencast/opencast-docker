@@ -28,7 +28,11 @@ services:
       - db:/var/lib/postgresql/data
 
   opensearch:
-    image: opensearchproject/opensearch:1
+    image: opencast/opensearch:1
+    build:
+      dockerfile_inline: |
+        FROM docker.io/opensearchproject/opensearch:1
+        RUN bin/opensearch-plugin install analysis-icu
     environment:
       discovery.type: single-node
       bootstrap.memory_lock: 'true'
