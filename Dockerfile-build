@@ -109,6 +109,8 @@ Pin: release o=Ubuntu
 Pin-Priority: -1
 EOF
 
+# libgomp1 is a dependency of whisper.cpp. It is also installed as a dependency of Tesseract, but we want it to be an
+# explicitly installed package.
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       gnupg \
@@ -140,6 +142,7 @@ RUN apt-get update \
       gosu \
       inotify-tools \
       jq \
+      libgomp1 \
       netcat-openbsd \
       openssl \
       rsync \
@@ -148,6 +151,9 @@ RUN apt-get update \
       tzdata \
   \
  && sudo ln -s /usr/local/openjdk*/bin/* /usr/local/bin/ \
+  \
+ && deluser "$(id -nu 1000)" \
+ && rm -rf /home/ubuntu \
   \
  && groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_UHOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \

@@ -18,7 +18,11 @@ volumes:
 
 services:
   opensearch:
-    image: opensearchproject/opensearch:1
+    image: opencast/opensearch:1
+    build:
+      dockerfile_inline: |
+        FROM docker.io/opensearchproject/opensearch:1
+        RUN bin/opensearch-plugin install analysis-icu
     environment:
       discovery.type: single-node
       bootstrap.memory_lock: 'true'
@@ -29,7 +33,7 @@ services:
       - opensearch:/usr/share/opensearch/data
 
   opencast:
-    image: quay.io/opencast/build:16.7
+    image: quay.io/opencast/build:17.0
     tty: true
     stdin_open: true
     environment:
