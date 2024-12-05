@@ -112,7 +112,7 @@ prop.org.opencastproject.admin.help.documentation.url=https://docs.opencast.org
 # If the property is specified, the admin ui help menu will link to the documentation.
 # The value needs to be a URL if set.
 # Default: undefined
-prop.org.opencastproject.admin.help.restdocs.url=/rest-docs/index.html
+prop.org.opencastproject.admin.help.restdocs.url=/rest_docs.html
 
 # Link to the media module
 #

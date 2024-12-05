@@ -112,6 +112,8 @@ RUN groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && mkdir -p "${OPENCAST_DATA}" "${OPENCAST_UHOME}" "${WHISPER_CPP_MODELS}" \
  && chown -R "${OPENCAST_USER}:${OPENCAST_GROUP}" "${OPENCAST_DATA}" "${OPENCAST_UHOME}" "${WHISPER_CPP_MODELS}"
 
+# libgomp1 is a dependency of whisper.cpp. It is also installed as a dependency of Tesseract, but we want it to be an
+# explicitly installed package.
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       ca-certificates \
@@ -124,6 +126,7 @@ RUN apt-get update \
       gosu \
       inotify-tools \
       jq \
+      libgomp1 \
       netcat-openbsd \
       openssl \
       rsync \
