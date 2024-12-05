@@ -19,7 +19,7 @@ volumes:
 
 services:
   mariadb:
-    image: mariadb:10.5
+    image: docker.io/library/mariadb:10.5
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: opencast
@@ -30,7 +30,11 @@ services:
       - db:/var/lib/mysql
 
   opensearch:
-    image: opensearchproject/opensearch:1
+    image: opencast/opensearch:1
+    build:
+      dockerfile_inline: |
+        FROM docker.io/opensearchproject/opensearch:1
+        RUN bin/opensearch-plugin install analysis-icu
     environment:
       discovery.type: single-node
       bootstrap.memory_lock: 'true'
@@ -41,7 +45,7 @@ services:
       - opensearch:/usr/share/opensearch/data
 
   opencast:
-    image: quay.io/opencast/allinone:16.7
+    image: quay.io/opencast/allinone:17.0
     environment:
       ORG_OPENCASTPROJECT_SERVER_URL: http://localhost:8080
       ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8080/static

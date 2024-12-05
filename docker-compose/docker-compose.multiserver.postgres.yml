@@ -19,7 +19,7 @@ volumes:
 
 services:
   postgresql:
-    image: postgres:13-alpine
+    image: docker.io/library/postgres:13-alpine
     environment:
       POSTGRES_DB: opencast
       POSTGRES_USER: opencast
@@ -28,7 +28,11 @@ services:
       - db:/var/lib/postgresql/data
 
   opensearch:
-    image: opensearchproject/opensearch:1
+    image: opencast/opensearch:1
+    build:
+      dockerfile_inline: |
+        FROM docker.io/opensearchproject/opensearch:1
+        RUN bin/opensearch-plugin install analysis-icu
     environment:
       discovery.type: single-node
       bootstrap.memory_lock: 'true'
@@ -39,7 +43,7 @@ services:
       - opensearch:/usr/share/opensearch/data
 
   opencast-admin:
-    image: quay.io/opencast/admin:16.7
+    image: quay.io/opencast/admin:17.0
     environment:
       ORG_OPENCASTPROJECT_SERVER_URL: http://opencast-admin:8080
       ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8081/static
@@ -60,7 +64,7 @@ services:
       - data:/data
 
   opencast-presentation:
-    image: quay.io/opencast/presentation:16.7
+    image: quay.io/opencast/presentation:17.0
     environment:
       ORG_OPENCASTPROJECT_SERVER_URL: http://opencast-presentation:8080
       ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8081/static
@@ -80,7 +84,7 @@ services:
       - data:/data
 
   opencast-worker:
-    image: quay.io/opencast/worker:16.7
+    image: quay.io/opencast/worker:17.0
     environment:
       ORG_OPENCASTPROJECT_SERVER_URL: http://opencast-worker:8080
       ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8081/static
