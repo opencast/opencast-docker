@@ -27,10 +27,10 @@ jobs:
             opencast_version: 'main'
             push_major: 'false'
           - day_of_week: '1'
-            opencast_version: '17.0'
+            opencast_version: '17.1'
             push_major: 'true'
           - day_of_week: '2'
-            opencast_version: '17.0'
+            opencast_version: '17.1'
             push_major: 'false'
           - day_of_week: '3'
             opencast_version: '17.0'
@@ -38,13 +38,13 @@ jobs:
 
           # legacy
           - day_of_week: '4'
-            opencast_version: '16.7'
+            opencast_version: '16.8'
             push_major: 'true'
           - day_of_week: '5'
-            opencast_version: '16.6'
+            opencast_version: '16.7'
             push_major: 'false'
           - day_of_week: '6'
-            opencast_version: '16.5'
+            opencast_version: '16.6'
             push_major: 'false'
 
     steps:
