@@ -31,6 +31,8 @@ FROM docker.io/library/eclipse-temurin:17-jdk AS build-whisper-cpp
 ARG WHISPER_CPP_VERSION="master"
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
+      ccache \
+      cmake \
       g++ \
       gcc \
       git \
@@ -40,12 +42,11 @@ RUN mkdir -p /tmp/whisper.cpp
 WORKDIR /tmp/whisper.cpp
 RUN git clone https://github.com/ggerganov/whisper.cpp.git . \
  && git checkout "$WHISPER_CPP_VERSION"
-RUN make -j \
+RUN cmake -B build \
+ && cmake --build build --config Release -j $(nproc) \
  && sed -i 's#models_path=.*$#models_path=/usr/share/whisper.cpp/models/#' models/download-ggml-model.sh
 RUN mkdir -p out \
- && mv main out/whisper.cpp \
- && mv quantize out/whisper.cpp-quantize \
- && mv server out/whisper.cpp-server \
+ && mv build/bin/main out/whisper.cpp \
  && mv models/download-ggml-model.sh out/whisper.cpp-model-download
 
 
