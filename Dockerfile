@@ -159,8 +159,7 @@ USER "${OPENCAST_USER}"
 WORKDIR "${OPENCAST_SRC}"
 
 RUN git clone --recursive "${OPENCAST_REPO}" . \
- && git checkout "${OPENCAST_VERSION}" \
- && sed -i "s#https://mvn.opencast.org/#https://radosgw.public.os.wwu.de/mvn.opencast.org/#" pom.xml
+ && git checkout "${OPENCAST_VERSION}"
 RUN ./mvnw --batch-mode install \
       -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
       -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
