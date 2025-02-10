@@ -12,6 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+ARG IMAGE_BASE=default
+
+FROM docker.io/library/eclipse-temurin:17-jdk AS base
+LABEL org.opencontainers.image.base.name="docker.io/library/eclipse-temurin:17-jdk"
+
+FROM base AS base-default-runtime
+FROM base-default-runtime AS base-default-dev
+
+
+FROM base-${IMAGE_BASE}-runtime AS base-runtime
+FROM base-${IMAGE_BASE}-dev AS base-dev
+
+
 FROM --platform=${BUILDPLATFORM} docker.io/library/alpine:edge AS build-ffmpeg
 ARG TARGETARCH
 ARG FFMPEG_VERSION="release"
@@ -27,7 +40,7 @@ RUN apk add --no-cache \
  && mv ff* /usr/local/bin
 
 
-FROM docker.io/library/eclipse-temurin:17-jdk AS build-whisper-cpp
+FROM base-dev AS build-whisper-cpp
 ARG WHISPER_CPP_VERSION="master"
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -57,8 +70,7 @@ RUN mkdir -p out \
  && mv models/download-ggml-model.sh out/whisper.cpp-model-download
 
 
-FROM docker.io/library/eclipse-temurin:17-jdk
-LABEL org.opencontainers.image.base.name="docker.io/maven:3-eclipse-temurin-17"
+FROM base-dev
 
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
 ARG OPENCAST_VERSION="develop"

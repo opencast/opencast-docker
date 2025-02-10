@@ -23,6 +23,7 @@ WHISPER_CPP_VERSION ?= $(shell cat VERSION_WHISPER_CPP)
 
 IMAGE_REGISTRY           ?= quay.io/opencast
 IMAGE_TAGS               ?= latest $(VERSION) $(VERSION_MAJOR)
+IMAGE_BASE               ?= default
 DOCKER_BUILDX_PLATFORM   ?= linux/amd64
 DOCKER_BUILDX_OUTPUT     ?= --load
 DOCKER_BUILDX_EXTRA_ARGS ?=
@@ -55,6 +56,7 @@ build-%:
 		$(addprefix -t $(IMAGE_REGISTRY)/$*:, $(IMAGE_TAGS)) \
 		$(DOCKER_BUILDX_EXTRA_ARGS) \
 		\
+		--build-arg IMAGE_BASE="$(IMAGE_BASE)" \
 		--build-arg OPENCAST_REPO="$(OPENCAST_REPO)" \
 		--build-arg OPENCAST_VERSION="$(OPENCAST_VERSION)" \
 		--build-arg OPENCAST_DISTRIBUTION="$*" \
@@ -73,6 +75,7 @@ build-build:
 		$(addprefix -t $(IMAGE_REGISTRY)/build:, $(IMAGE_TAGS)) \
 		$(DOCKER_BUILDX_EXTRA_ARGS) \
 		\
+		--build-arg IMAGE_BASE="$(IMAGE_BASE)" \
 		--build-arg OPENCAST_REPO="$(OPENCAST_REPO)" \
 		--build-arg OPENCAST_VERSION="$(OPENCAST_VERSION)" \
 		--build-arg FFMPEG_VERSION="$(FFMPEG_VERSION)" \
