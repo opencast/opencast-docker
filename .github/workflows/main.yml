@@ -3,12 +3,12 @@ name: main
 on:
   push:
     branches:
-      - master
+      - main
       - next
       - '[0-9]+.[0-9]+'
   pull_request:
     branches:
-      - master
+      - main
       - next
       - '[0-9]+.[0-9]+'
 
@@ -16,7 +16,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: install
         run: |
          sudo apt-get install shellcheck
@@ -30,10 +30,10 @@ jobs:
     env:
       DOCKER_BUILDX_PLATFORM: linux/amd64,linux/arm64
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: set up Docker buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
         with:
           platforms: ${{ env.DOCKER_BUILDX_PLATFORM }}
 
@@ -41,7 +41,7 @@ jobs:
         run: |
           docker info
 
-      - uses: docker/login-action@v2
+      - uses: docker/login-action@v3
         if: ${{ github.event_name == 'push' }}
         with:
           registry: quay.io
@@ -56,12 +56,19 @@ jobs:
           esac
 
           case "${{ github.ref }}" in
-            refs/heads/master)  IMAGE_TAGS='latest'         ;;
-                            *)  IMAGE_TAGS="$(cat VERSION)" ;;
+            refs/heads/main)  IMAGE_TAGS='latest'         ;;
+                          *)  IMAGE_TAGS="$(cat VERSION)" ;;
           esac
 
-          make \
-            IMAGE_TAGS="${IMAGE_TAGS}" \
-            DOCKER_BUILDX_PLATFORM="${DOCKER_BUILDX_PLATFORM}" \
-            DOCKER_BUILDX_OUTPUT="${DOCKER_BUILDX_OUTPUT}" \
-            build
+          BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ")
+
+          # retry once
+          for i in $(seq 1 2); do
+            make \
+              BUILD_DATE="${BUILD_DATE}" \
+              IMAGE_TAGS="${IMAGE_TAGS}" \
+              DOCKER_BUILDX_PLATFORM="${DOCKER_BUILDX_PLATFORM}" \
+              DOCKER_BUILDX_OUTPUT="${DOCKER_BUILDX_OUTPUT}" \
+              build \
+            && break
+          done
