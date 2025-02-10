@@ -20,6 +20,64 @@ LABEL org.opencontainers.image.base.name="docker.io/library/eclipse-temurin:17-j
 FROM base AS base-default-runtime
 FROM base-default-runtime AS base-default-dev
 
+# Adapted from:
+#   https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/12.4.1/ubuntu2204/base/Dockerfile
+#   https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/12.4.1/ubuntu2204/runtime/Dockerfile
+# BSD-3-Clause License: https://gitlab.com/nvidia/container-images/cuda/-/blob/master/LICENSE
+FROM base AS base-nvidia-cuda-runtime-amd64
+ENV NVARCH x86_64
+FROM base AS base-nvidia-cuda-runtime-arm64
+ENV NVARCH sbsa
+FROM base-nvidia-cuda-runtime-${TARGETARCH} AS base-nvidia-cuda-runtime
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      ca-certificates \
+      curl \
+      gnupg2 \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/${NVARCH}/3bf863cc.pub" | gpg --dearmor -o /etc/apt/keyrings/nvidia-cuda-keyring.gpg \
+ && echo "deb [signed-by=/etc/apt/keyrings/nvidia-cuda-keyring.gpg] https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/${NVARCH} /" > /etc/apt/sources.list.d/nvidia-cuda.list
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      cuda-compat-12-4 \
+      cuda-cudart-12-4 \
+      cuda-libraries-12-4 \
+      cuda-nvtx-12-4 \
+      libcublas-12-4 \
+      libcusparse-12-4 \
+      libnccl2 \
+      libnpp-12-4 \
+ && rm -rf /var/lib/apt/lists/*
+
+ENV NVIDIA_REQUIRE_CUDA        "cuda>=12.4 brand=tesla,driver>=470,driver<471 brand=unknown,driver>=470,driver<471 brand=nvidia,driver>=470,driver<471 brand=nvidiartx,driver>=470,driver<471 brand=geforce,driver>=470,driver<471 brand=geforcertx,driver>=470,driver<471 brand=quadro,driver>=470,driver<471 brand=quadrortx,driver>=470,driver<471 brand=titan,driver>=470,driver<471 brand=titanrtx,driver>=470,driver<471 brand=tesla,driver>=525,driver<526 brand=unknown,driver>=525,driver<526 brand=nvidia,driver>=525,driver<526 brand=nvidiartx,driver>=525,driver<526 brand=geforce,driver>=525,driver<526 brand=geforcertx,driver>=525,driver<526 brand=quadro,driver>=525,driver<526 brand=quadrortx,driver>=525,driver<526 brand=titan,driver>=525,driver<526 brand=titanrtx,driver>=525,driver<526 brand=tesla,driver>=535,driver<536 brand=unknown,driver>=535,driver<536 brand=nvidia,driver>=535,driver<536 brand=nvidiartx,driver>=535,driver<536 brand=geforce,driver>=535,driver<536 brand=geforcertx,driver>=535,driver<536 brand=quadro,driver>=535,driver<536 brand=quadrortx,driver>=535,driver<536 brand=titan,driver>=535,driver<536 brand=titanrtx,driver>=535,driver<536"
+ENV NVIDIA_VISIBLE_DEVICES     "all"
+ENV NVIDIA_DRIVER_CAPABILITIES "compute,utility"
+
+ENV PATH            "/usr/local/cuda/bin:${PATH}"
+ENV LD_LIBRARY_PATH "/usr/local/cuda/lib:/usr/local/cuda/lib64:/usr/local/cuda/compat:${LD_LIBRARY_PATH}"
+
+
+# Adapted from: https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/12.4.1/ubuntu2204/devel/Dockerfile
+# BSD-3-Clause License: https://gitlab.com/nvidia/container-images/cuda/-/blob/master/LICENSE
+FROM base-nvidia-cuda-runtime AS base-nvidia-cuda-dev
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      cuda-command-line-tools-12-4 \
+      cuda-cudart-dev-12-4 \
+      cuda-libraries-dev-12-4 \
+      cuda-minimal-build-12-4 \
+      cuda-nsight-compute-12-4 \
+      cuda-nvml-dev-12-4 \
+      libcublas-dev-12-4 \
+      libcusparse-dev-12-4 \
+      libnccl-dev \
+      libnpp-dev-12-4 \
+ && rm -rf /var/lib/apt/lists/*
+
+ENV LIBRARY_PATH /usr/local/cuda/lib64/stubs:/usr/local/cuda/compat
+
 
 FROM base-${IMAGE_BASE}-runtime AS base-runtime
 FROM base-${IMAGE_BASE}-dev AS base-dev
@@ -55,10 +113,12 @@ RUN mkdir -p /tmp/whisper.cpp
 WORKDIR /tmp/whisper.cpp
 RUN git clone https://github.com/ggerganov/whisper.cpp.git . \
  && git checkout "$WHISPER_CPP_VERSION"
+ARG IMAGE_BASE=default
 RUN cmake -B build \
       -DBUILD_SHARED_LIBS=OFF \
       -DGGML_CPU=ON \
       -DGGML_CPU_ARM_ARCH=native \
+      -DGGML_CUDA=$(if [ "${IMAGE_BASE}" == "nvidia-cuda" ]; then echo ON; else echo OFF; fi) \
       -DGGML_NATIVE=OFF \
       -DWHISPER_BUILD_EXAMPLES=ON \
       -DWHISPER_BUILD_SERVER=OFF \

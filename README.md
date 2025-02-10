@@ -5,6 +5,7 @@
 -   [Introduction](#introduction)
 -   [Installation](#installation)
 -   [Build](#build)
+    -   [NVIDIA CUDA Support](#nvidia-cuda-support)
 -   [Quick Start](#quick-start)
 -   [Images](#images)
     -   [`allinone`](#allinone)
@@ -43,7 +44,7 @@ $ docker pull "quay.io/opencast/<distribution>:<version>"
 
 ## Build
 
-If you want to build the images yourself, there is a `Makefile` with the necessary `docker build` commands for all distributions. Running `make` in the root directory will create these images. To customize the build you can override these variables:
+If you want to build the images yourself, there is a `Makefile` with the necessary `docker build` commands for all distributions. Running `make` in the root directory will create all images. To customize the build, you can override these variables:
 
 -   `OPENCAST_REPO`<br>
      The git repository to clone Opencast from. The default is the upstream repository, but you can use your own fork.
@@ -53,6 +54,8 @@ If you want to build the images yourself, there is a `Makefile` with the necessa
      The version of the Opencast FFmpeg build. Defaults to the content of the `VERSION_FFMPEG` file.
 -   `WHISPER_CPP_VERSION`<br>
      The version of whisper.cpp. Defaults to the content of the `VERSION_WHISPER_CPP` file.
+-   `IMAGE_BASE`<br>
+     The base used for the images (either `default` or `nvidia-cuda`). Defaults to `default`.
 -   `IMAGE_REGISTRY`<br>
      The first part of the image name. It defaults to `quay.io/opencast` and will be extended by the name of the Opencast distribution.
 -   `IMAGE_TAG`<br>
@@ -63,6 +66,16 @@ If you want to build the images yourself, there is a `Makefile` with the necessa
      Overwrites the Git commit hash that is set as image label.
 -   `BUILD_DATE`<br>
      Overwrites the build date that is set as image label.
+
+### NVIDIA CUDA Support
+
+Currently, there are not pre-built images for NVIDIA CUDA, but you can easily build them yourself:
+
+```sh
+$ make IMAGE_BASE=nvidia-cuda build-worker
+```
+
+Note that only whisper.cpp is compiled for NVIDIA CUDA; the included FFmpeg binary does not support NVIDIA CUDA at the moment.
 
 ## Quick Start
 
