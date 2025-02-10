@@ -24,7 +24,7 @@ jobs:
 
           # stable
           - day_of_week: '0'
-            opencast_version: 'master'
+            opencast_version: 'main'
             push_major: 'false'
           - day_of_week: '1'
             opencast_version: '16.8'
@@ -72,7 +72,7 @@ jobs:
             fi
           fi
 
-          if [ "${{ matrix.opencast_version }}" = "master" ]; then
+          if [ "${{ matrix.opencast_version }}" = "main" ]; then
             IMAGE_TAGS='latest'
           else
             IMAGE_TAGS="$(cat VERSION)"
