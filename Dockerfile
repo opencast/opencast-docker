@@ -43,10 +43,17 @@ WORKDIR /tmp/whisper.cpp
 RUN git clone https://github.com/ggerganov/whisper.cpp.git . \
  && git checkout "$WHISPER_CPP_VERSION"
 RUN cmake -B build \
+      -DBUILD_SHARED_LIBS=OFF \
+      -DGGML_CPU=ON \
+      -DGGML_CPU_ARM_ARCH=native \
+      -DGGML_NATIVE=OFF \
+      -DWHISPER_BUILD_EXAMPLES=ON \
+      -DWHISPER_BUILD_SERVER=OFF \
+      -DWHISPER_BUILD_TESTS=OFF \
  && cmake --build build --config Release -j $(nproc) \
  && sed -i 's#models_path=.*$#models_path=/usr/share/whisper.cpp/models/#' models/download-ggml-model.sh
 RUN mkdir -p out \
- && mv build/bin/main out/whisper.cpp \
+ && mv build/bin/whisper-cli         out/whisper.cpp \
  && mv models/download-ggml-model.sh out/whisper.cpp-model-download
 
 
