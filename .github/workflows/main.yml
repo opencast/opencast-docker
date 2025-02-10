@@ -60,8 +60,15 @@ jobs:
                           *)  IMAGE_TAGS="$(cat VERSION)" ;;
           esac
 
-          make \
-            IMAGE_TAGS="${IMAGE_TAGS}" \
-            DOCKER_BUILDX_PLATFORM="${DOCKER_BUILDX_PLATFORM}" \
-            DOCKER_BUILDX_OUTPUT="${DOCKER_BUILDX_OUTPUT}" \
-            build
+          BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ")
+
+          # retry once
+          for i in $(seq 1 2); do
+            make \
+              BUILD_DATE="${BUILD_DATE}" \
+              IMAGE_TAGS="${IMAGE_TAGS}" \
+              DOCKER_BUILDX_PLATFORM="${DOCKER_BUILDX_PLATFORM}" \
+              DOCKER_BUILDX_OUTPUT="${DOCKER_BUILDX_OUTPUT}" \
+              build \
+            && break
+          done

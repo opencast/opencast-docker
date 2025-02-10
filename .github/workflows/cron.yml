@@ -67,7 +67,7 @@ jobs:
         run: |
           if [ "${{ matrix.day_of_week }}" != "*" ]; then
             if [ "${{ matrix.day_of_week }}" != $(date "+%w") ]; then
-              echo "Not scheduled today; exit"
+              echo "Not scheduled for today; done"
               exit
             fi
           fi
@@ -81,8 +81,15 @@ jobs:
             fi
           fi
 
-          make \
-            IMAGE_TAGS="${IMAGE_TAGS}" \
-            DOCKER_BUILDX_PLATFORM="${DOCKER_BUILDX_PLATFORM}" \
-            DOCKER_BUILDX_OUTPUT="${DOCKER_BUILDX_OUTPUT}" \
-            build
+          BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ")
+
+          # retry once
+          for i in $(seq 1 2); do
+            make \
+              BUILD_DATE="${BUILD_DATE}" \
+              IMAGE_TAGS="${IMAGE_TAGS}" \
+              DOCKER_BUILDX_PLATFORM="${DOCKER_BUILDX_PLATFORM}" \
+              DOCKER_BUILDX_OUTPUT="${DOCKER_BUILDX_OUTPUT}" \
+              build \
+            && break
+          done
