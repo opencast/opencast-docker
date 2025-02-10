@@ -79,28 +79,28 @@ LABEL maintainer="University of Münster eLectures Team <electures.dev@uni-muens
       org.opencontainers.image.created="${BUILD_DATE}" \
       org.opencontainers.image.revision="${GIT_COMMIT}"
 
-ENV OPENCAST_REPO="${OPENCAST_REPO}" \
-    OPENCAST_VERSION="${OPENCAST_VERSION}" \
-    OPENCAST_DISTRIBUTION="${OPENCAST_DISTRIBUTION}" \
-    OPENCAST_SRC="/usr/src/opencast" \
-    OPENCAST_HOME="/opencast" \
-    OPENCAST_DATA="/data" \
-    OPENCAST_CUSTOM_CONFIG="/etc/opencast" \
-    OPENCAST_USER="opencast" \
-    OPENCAST_GROUP="opencast" \
-    OPENCAST_UHOME="/home/opencast" \
-    OPENCAST_UID="800" \
-    OPENCAST_GID="800" \
-    OPENCAST_BUILD_ASSETS="/docker" \
-    WHISPER_CPP_MODELS="/usr/share/whisper.cpp/models"
-ENV OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
-    OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
-    OPENCAST_STAGE_BASE_HOME="${OPENCAST_HOME}/docker/stage/base" \
-    OPENCAST_STAGE_OUT_HOME="${OPENCAST_HOME}/docker/stage/out"
-ENV ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER="admin" \
-    ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS="opencast" \
-    ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER="opencast_system_account" \
-    ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS="CHANGE_ME"
+ENV OPENCAST_REPO                            "${OPENCAST_REPO}"
+ENV OPENCAST_VERSION                         "${OPENCAST_VERSION}"
+ENV OPENCAST_DISTRIBUTION                    "${OPENCAST_DISTRIBUTION}"
+ENV OPENCAST_SRC                             "/usr/src/opencast"
+ENV OPENCAST_HOME                            "/opencast"
+ENV OPENCAST_DATA                            "/data"
+ENV OPENCAST_CUSTOM_CONFIG                   "/etc/opencast"
+ENV OPENCAST_USER                            "opencast"
+ENV OPENCAST_GROUP                           "opencast"
+ENV OPENCAST_UHOME                           "/home/opencast"
+ENV OPENCAST_UID                             "800"
+ENV OPENCAST_GID                             "800"
+ENV OPENCAST_BUILD_ASSETS                    "/docker"
+ENV WHISPER_CPP_MODELS                       "/usr/share/whisper.cpp/models"
+ENV OPENCAST_CONFIG                          "${OPENCAST_HOME}/etc"
+ENV OPENCAST_SCRIPTS                         "${OPENCAST_HOME}/docker/scripts"
+ENV OPENCAST_STAGE_BASE_HOME                 "${OPENCAST_HOME}/docker/stage/base"
+ENV OPENCAST_STAGE_OUT_HOME                  "${OPENCAST_HOME}/docker/stage/out"
+ENV ORG_OPENCASTPROJECT_SECURITY_ADMIN_USER  "admin"
+ENV ORG_OPENCASTPROJECT_SECURITY_ADMIN_PASS  "opencast"
+ENV ORG_OPENCASTPROJECT_SECURITY_DIGEST_USER "opencast_system_account"
+ENV ORG_OPENCASTPROJECT_SECURITY_DIGEST_PASS "CHANGE_ME"
 
 # Install Firefox from PPA
 COPY <<EOF /etc/apt/preferences.d/mozillateam

@@ -62,13 +62,13 @@ FROM --platform=${BUILDPLATFORM} docker.io/library/eclipse-temurin:17-jdk AS bui
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
 ARG OPENCAST_VERSION="develop"
 
-ENV OPENCAST_SRC="/usr/src/opencast" \
-    OPENCAST_HOME="/opencast" \
-    OPENCAST_UHOME="/home/opencast" \
-    OPENCAST_UID="800" \
-    OPENCAST_GID="800" \
-    OPENCAST_USER="opencast" \
-    OPENCAST_GROUP="opencast"
+ENV OPENCAST_SRC   "/usr/src/opencast"
+ENV OPENCAST_HOME  "/opencast"
+ENV OPENCAST_UHOME "/home/opencast"
+ENV OPENCAST_UID   "800"
+ENV OPENCAST_GID   "800"
+ENV OPENCAST_USER  "opencast"
+ENV OPENCAST_GROUP "opencast"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -101,19 +101,19 @@ RUN tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C 
 FROM docker.io/library/eclipse-temurin:17-jdk
 LABEL org.opencontainers.image.base.name="docker.io/library/eclipse-temurin:17-jdk"
 
-ENV OPENCAST_HOME="/opencast" \
-    OPENCAST_DATA="/data" \
-    OPENCAST_CUSTOM_CONFIG="/etc/opencast" \
-    OPENCAST_USER="opencast" \
-    OPENCAST_GROUP="opencast" \
-    OPENCAST_UHOME="/home/opencast" \
-    OPENCAST_UID="800" \
-    OPENCAST_GID="800" \
-    WHISPER_CPP_MODELS="/usr/share/whisper.cpp/models"
-ENV OPENCAST_CONFIG="${OPENCAST_HOME}/etc" \
-    OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts" \
-    OPENCAST_STAGE_BASE_HOME="${OPENCAST_HOME}/docker/stage/base" \
-    OPENCAST_STAGE_OUT_HOME="${OPENCAST_HOME}/docker/stage/out"
+ENV OPENCAST_HOME            "/opencast"
+ENV OPENCAST_DATA            "/data"
+ENV OPENCAST_CUSTOM_CONFIG   "/etc/opencast"
+ENV OPENCAST_USER            "opencast"
+ENV OPENCAST_GROUP           "opencast"
+ENV OPENCAST_UHOME           "/home/opencast"
+ENV OPENCAST_UID             "800"
+ENV OPENCAST_GID             "800"
+ENV WHISPER_CPP_MODELS       "/usr/share/whisper.cpp/models"
+ENV OPENCAST_CONFIG          "${OPENCAST_HOME}/etc"
+ENV OPENCAST_SCRIPTS         "${OPENCAST_HOME}/docker/scripts"
+ENV OPENCAST_STAGE_BASE_HOME "${OPENCAST_HOME}/docker/stage/base"
+ENV OPENCAST_STAGE_OUT_HOME  "${OPENCAST_HOME}/docker/stage/out"
 
 RUN groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
  && useradd --system -M -N -g "${OPENCAST_GROUP}" -d "${OPENCAST_UHOME}" -u "${OPENCAST_UID}" "${OPENCAST_USER}" \
@@ -152,9 +152,9 @@ ARG VERSION=unkown
 ARG BUILD_DATE=unkown
 ARG GIT_COMMIT=unkown
 
-ENV OPENCAST_REPO=${OPENCAST_REPO} \
-    OPENCAST_VERSION=${OPENCAST_VERSION} \
-    OPENCAST_DISTRIBUTION=${OPENCAST_DISTRIBUTION}
+ENV OPENCAST_REPO         "${OPENCAST_REPO} "
+ENV OPENCAST_VERSION      "${OPENCAST_VERSION} "
+ENV OPENCAST_DISTRIBUTION "${OPENCAST_DISTRIBUTION}"
 
 RUN if [ "${OPENCAST_DISTRIBUTION}" = "allinone" ]; then \
       rm -f "${OPENCAST_CONFIG}/org.opencastproject.organization-mh_default_org.cfg-clustered"; \
