@@ -20,7 +20,7 @@ log "oc_build" "Start building Opencast"
 
 opts="-Pdev"
 if test "$1" = "all"; then
-  log "oc_build" "Activatig 'all' build mode"
+  log "oc_build" "Activating 'all' build mode"
   opts=""
 fi
 
