@@ -14,19 +14,20 @@
 
 ARG IMAGE_BASE=default
 
-FROM docker.io/library/eclipse-temurin:17-jdk AS base
+FROM --platform=${BUILDPLATFORM}  docker.io/library/eclipse-temurin:17-jdk AS base-build
+FROM --platform=${TARGETPLATFORM} docker.io/library/eclipse-temurin:17-jdk AS base-target
 LABEL org.opencontainers.image.base.name="docker.io/library/eclipse-temurin:17-jdk"
 
-FROM base AS base-default-runtime
+FROM base-target AS base-default-runtime
 FROM base-default-runtime AS base-default-dev
 
 # Adapted from:
 #   https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/12.4.1/ubuntu2204/base/Dockerfile
 #   https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/12.4.1/ubuntu2204/runtime/Dockerfile
 # BSD-3-Clause License: https://gitlab.com/nvidia/container-images/cuda/-/blob/master/LICENSE
-FROM base AS base-nvidia-cuda-runtime-amd64
+FROM base-target AS base-nvidia-cuda-runtime-amd64
 ENV NVARCH x86_64
-FROM base AS base-nvidia-cuda-runtime-arm64
+FROM base-target AS base-nvidia-cuda-runtime-arm64
 ENV NVARCH sbsa
 FROM base-nvidia-cuda-runtime-${TARGETARCH} AS base-nvidia-cuda-runtime
 RUN apt-get update \
@@ -130,7 +131,7 @@ RUN mkdir -p out \
  && mv models/download-ggml-model.sh out/whisper.cpp-model-download
 
 
-FROM --platform=${BUILDPLATFORM} base-dev AS build-opencast
+FROM --platform=${BUILDPLATFORM} base-build AS build-opencast
 
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
 ARG OPENCAST_VERSION="develop"
