@@ -40,20 +40,18 @@ if test "$dist" = "develop"; then
   sudo cp -R build/opencast-dist-develop-*/. "${OPENCAST_HOME}"
 else
   log "oc_install" "Extract archive"
-  sudo tar -xzf "build/opencast-dist-$dist-*.tar.gz" --strip 1 -C "${OPENCAST_HOME}"
+  sudo tar -xzf build/opencast-dist-"$dist"-*.tar.gz --strip 1 -C "${OPENCAST_HOME}"
 fi
 
 log "oc_install" "Create folders"
 sudo mkdir -p "${OPENCAST_CONFIG}" "${OPENCAST_SCRIPTS}"
 
 log "oc_install" "Copy Docker scripts"
-# shellcheck disable=SC2086
-sudo cp -R ${OPENCAST_BUILD_ASSETS}${OPENCAST_SCRIPTS}/* "${OPENCAST_SCRIPTS}/"
+sudo cp -R "${OPENCAST_BUILD_ASSETS}${OPENCAST_SCRIPTS}"/* "${OPENCAST_SCRIPTS}/"
 sudo env "PATH=$PATH" javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
 
 log "oc_install" "Copy configuration"
-# shellcheck disable=SC2086
-sudo cp -R ${OPENCAST_BUILD_ASSETS}${OPENCAST_CONFIG}/* "${OPENCAST_CONFIG}/"
+sudo cp -R "${OPENCAST_BUILD_ASSETS}${OPENCAST_CONFIG}"/* "${OPENCAST_CONFIG}/"
 case "$dist" in
   develop)
     sudo mv -f "${OPENCAST_CONFIG}/org.ops4j.pax.logging.cfg-develop" "${OPENCAST_CONFIG}/org.ops4j.pax.logging.cfg"
