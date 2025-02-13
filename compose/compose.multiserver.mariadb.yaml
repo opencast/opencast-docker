@@ -19,7 +19,7 @@ volumes:
 
 services:
   mariadb:
-    image: mariadb:10.5
+    image: docker.io/library/mariadb:10.5
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: opencast
@@ -30,7 +30,7 @@ services:
       - db:/var/lib/mysql
 
   opensearch:
-    image: opensearchproject/opensearch:1
+    image: docker.io/opensearchproject/opensearch:1
     environment:
       discovery.type: single-node
       bootstrap.memory_lock: 'true'

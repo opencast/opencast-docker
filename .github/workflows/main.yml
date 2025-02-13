@@ -3,13 +3,11 @@ name: Build
 on:
   push:
     branches:
-      - main
-      - next
+      - '[0-9]+.x'
       - '[0-9]+.[0-9]+'
   pull_request:
     branches:
-      - main
-      - next
+      - '[0-9]+.x'
       - '[0-9]+.[0-9]+'
 
 jobs:
@@ -52,13 +50,10 @@ jobs:
         run: |
           case "${{ github.event_name }}" in
             push)  DOCKER_BUILDX_OUTPUT='--push' ;;
-               *)  DOCKER_BUILDX_OUTPUT=''     ;;
+               *)  DOCKER_BUILDX_OUTPUT=''       ;;
           esac
 
-          case "${{ github.ref }}" in
-            refs/heads/main)  IMAGE_TAGS='latest'         ;;
-                          *)  IMAGE_TAGS="$(cat VERSION)" ;;
-          esac
+          IMAGE_TAGS="$(cat VERSION)"
 
           BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ")
 

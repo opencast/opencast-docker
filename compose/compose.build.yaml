@@ -18,7 +18,7 @@ volumes:
 
 services:
   opensearch:
-    image: opensearchproject/opensearch:1
+    image: docker.io/opensearchproject/opensearch:1
     environment:
       discovery.type: single-node
       bootstrap.memory_lock: 'true'

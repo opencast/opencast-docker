@@ -133,13 +133,15 @@ Usage:
 
 ## Configuration
 
-It's recommended to configure Opencast by using [Docker Volumes](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems):
+It's recommended to configure Opencast by using [Docker Volumes](https://docs.docker.com/engine/containers/run/#filesystem-mounts):
 
 ```sh
 $ docker run -v "/path/to/opencast-etc:/etc/opencast" quay.io/opencast/<distribution>
 ```
 
-The most important settings, however, can be configured by [environment variables](https://docs.docker.com/engine/reference/run/#env-environment-variables). You can use this functionally to generate new configuration files. For this start a new container with specific variables and execute the `app:init` command. This will ensure you haven't missed anything, write the configuration files and exit. Then you can copy the files to a target directory:
+Note that `/path/to/opencast-etc` only needs to contain configuration files you changed. During startup, those will be complement with the additional default configuration files.
+
+The most important settings can also be configured with [environment variables](https://docs.docker.com/engine/containers/run/#environment-variables). You can use this functionally to generate new configuration files. For this, start a new container with specific variables and execute the `app:init` command. This will ensure you haven't missed anything, write the configuration files and exit. Then you can copy the files to a target directory:
 
 ```sh
 $ docker run --name opencast_generate_config \
