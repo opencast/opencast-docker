@@ -1,4 +1,4 @@
-name: cron
+name: Update Container Images
 
 on:
   schedule:
