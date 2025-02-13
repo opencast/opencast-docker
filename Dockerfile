@@ -119,7 +119,7 @@ RUN cmake -B build \
       -DBUILD_SHARED_LIBS=OFF \
       -DGGML_CPU=ON \
       -DGGML_CPU_ARM_ARCH=native \
-      -DGGML_CUDA=$(if [ "${IMAGE_BASE}" == "nvidia-cuda" ]; then echo ON; else echo OFF; fi) \
+      -DGGML_CUDA=$(if [ "${IMAGE_BASE}" = "nvidia-cuda" ]; then echo ON; else echo OFF; fi) \
       -DGGML_NATIVE=OFF \
       -DWHISPER_BUILD_EXAMPLES=ON \
       -DWHISPER_BUILD_SERVER=OFF \
