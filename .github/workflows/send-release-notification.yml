@@ -1,4 +1,4 @@
-name: send-release-notification
+name: Send Out Release Notification
 
 on:
   create:
