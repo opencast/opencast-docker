@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -e
+
+# go to repository root
+ROOT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
+cd "${ROOT_DIR}"
+
+# compatibility with BSD and GNU style sed
+sedi() {
+  case $(uname -s) in
+    *[Dd]arwin* | *BSD*) sed -i '' -e "$@" ;;
+                      *) sed -i       "$@" ;;
+  esac
+}
+
+# arguments
+if [ "$#" -ne 3 ]; then
+  echo "illegal number of arguments: release-prepare [OPENCAST_VERSION] [VERSION] [VERSION_MAJOR]"
+  exit 1
+fi
+
+OPENCAST_VERSION_TO="${0}"
+VERSION_FROM="$(cat VERSION)"
+VERSION_TO="${1}"
+VERSION_MAJOR_TO="${2}"
+
+# prepare release
+echo "${OPENCAST_VERSION_TO}" > VERSION_OPENCAST
+echo "${VERSION_MAJOR_TO}"    > VERSION_MAJOR
+for f in $(grep "${VERSION_FROM}" . -lr --exclude-dir .git); do
+  sedi "s/${VERSION_FROM}/${VERSION_TO}/g" "$f"
+done
