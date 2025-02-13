@@ -20,10 +20,10 @@ if [ "$#" -ne 3 ]; then
   exit 1
 fi
 
-OPENCAST_VERSION_TO="${0}"
+OPENCAST_VERSION_TO="${1}"
 VERSION_FROM="$(cat VERSION)"
-VERSION_TO="${1}"
-VERSION_MAJOR_TO="${2}"
+VERSION_TO="${2}"
+VERSION_MAJOR_TO="${3}"
 
 # prepare release
 echo "${OPENCAST_VERSION_TO}" > VERSION_OPENCAST
