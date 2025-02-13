@@ -29,7 +29,7 @@ services:
       - opensearch:/usr/share/opensearch/data
 
   opencast:
-    image: quay.io/opencast/build:16.9
+    image: quay.io/opencast/build:16-dev
     tty: true
     stdin_open: true
     environment:
