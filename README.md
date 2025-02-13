@@ -82,12 +82,12 @@ Note that only whisper.cpp is compiled for NVIDIA CUDA; the included FFmpeg bina
 A quick local test system can be started using [`docker compose`](https://docs.docker.com/compose/). After cloning this repository you can run this command from the root directory:
 
 ```sh
-$ docker compose -p opencast-allinone -f docker-compose/docker-compose.allinone.h2.yml up
+$ docker compose -p opencast-allinone -f compose/compose.allinone.h2.yaml up
 ```
 
 This will run Opencast using the `allinone` distribution configured to use the bundled [H2 Database Engine](http://www.h2database.com/html/main.html).
 
-In the `./docker-compose` directory there are also compose files for more production-like setups. `docker-compose.allinone.mariadb.yml` and `docker-compose.allinone.postgresql.yml` uses the MariaDB and PostgreSQL databases, respectively, while `docker-compose.multiserver.mariadb.yml` and `docker-compose.multiserver.postgresql.yml` demonstrate how to connect the different distributions. Replace the compose file in the command above if you want to use them instead. You can find more information about the compose files [here](docker-compose/README.md).
+In the `./compose` directory there are also compose files for more production-like setups. `compose.allinone.mariadb.yaml` and `compose.allinone.postgresql.yaml` uses the MariaDB and PostgreSQL databases, respectively, while `compose.multiserver.mariadb.yaml` and `compose.multiserver.postgresql.yaml` demonstrate how to connect the different distributions. Replace the compose file in the command above if you want to use them instead. You can find more information about the compose files [here](docker-compose/README.md).
 
 ## Images
 
@@ -110,8 +110,8 @@ $ export OPENCAST_SRC=</path/to/my/opencast/code>
 $ export OPENCAST_BUILD_USER_UID=$(id -u)
 $ export OPENCAST_BUILD_USER_GID=$(id -g)
 
-$ docker compose -p opencast-build -f docker-compose/docker-compose.build.yml up -d
-$ docker compose -p opencast-build -f docker-compose/docker-compose.build.yml exec --user opencast-builder opencast bash
+$ docker compose -p opencast-build -f compose/compose.build.yaml up -d
+$ docker compose -p opencast-build -f compose/compose.build.yaml exec --user opencast-builder opencast bash
 ```
 
 After attaching you can press enter to force the shell to output a prompt.
