@@ -1,0 +1,24 @@
+name: send-release-notification
+
+on:
+  create:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: set up matrix-msg
+        uses: lkiesow/matrix-notification@v1
+        with:
+          room: '!RACMQVfKRDQTWhdXLa:matrix.org'
+          token: ${{ secrets.MATRIX_TOKEN }}
+          tool: true
+
+      - name: announce new container images
+        run: |
+          if [[ "${{ github.ref }}" =~ ^refs/heads/[0-9]+\.(x|[0-9]+)$ ]]; then
+            echo "Started building Opencast $(cat VERSION) container images. They should be available in approximately 1h." | ~/.local/bin/matrix-msg
+          fi
