@@ -31,3 +31,13 @@ echo "${VERSION_MAJOR_TO}"    > VERSION_MAJOR
 for f in $(grep "${VERSION_FROM}" . -lr --exclude-dir .git); do
   sedi "s/${VERSION_FROM}/${VERSION_TO}/g" "$f"
 done
+
+# create release branch
+git checkout -b "${VERSION_TO}"
+git add --all
+git commit -m "Update Opencast to v${OPENCAST_VERSION_TO}"
+
+#
+echo
+echo "Run 'git push' to publish release branch '${VERSION_TO}'."
+echo "Make sure to update '.github/workflows/cron.yml' in the 'main' branch."
