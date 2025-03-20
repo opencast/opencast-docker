@@ -29,11 +29,11 @@ jobs:
 
           # stable
           - day_of_week: '0'
-            branch: '17.1'
+            branch: '17.2'
             push_major: 'true'
             additional_tags: 'latest'
           - day_of_week: '1'
-            branch: '17.0'
+            branch: '17.1'
             push_major: 'false'
           - day_of_week: '2'
             branch: '17.0'
@@ -44,13 +44,13 @@ jobs:
 
           # legacy
           - day_of_week: '4'
-            branch: '16.9'
+            branch: '16.10'
             push_major: 'true'
           - day_of_week: '5'
-            branch: '16.8'
+            branch: '16.9'
             push_major: 'false'
           - day_of_week: '6'
-            branch: '16.7'
+            branch: '16.8'
             push_major: 'false'
 
     steps:
