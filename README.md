@@ -1,6 +1,4 @@
-# [Opencast container images](https://quay.io/organization/opencast)
-
-[![Build Status](https://github.com/opencast/opencast-docker/workflows/main/badge.svg?branch=main)](https://github.com/opencast/opencast-docker/actions)
+# [Opencast Container Images](https://quay.io/organization/opencast)
 
 -   [Introduction](#introduction)
 -   [Installation](#installation)
