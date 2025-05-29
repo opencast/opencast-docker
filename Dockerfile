@@ -171,6 +171,14 @@ ARG OPENCAST_DISTRIBUTION
 RUN tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}"
 
 
+FROM --platform=${BUILDPLATFORM} base-build AS build-rootfs
+ENV OPENCAST_HOME    "/rootfs/opencast"
+ENV OPENCAST_SCRIPTS "${OPENCAST_HOME}/docker/scripts"
+COPY rootfs /rootfs
+RUN javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
+ && rm -rf "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
+
+
 FROM base-runtime
 
 ENV OPENCAST_HOME            "/opencast"
@@ -218,7 +226,7 @@ RUN apt-get update \
 COPY --from=build-ffmpeg       /usr/local/bin/ff*      /usr/local/bin/
 COPY --from=build-whisper-cpp  /tmp/whisper.cpp/out/*  /usr/local/bin/
 COPY --from=build-opencast     "${OPENCAST_HOME}"      "${OPENCAST_HOME}"
-COPY rootfs /
+COPY --from=build-rootfs       /rootfs                 /
 
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
 ARG OPENCAST_VERSION="develop"
@@ -241,8 +249,7 @@ RUN if [ "${OPENCAST_DISTRIBUTION}" = "allinone" ]; then \
  && mkdir -p "${OPENCAST_STAGE_BASE_HOME}" \
  && rsync -vrlog --chown=0:0 "${OPENCAST_CONFIG}" "${OPENCAST_STAGE_BASE_HOME}" \
   \
- && javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
- && rm -rf /tmp/* "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
+ && rm -rf /tmp/*
 
 WORKDIR "${OPENCAST_HOME}"
 
