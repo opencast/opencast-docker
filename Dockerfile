@@ -15,8 +15,8 @@
 ARG IMAGE_BASE=default
 
 FROM --platform=${BUILDPLATFORM}  docker.io/library/eclipse-temurin:17-jdk AS base-build
-FROM --platform=${TARGETPLATFORM} docker.io/library/eclipse-temurin:17-jdk AS base-target
-LABEL org.opencontainers.image.base.name="docker.io/library/eclipse-temurin:17-jdk"
+FROM --platform=${TARGETPLATFORM} docker.io/library/eclipse-temurin:17-jre AS base-target
+LABEL org.opencontainers.image.base.name="docker.io/library/eclipse-temurin:17-jre"
 
 FROM base-target AS base-default-runtime
 FROM base-default-runtime AS base-default-dev
@@ -227,8 +227,8 @@ ARG VERSION=unkown
 ARG BUILD_DATE=unkown
 ARG GIT_COMMIT=unkown
 
-ENV OPENCAST_REPO         "${OPENCAST_REPO} "
-ENV OPENCAST_VERSION      "${OPENCAST_VERSION} "
+ENV OPENCAST_REPO         "${OPENCAST_REPO}"
+ENV OPENCAST_VERSION      "${OPENCAST_VERSION}"
 ENV OPENCAST_DISTRIBUTION "${OPENCAST_DISTRIBUTION}"
 
 RUN if [ "${OPENCAST_DISTRIBUTION}" = "allinone" ]; then \
