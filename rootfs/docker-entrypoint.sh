@@ -42,7 +42,11 @@ opencast_main_check() {
   echo "Run opencast_main_check"
 
   opencast_opencast_check
-  if opencast_helper_dist_allinone || opencast_helper_dist_develop || opencast_helper_dist_admin; then
+  if opencast_helper_dist_allinone \
+      || opencast_helper_dist_develop \
+      || opencast_helper_dist_admin \
+      || opencast_helper_dist_adminpresentation \
+      || opencast_helper_dist_presentation; then
     opencast_elasticsearch_check
   fi
   opencast_db_check
@@ -162,7 +166,11 @@ case ${1} in
   app:start)
     opencast_main_init
     opencast_db_trytoconnect
-    if opencast_helper_dist_allinone || opencast_helper_dist_develop || opencast_helper_dist_admin; then
+    if opencast_helper_dist_allinone \
+        || opencast_helper_dist_develop \
+        || opencast_helper_dist_admin \
+        || opencast_helper_dist_adminpresentation \
+        || opencast_helper_dist_presentation; then
       opencast_elasticsearch_trytoconnect
     fi
     opencast_main_start
