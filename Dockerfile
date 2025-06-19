@@ -91,12 +91,12 @@ RUN apk add --no-cache \
       curl \
       tar \
       xz \
- && mkdir -p /tmp/ffmpeg \
+ && mkdir -p /rootfs/usr/local/bin /tmp/ffmpeg \
  && cd /tmp/ffmpeg \
  && curl -sSL "https://s3.opencast.org/opencast-ffmpeg-static/ffmpeg-${FFMPEG_VERSION}-${TARGETARCH}-static.tar.xz" \
      | tar xJf - --strip-components 1 --wildcards '*/ffmpeg' '*/ffprobe' \
  && chown root:root ff* \
- && mv ff* /usr/local/bin
+ && mv ff* /rootfs/usr/local/bin
 
 
 FROM base-dev AS build-whisper-cpp
@@ -128,10 +128,10 @@ RUN cmake -B build \
  && cmake --build build --config Release -j $(nproc) \
  && sed -i "s#models_path=.*\$#models_path=${WHISPER_CPP_MODELS}/#" models/download-ggml-model.sh \
  && sed -i "s#models_path=.*\$#models_path=${WHISPER_CPP_MODELS}/#" models/download-vad-model.sh
-RUN mkdir -p out \
- && mv build/bin/whisper-cli         out/ \
- && mv models/download-ggml-model.sh out/whisper-ggml-model-download \
- && mv models/download-vad-model.sh  out/whisper-download-vad-model
+RUN mkdir -p /rootfs/usr/local/bin /rootfs/usr/local/sbin \
+ && mv build/bin/whisper-*           /rootfs/usr/local/bin/ \
+ && mv models/download-ggml-model.sh /rootfs/usr/local/sbin/whisper-ggml-model-download \
+ && mv models/download-vad-model.sh  /rootfs/usr/local/sbin/whisper-download-vad-model
 
 
 FROM --platform=${BUILDPLATFORM} base-build AS build-opencast
@@ -140,7 +140,7 @@ ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
 ARG OPENCAST_VERSION="develop"
 
 ENV OPENCAST_SRC="/usr/src/opencast"
-ENV OPENCAST_HOME="/opencast"
+ENV OPENCAST_HOME="/rootfs/opencast"
 ENV OPENCAST_UHOME="/home/opencast"
 ENV OPENCAST_UID="800"
 ENV OPENCAST_GID="800"
@@ -226,10 +226,10 @@ RUN apt-get update \
       tzdata \
  && rm -rf /var/lib/apt/lists/*
 
-COPY --from=build-ffmpeg       /usr/local/bin/ff*      /usr/local/bin/
-COPY --from=build-whisper-cpp  /tmp/whisper.cpp/out/*  /usr/local/bin/
-COPY --from=build-opencast     "${OPENCAST_HOME}"      "${OPENCAST_HOME}"
-COPY --from=build-rootfs       /rootfs                 /
+COPY --from=build-ffmpeg       /rootfs  /
+COPY --from=build-whisper-cpp  /rootfs  /
+COPY --from=build-opencast     /rootfs  /
+COPY --from=build-rootfs       /rootfs  /
 
 ARG OPENCAST_REPO="https://github.com/opencast/opencast.git"
 ARG OPENCAST_VERSION="develop"
