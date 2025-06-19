@@ -184,7 +184,7 @@ prop.org.opencastproject.engage.ui.url={{PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL}
 # Default: false
 #prop.admin.themes.enabled=false
 
-# Enable the sttatistics views in the admin intterface.
+# Enable the statistics views in the admin interface.
 # Format: boolean
 # Default: false
 #prop.admin.statistics.enabled=false
