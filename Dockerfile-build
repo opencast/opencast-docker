@@ -153,7 +153,6 @@ LABEL maintainer="University of Münster eLectures Team <electures.dev@uni-muens
 
 ENV OPENCAST_REPO                            "${OPENCAST_REPO}"
 ENV OPENCAST_VERSION                         "${OPENCAST_VERSION}"
-ENV OPENCAST_DISTRIBUTION                    "${OPENCAST_DISTRIBUTION}"
 ENV OPENCAST_SRC                             "/usr/src/opencast"
 ENV OPENCAST_HOME                            "/opencast"
 ENV OPENCAST_DATA                            "/data"
