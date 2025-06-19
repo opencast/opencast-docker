@@ -18,13 +18,13 @@ jobs:
         include:
           # dev
           - day_of_week: '*'
+            branch: '19.x'
+            push_major: 'true'
+          - day_of_week: '*'
             branch: '18.x'
             push_major: 'true'
           - day_of_week: '*'
             branch: '17.x'
-            push_major: 'false'
-          - day_of_week: '*'
-            branch: '16.x'
             push_major: 'false'
 
           # stable
