@@ -229,8 +229,6 @@ RUN apt-get update \
       tesseract-ocr-eng \
       tzdata \
   \
- && sudo ln -s /usr/local/openjdk*/bin/* /usr/local/bin/ \
-  \
  && deluser "$(id -nu 1000)" \
  && rm -rf /home/ubuntu \
   \
