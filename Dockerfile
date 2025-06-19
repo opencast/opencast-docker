@@ -101,6 +101,7 @@ RUN apk add --no-cache \
 
 FROM base-dev AS build-whisper-cpp
 ARG WHISPER_CPP_VERSION="master"
+ENV WHISPER_CPP_MODELS="/usr/share/whisper.cpp/models"
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       ccache \
@@ -125,10 +126,12 @@ RUN cmake -B build \
       -DWHISPER_BUILD_SERVER=OFF \
       -DWHISPER_BUILD_TESTS=OFF \
  && cmake --build build --config Release -j $(nproc) \
- && sed -i 's#models_path=.*$#models_path=/usr/share/whisper.cpp/models/#' models/download-ggml-model.sh
+ && sed -i "s#models_path=.*\$#models_path=${WHISPER_CPP_MODELS}/#" models/download-ggml-model.sh \
+ && sed -i "s#models_path=.*\$#models_path=${WHISPER_CPP_MODELS}/#" models/download-vad-model.sh
 RUN mkdir -p out \
- && mv build/bin/whisper-cli         out/whisper.cpp \
- && mv models/download-ggml-model.sh out/whisper.cpp-model-download
+ && mv build/bin/whisper-cli         out/ \
+ && mv models/download-ggml-model.sh out/whisper-ggml-model-download \
+ && mv models/download-vad-model.sh  out/whisper-download-vad-model
 
 
 FROM --platform=${BUILDPLATFORM} base-build AS build-opencast
@@ -172,8 +175,8 @@ RUN tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C 
 
 
 FROM --platform=${BUILDPLATFORM} base-build AS build-rootfs
-ENV OPENCAST_HOME    "/rootfs/opencast"
-ENV OPENCAST_SCRIPTS "${OPENCAST_HOME}/docker/scripts"
+ENV OPENCAST_HOME="/rootfs/opencast"
+ENV OPENCAST_SCRIPTS="${OPENCAST_HOME}/docker/scripts"
 COPY rootfs /rootfs
 RUN javac "${OPENCAST_SCRIPTS}/TryToConnectToDb.java" \
  && rm -rf "${OPENCAST_SCRIPTS}/TryToConnectToDb.java"
