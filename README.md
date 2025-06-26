@@ -221,6 +221,9 @@ There are no additional environment variables you can set if you are using the H
 -   `WHISPER_CPP_DOWNLOAD_GGML_MODEL` Optional<br>
     Download the specified ggml whisper.cpp model. Note that models are downloaded in parallel to the startup of Opencast. Not waiting for model downloads greatly improves the Opencast startup time. However, transcription operations may fail if models are not available yet. The default is an empty string, i.e. no model is downloaded.
 
+-   `WHISPER_CPP_DOWNLOAD_VAD_MODEL` Optional<br>
+    Download the specified Voice Activity Detection (VAD) whisper.cpp model. Note that models are downloaded in parallel to the startup of Opencast. Not waiting for model downloads greatly improves the Opencast startup time. However, transcription operations may fail if models are not available yet. The default is an empty string, i.e. no model is downloaded.
+
 ### Miscellaneous
 
 -   `TIMEZONE` Optional<br>
