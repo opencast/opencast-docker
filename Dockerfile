@@ -126,10 +126,12 @@ RUN cmake -B build \
       -DWHISPER_BUILD_SERVER=OFF \
       -DWHISPER_BUILD_TESTS=OFF \
  && cmake --build build --config Release -j $(nproc) \
- && sed -i "s#models_path=.*\$#models_path=${WHISPER_CPP_MODELS}/#" models/download-ggml-model.sh
+ && sed -i "s#models_path=.*\$#models_path=${WHISPER_CPP_MODELS}/#" models/download-ggml-model.sh \
+ && sed -i "s#models_path=.*\$#models_path=${WHISPER_CPP_MODELS}/#" models/download-vad-model.sh
 RUN mkdir -p /rootfs/usr/local/bin /rootfs/usr/local/sbin \
  && mv build/bin/whisper-*           /rootfs/usr/local/bin/ \
- && mv models/download-ggml-model.sh /rootfs/usr/local/sbin/whisper-ggml-model-download
+ && mv models/download-ggml-model.sh /rootfs/usr/local/sbin/whisper-ggml-model-download \
+ && mv models/download-vad-model.sh  /rootfs/usr/local/sbin/whisper-download-vad-model
 
 
 FROM --platform=${BUILDPLATFORM} base-build AS build-opencast

@@ -17,12 +17,16 @@
 set -e
 
 WHISPER_CPP_DOWNLOAD_GGML_MODEL="${WHISPER_CPP_DOWNLOAD_GGML_MODEL:-}"
+WHISPER_CPP_DOWNLOAD_VAD_MODEL="${WHISPER_CPP_DOWNLOAD_VAD_MODEL:-}"
 
 opencast_whisper_init() {
   echo "Run opencast_whisper_init"
 
   if [ -n "${WHISPER_CPP_DOWNLOAD_GGML_MODEL}" ]; then
     opencast_whisper_cpp_download_ggml_model "$WHISPER_CPP_DOWNLOAD_GGML_MODEL" &
+  fi
+  if [ -n "${WHISPER_CPP_DOWNLOAD_VAD_MODEL}" ]; then
+    opencast_whisper_cpp_download_vad_model "$WHISPER_CPP_DOWNLOAD_VAD_MODEL" &
   fi
 }
 
@@ -41,4 +45,21 @@ opencast_whisper_cpp_download_ggml_model() {
   fi
 
   echo "Finished opencast_whisper_cpp_download_ggml_model '$model'"
+}
+
+opencast_whisper_cpp_download_vad_model() {
+  model=$1
+  echo "Run opencast_whisper_cpp_download_vad_model '$model'"
+
+  set +e
+  out=$(whisper-download-vad-model "$model" 2>&1)
+  ec=$?
+  set -e
+  if [ $ec -ne 0 ]; then
+    echo "Failed opencast_whisper_cpp_download_vad_model '$model':"
+    printf "%s\n" "$out"
+    return $ec
+  fi
+
+  echo "Finished opencast_whisper_cpp_download_vad_model '$model'"
 }
