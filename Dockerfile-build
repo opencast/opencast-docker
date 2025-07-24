@@ -83,17 +83,21 @@ FROM base-${IMAGE_BASE}-runtime AS base-runtime
 FROM base-${IMAGE_BASE}-dev AS base-dev
 
 
-FROM --platform=${BUILDPLATFORM} docker.io/library/alpine:edge AS build-ffmpeg
-ARG TARGETARCH
-ARG FFMPEG_VERSION="release"
+FROM --platform=${BUILDPLATFORM} docker.io/library/alpine:edge AS base-build-ffmpeg
+FROM base-build-ffmpeg AS base-build-ffmpeg-amd64
+ARG FFMPEG_TARGET=linux64
+FROM base-build-ffmpeg AS base-build-ffmpeg-arm64
+ARG FFMPEG_TARGET=linuxarm64
+FROM base-build-ffmpeg-${TARGETARCH} AS build-ffmpeg
+ARG FFMPEG_VARIANT=gpl
+ARG FFMPEG_VERSION
 RUN apk add --no-cache \
       curl \
       tar \
       xz \
  && mkdir -p /rootfs/usr/local/bin /tmp/ffmpeg \
- && cd /tmp/ffmpeg \
- && curl -sSL "https://s3.opencast.org/opencast-ffmpeg-static/ffmpeg-${FFMPEG_VERSION}-${TARGETARCH}-static.tar.xz" \
-     | tar xJf - --strip-components 1 --wildcards '*/ffmpeg' '*/ffprobe' \
+ && curl -sSL "https://s3.opencast.org/opencast-ffmpeg-static/ffmpeg-n${FFMPEG_VERSION}-${FFMPEG_TARGET}-${FFMPEG_VARIANT}-${FFMPEG_VERSION:0:3}.tar.xz" \
+     | tar xJf - --strip-components 2 --wildcards '*/ffmpeg' '*/ffprobe' \
  && chown root:root ff* \
  && mv ff* /rootfs/usr/local/bin
 
