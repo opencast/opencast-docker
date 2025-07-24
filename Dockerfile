@@ -15,7 +15,7 @@
 ARG IMAGE_BASE=default
 
 FROM --platform=${BUILDPLATFORM}  docker.io/library/eclipse-temurin:21-jdk AS base-build
-FROM --platform=${TARGETPLATFORM} docker.io/library/eclipse-temurin:21-jre AS base-target
+FROM                              docker.io/library/eclipse-temurin:21-jre AS base-target
 LABEL org.opencontainers.image.base.name="docker.io/library/eclipse-temurin:21-jre"
 
 FROM base-target AS base-default-runtime
