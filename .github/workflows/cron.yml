@@ -25,7 +25,7 @@ jobs:
             push_major: 'true'
           - day_of_week: '*'
             branch: '17.x'
-            push_major: 'false'
+            push_major: 'true'
 
           # stable
           - day_of_week: '0'
@@ -36,7 +36,7 @@ jobs:
           # legacy
           - day_of_week: '1'
             branch: '17.6'
-            push_major: 'false'
+            push_major: 'true'
           - day_of_week: '2'
             branch: '17.5'
             push_major: 'false'
