@@ -168,7 +168,7 @@ RUN ./mvnw --batch-mode install \
       -Dcheckstyle.skip=true \
       -DskipJasmineTests=true
 ARG OPENCAST_DISTRIBUTION
-RUN tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}"
+RUN tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 --owner=0 --group=0 -C "${OPENCAST_HOME}"
 
 
 FROM --platform=${BUILDPLATFORM} base-build AS build-rootfs
