@@ -14,8 +14,8 @@
 
 ARG IMAGE_BASE=default
 
-FROM --platform=${BUILDPLATFORM}  docker.io/library/eclipse-temurin:21-jdk AS base-build
-FROM                              docker.io/library/eclipse-temurin:21-jre AS base-target
+FROM --platform=${BUILDPLATFORM} docker.io/library/eclipse-temurin:21-jdk AS base-build
+FROM                             docker.io/library/eclipse-temurin:21-jre AS base-target
 LABEL org.opencontainers.image.base.name="docker.io/library/eclipse-temurin:21-jre"
 
 FROM base-target AS base-default-runtime
@@ -175,7 +175,7 @@ RUN ./mvnw --batch-mode install \
       -Dcheckstyle.skip=true \
       -DskipJasmineTests=true
 ARG OPENCAST_DISTRIBUTION
-RUN tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 -C "${OPENCAST_HOME}"
+RUN tar -xzf build/opencast-dist-${OPENCAST_DISTRIBUTION}-*.tar.gz --strip 1 --owner=0 --group=0 -C "${OPENCAST_HOME}"
 
 
 FROM --platform=${BUILDPLATFORM} base-build AS build-rootfs
