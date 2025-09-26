@@ -45,7 +45,7 @@ services:
       - opensearch:/usr/share/opensearch/data
 
   opencast-admin:
-    image: quay.io/opencast/build:17-dev
+    image: quay.io/opencast/build:17.8
     tty: true
     stdin_open: true
     environment:
@@ -73,7 +73,7 @@ services:
       - "${OPENCAST_SRC}:/usr/src/opencast"
 
   opencast-presentation:
-    image: quay.io/opencast/build:17-dev
+    image: quay.io/opencast/build:17.8
     tty: true
     stdin_open: true
     environment:
@@ -100,7 +100,7 @@ services:
       - "${OPENCAST_SRC}:/usr/src/opencast"
 
   opencast-worker:
-    image: quay.io/opencast/build:17-dev
+    image: quay.io/opencast/build:17.8
     tty: true
     stdin_open: true
     environment:
