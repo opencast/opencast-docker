@@ -28,11 +28,11 @@ jobs:
             push_major: 'false'
 
           # stable
-          - branch: '18.1'
+          - branch: '18.2'
             day_of_week: '0'
             push_major: 'true'
             additional_tags: 'latest'
-          - branch: '18.0'
+          - branch: '18.1'
             day_of_week: '1'
             push_major: 'false'
           - branch: '18.0'
@@ -40,16 +40,16 @@ jobs:
             push_major: 'false'
 
           # legacy
-          - branch: '17.7'
+          - branch: '17.8'
             day_of_week: '3'
             push_major: 'true'
-          - branch: '17.6'
+          - branch: '17.7'
             day_of_week: '4'
             push_major: 'false'
-          - branch: '17.5'
+          - branch: '17.6'
             day_of_week: '5'
             push_major: 'false'
-          - branch: '17.4'
+          - branch: '17.5'
             day_of_week: '6'
             push_major: 'false'
 
