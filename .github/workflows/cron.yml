@@ -17,13 +17,13 @@ jobs:
       matrix:
         include:
           # dev
+          - branch: '20.x'
+            day_of_week: '*'
+            push_major: 'true'
           - branch: '19.x'
             day_of_week: '*'
             push_major: 'true'
           - branch: '18.x'
-            day_of_week: '*'
-            push_major: 'false'
-          - branch: '17.x'
             day_of_week: '*'
             push_major: 'false'
 

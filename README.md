@@ -89,7 +89,7 @@ In the `./compose` directory there are also compose files for more production-li
 
 ## Images
 
-Opencast comes in different distributions. For each of the official distributions, there is a specific container image. Each version is tagged. For example, the full image name containing the `admin` distribution at version `19-dev` is `quay.io/opencast/admin:19-dev`. Leaving the version out will install the latest one.
+Opencast comes in different distributions. For each of the official distributions, there is a specific container image. Each version is tagged. For example, the full image name containing the `admin` distribution at version `20-dev` is `quay.io/opencast/admin:20-dev`. Leaving the version out will install the latest one.
 
 ### `allinone`
 
