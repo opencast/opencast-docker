@@ -20,5 +20,5 @@ jobs:
       - name: announce new container images
         run: |
           if [[ "${{ github.ref }}" =~ ^refs/heads/[0-9]+\.(x|[0-9]+)$ ]]; then
-            echo "Started building Opencast $(cat VERSION) container images. They should be available in approximately 1h." | ~/.local/bin/matrix-msg
+            echo "Started building Opencast $(cat VERSION) container images. They should be available in approximately 2h." | ~/.local/bin/matrix-msg
           fi
