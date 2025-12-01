@@ -28,14 +28,14 @@ jobs:
             push_major: 'false'
 
           # stable
-          - branch: '18.3'
+          - branch: '18.4'
             day_of_week: '0'
             push_major: 'true'
             additional_tags: 'latest'
-          - branch: '18.2'
+          - branch: '18.3'
             day_of_week: '1'
             push_major: 'false'
-          - branch: '18.1'
+          - branch: '18.2'
             day_of_week: '2'
             push_major: 'false'
 
