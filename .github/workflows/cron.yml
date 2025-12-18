@@ -22,36 +22,31 @@ jobs:
             push_major: 'true'
           - branch: '19.x'
             day_of_week: '*'
-            push_major: 'true'
           - branch: '18.x'
             day_of_week: '*'
-            push_major: 'false'
 
           # stable
-          - branch: '18.4'
+          - branch: '19.0'
             day_of_week: '0'
             push_major: 'true'
             additional_tags: 'latest'
-          - branch: '18.3'
+          - branch: '19.0'
             day_of_week: '1'
-            push_major: 'false'
-          - branch: '18.2'
+          - branch: '19.0'
             day_of_week: '2'
-            push_major: 'false'
 
           # legacy
-          - branch: '17.10'
+          - branch: '18.4'
             day_of_week: '3'
             push_major: 'true'
-          - branch: '17.9'
+          - branch: '18.3'
             day_of_week: '4'
-            push_major: 'false'
-          - branch: '17.8'
+
+          - branch: '17.10'
             day_of_week: '5'
-            push_major: 'false'
-          - branch: '17.7'
+            push_major: 'true'
+          - branch: '17.9'
             day_of_week: '6'
-            push_major: 'false'
 
     steps:
       - uses: actions/checkout@v6
