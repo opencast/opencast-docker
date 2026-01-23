@@ -42,10 +42,10 @@ jobs:
           - branch: '18.3'
             day_of_week: '4'
 
-          - branch: '17.10'
+          - branch: '17.11'
             day_of_week: '5'
             push_major: 'true'
-          - branch: '17.9'
+          - branch: '17.10'
             day_of_week: '6'
 
     steps:
