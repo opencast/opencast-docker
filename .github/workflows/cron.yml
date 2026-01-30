@@ -17,36 +17,20 @@ jobs:
       matrix:
         include:
           # dev
-          - branch: '20.x'
-            day_of_week: '*'
-            push_major: 'true'
-          - branch: '19.x'
-            day_of_week: '*'
-          - branch: '18.x'
-            day_of_week: '*'
+          - { day_of_week: '*', branch: '20.x', push_major: 'true' }
+          - { day_of_week: '*', branch: '19.x' }
+          - { day_of_week: '*', branch: '18.x' }
 
           # stable
-          - branch: '19.0'
-            day_of_week: '0'
-            push_major: 'true'
-            additional_tags: 'latest'
-          - branch: '19.0'
-            day_of_week: '1'
-          - branch: '19.0'
-            day_of_week: '2'
+          - { day_of_week: '0', branch: '19.1', push_major: 'true', additional_tags: 'latest' }
+          - { day_of_week: '1', branch: '19.1' }
+          - { day_of_week: '2', branch: '19.0' }
 
           # legacy
-          - branch: '18.5'
-            day_of_week: '3'
-            push_major: 'true'
-          - branch: '18.4'
-            day_of_week: '4'
-
-          - branch: '17.11'
-            day_of_week: '5'
-            push_major: 'true'
-          - branch: '17.10'
-            day_of_week: '6'
+          - { day_of_week: '3', branch: '18.5', push_major: 'true' }
+          - { day_of_week: '4', branch: '18.4' }
+          - { day_of_week: '5', branch: '18.3' }
+          - { day_of_week: '6', branch: '17.11', push_major: 'true' }
 
     steps:
       - uses: actions/checkout@v6
