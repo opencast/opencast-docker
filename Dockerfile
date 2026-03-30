@@ -159,7 +159,7 @@ RUN groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
 USER "${OPENCAST_USER}"
 WORKDIR "${OPENCAST_SRC}"
 
-RUN git clone --recursive "${OPENCAST_REPO}" . \
+RUN git clone "${OPENCAST_REPO}" . \
  && git checkout "${OPENCAST_VERSION}"
 RUN ./mvnw --batch-mode install \
       -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
