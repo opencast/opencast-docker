@@ -166,7 +166,7 @@ RUN groupadd --system -g "${OPENCAST_GID}" "${OPENCAST_GROUP}" \
 USER "${OPENCAST_USER}"
 WORKDIR "${OPENCAST_SRC}"
 
-RUN git clone --recursive "${OPENCAST_REPO}" . \
+RUN git clone "${OPENCAST_REPO}" . \
  && git checkout "${OPENCAST_VERSION}" \
  && sed -i 's#git@github.com:\(.*\)$#https://github.com/\1.git#g' .gitmodules \
  && git submodule update --init --recursive
