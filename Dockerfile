@@ -167,7 +167,9 @@ USER "${OPENCAST_USER}"
 WORKDIR "${OPENCAST_SRC}"
 
 RUN git clone --recursive "${OPENCAST_REPO}" . \
- && git checkout "${OPENCAST_VERSION}"
+ && git checkout "${OPENCAST_VERSION}" \
+ && sed -i 's#git@github.com:\(.*\)$#https://github.com/\1.git#g' .gitmodules \
+ && git submodule update --init --recursive
 RUN ./mvnw --batch-mode install \
       -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
       -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
