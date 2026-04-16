@@ -17,7 +17,8 @@ jobs:
       matrix:
         include:
           # dev
-          - { day_of_week: '*', branch: '20.x', push_major: 'true' }
+          - { day_of_week: '*', branch: '21.x', push_major: 'true' }
+          - { day_of_week: '*', branch: '20.x' }
           - { day_of_week: '*', branch: '19.x' }
           - { day_of_week: '*', branch: '18.x' }
 

@@ -1,26 +1,27 @@
 # [Opencast Container Images](https://quay.io/organization/opencast)
 
--   [Introduction](#introduction)
--   [Installation](#installation)
--   [Build](#build)
-    -   [NVIDIA CUDA Support](#nvidia-cuda-support)
--   [Quick Start](#quick-start)
--   [Images](#images)
-    -   [`allinone`](#allinone)
-    -   [`admin`, `worker`, `adminpresentation`, `ingest` and `presentation`](#admin-worker-adminpresentation-ingest-and-presentation)
-    -   [`build`](#build)
--   [Usage](#usage)
--   [Configuration](#configuration)
-    -   [Opencast](#opencast)
-    -   [Elasticsearch](#elasticsearch)
-    -   [Database](#database)
-        -   [H2](#h2)
-        -   [MariaDB and PostgreSQL](#mariadb-and-postgresql)
-    -   [whisper.cpp](#whisper.cpp)
-    -   [Miscellaneous](#miscellaneous)
--   [Data](#data)
--   [Languages](#languages)
--   [References](#references)
+- [Opencast Container Images](#opencast-container-images)
+  - [Introduction](#introduction)
+  - [Installation](#installation)
+  - [Build](#build)
+    - [NVIDIA CUDA Support](#nvidia-cuda-support)
+  - [Quick Start](#quick-start)
+  - [Images](#images)
+    - [`allinone`](#allinone)
+    - [`admin`, `adminpresentation`, `ingest`, `presentation` and `worker`,](#admin-adminpresentation-ingest-presentation-and-worker)
+    - [`build`](#build-1)
+  - [Usage](#usage)
+  - [Configuration](#configuration)
+    - [Opencast](#opencast)
+    - [Elasticsearch](#elasticsearch)
+    - [Database](#database)
+      - [H2](#h2)
+      - [MariaDB and PostgreSQL](#mariadb-and-postgresql)
+    - [whisper.cpp](#whispercpp)
+    - [Miscellaneous](#miscellaneous)
+  - [Data](#data)
+  - [Languages](#languages)
+  - [References](#references)
 
 ## Introduction
 
@@ -89,7 +90,7 @@ In the `./compose` directory there are also compose files for more production-li
 
 ## Images
 
-Opencast comes in different distributions. For each of the official distributions, there is a specific container image. Each version is tagged. For example, the full image name containing the `admin` distribution at version `20-dev` is `quay.io/opencast/admin:20-dev`. Leaving the version out will install the latest one.
+Opencast comes in different distributions. For each of the official distributions, there is a specific container image. Each version is tagged. For example, the full image name containing the `admin` distribution at version `21-dev` is `quay.io/opencast/admin:21-dev`. Leaving the version out will install the latest one.
 
 ### `allinone`
 
