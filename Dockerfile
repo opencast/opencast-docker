@@ -168,7 +168,6 @@ WORKDIR "${OPENCAST_SRC}"
 
 RUN git clone "${OPENCAST_REPO}" . \
  && git checkout "${OPENCAST_VERSION}" \
- && sed -i 's#git@github.com:\(.*\)$#https://github.com/\1.git#g' .gitmodules \
  && git submodule update --init --recursive
 RUN ./mvnw --batch-mode install \
       -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
