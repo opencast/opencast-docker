@@ -6,6 +6,7 @@ updates:
       interval: weekly
     cooldown:
       default-days: 7
+    target-branch: 19.x # set to oldest supported major versions
     groups:
       all:
         patterns: [ "*" ]
