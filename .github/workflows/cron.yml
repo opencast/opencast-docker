@@ -23,15 +23,15 @@ jobs:
           - { day_of_week: '*', branch: '18.x' }
 
           # stable
-          - { day_of_week: '0', branch: '20.1', push_major: 'true', additional_tags: 'latest' }
-          - { day_of_week: '1', branch: '20.0' }
+          - { day_of_week: '0', branch: '20.2', push_major: 'true', additional_tags: 'latest' }
+          - { day_of_week: '1', branch: '20.1' }
+          - { day_of_week: '2', branch: '20.0' }
 
           # legacy
-          - { day_of_week: '2', branch: '19.6', push_major: 'true' }
-          - { day_of_week: '3', branch: '19.5' }
-          - { day_of_week: '4', branch: '19.4' }
-          - { day_of_week: '5', branch: '18.8', push_major: 'true' }
-          - { day_of_week: '6', branch: '18.7' }
+          - { day_of_week: '3', branch: '19.7', push_major: 'true' }
+          - { day_of_week: '4', branch: '19.6' }
+          - { day_of_week: '5', branch: '19.5' }
+          - { day_of_week: '6', branch: '18.8', push_major: 'true' }
 
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
