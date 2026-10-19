@@ -19,10 +19,10 @@ volumes:
 
 services:
   opensearch:
-    image: opencast/opensearch:1
+    image: opencast/opensearch:3
     build:
       dockerfile_inline: |
-        FROM docker.io/opensearchproject/opensearch:1
+        FROM docker.io/opensearchproject/opensearch:3
         RUN bin/opensearch-plugin install analysis-icu
     environment:
       discovery.type: single-node
