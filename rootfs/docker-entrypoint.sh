@@ -22,8 +22,8 @@ set -e
 . "${OPENCAST_SCRIPTS}/tz.sh"
 # shellcheck source=./opencast/docker/scripts/opencast.sh
 . "${OPENCAST_SCRIPTS}/opencast.sh"
-# shellcheck source=./opencast/docker/scripts/elasticsearch.sh
-. "${OPENCAST_SCRIPTS}/elasticsearch.sh"
+# shellcheck source=./opencast/docker/scripts/opensearch.sh
+. "${OPENCAST_SCRIPTS}/opensearch.sh"
 # shellcheck source=./opencast/docker/scripts/db.sh
 . "${OPENCAST_SCRIPTS}/db.sh"
 # shellcheck source=./opencast/docker/scripts/h2.sh
@@ -47,7 +47,7 @@ opencast_main_check() {
       || opencast_helper_dist_admin \
       || opencast_helper_dist_adminpresentation \
       || opencast_helper_dist_presentation; then
-    opencast_elasticsearch_check
+    opencast_opensearch_check
   fi
   opencast_db_check
 }
@@ -56,7 +56,7 @@ opencast_main_configure() {
   echo "Run opencast_main_configure"
 
   opencast_opencast_configure
-  opencast_elasticsearch_configure
+  opencast_opensearch_configure
   opencast_db_configure
 }
 
@@ -171,7 +171,7 @@ case ${1} in
         || opencast_helper_dist_admin \
         || opencast_helper_dist_adminpresentation \
         || opencast_helper_dist_presentation; then
-      opencast_elasticsearch_trytoconnect
+      opencast_opensearch_trytoconnect
     fi
     opencast_main_start
     ;;

@@ -63,7 +63,7 @@ services:
       ORG_OPENCASTPROJECT_DB_JDBC_PASS: opencast
       PROP_ORG_OPENCASTPROJECT_ADMIN_UI_URL: http://localhost:8080
       PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL: http://localhost:8081
-      ELASTICSEARCH_SERVER_HOST: opensearch
+      OPENSEARCH_SERVER_HOST: opensearch
     ports:
       - "8080:8080"
       - "5005:5005"

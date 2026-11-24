@@ -41,7 +41,7 @@ services:
       OPENCAST_BUILD_USER_GID: ${OPENCAST_BUILD_USER_GID:-1000}
       ORG_OPENCASTPROJECT_SERVER_URL: http://localhost:8080
       ORG_OPENCASTPROJECT_DOWNLOAD_URL: http://localhost:8080/static
-      ELASTICSEARCH_SERVER_HOST: opensearch
+      OPENSEARCH_SERVER_HOST: opensearch
     ports:
       - "8080:8080"
       - "5005:5005"

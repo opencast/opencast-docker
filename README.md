@@ -13,7 +13,7 @@
   - [Usage](#usage)
   - [Configuration](#configuration)
     - [Opencast](#opencast)
-    - [Elasticsearch](#elasticsearch)
+    - [OpenSearch](#opensearch)
     - [Database](#database)
       - [H2](#h2)
       - [MariaDB and PostgreSQL](#mariadb-and-postgresql)
@@ -182,20 +182,20 @@ For an installation with multiple nodes you can also set:
 -   `PROP_ORG_OPENCASTPROJECT_ENGAGE_UI_URL` **Required for all but `allinone`**<br>
     HTTP-URL of the engage node.
 
-### Elasticsearch
+### OpenSearch
 
--   `ELASTICSEARCH_SERVER_HOST` **Required for `allinone`, `develop` and `admin`**<br>
-    Hostname to Elasticsearch.
--   `ELASTICSEARCH_SERVER_SCHEME` Optional<br>
-    Protocol to use when accessing Elasticsearch. Either `http` or `https`. The default is `http`.
--   `ELASTICSEARCH_SERVER_PORT` Optional<br>
-    Port number of Elasticsearch. The default is `9200`.
--   `ELASTICSEARCH_USERNAME` Optional<br>
-    Username to use when accessing Elasticsearch. The default is none.
--   `ELASTICSEARCH_PASSWORD` Optional<br>
-    Password to use when accessing Elasticsearch. The default is none.
--   `NUMBER_OF_TIMES_TRYING_TO_CONNECT_TO_ELASTICSEARCH` Optional<br>
-    Specifies how often Opencast is going to try to establish a TCP connection to the specified Elasticsearch cluster before giving up. The waiting time between tries is 5 seconds. The default number of tries is 25.  Setting this to 0 skips the check.
+-   `OPENSEARCH_SERVER_HOST` **Required for `allinone`, `develop`, `admin`, `adminpresentation` and `presentation`**<br>
+    Hostname to OpenSearch.
+-   `OPENSEARCH_SERVER_SCHEME` Optional<br>
+    Protocol to use when accessing OpenSearch. Either `http` or `https`. The default is `http`.
+-   `OPENSEARCH_SERVER_PORT` Optional<br>
+    Port number of OpenSearch. The default is `9200`.
+-   `OPENSEARCH_USERNAME` Optional<br>
+    Username to use when accessing OpenSearch. The default is none.
+-   `OPENSEARCH_PASSWORD` Optional<br>
+    Password to use when accessing OpenSearch. The default is none.
+-   `NUMBER_OF_TIMES_TRYING_TO_CONNECT_TO_OPENSEARCH` Optional<br>
+    Specifies how often Opencast is going to try to establish a TCP connection to the specified OpenSearch cluster before giving up. The waiting time between tries is 5 seconds. The default number of tries is 25.  Setting this to 0 skips the check.
 
 ### Database
 
